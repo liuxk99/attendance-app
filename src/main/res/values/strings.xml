@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LeClock</string>
+    <string name="title_clock">打卡</string>
+    <string name="title_history">历史</string>
+    <string name="title_settings">设置</string>
+    <string name="title_ours">我的</string>
+    <string name="text_clock_go_to_work">上班</string>
+    <string name="text_clock_come_off_work">下班</string>
+</resources>
