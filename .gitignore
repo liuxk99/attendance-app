@@ -1,0 +1,17 @@
+.idea/
+.gradle/
+/gradle
+/gradlew
+/gradlew.bat
+local.properties
+gradle.properties
+commit.msg
+
+build/
+*.iml
+lint.xml
+manifest-merger-*release-report.txt
+mapping.txt
+*.apk
+.DS_Store
+*.sh
