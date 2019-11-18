@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.letv.leclock.R;
+import com.gaomh.clock.R;
 
 public class SettingFragment extends Fragment {
 
