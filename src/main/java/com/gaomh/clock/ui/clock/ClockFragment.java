@@ -1,9 +1,14 @@
 package com.gaomh.clock.ui.clock;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.AlarmClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +22,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 
 import com.gaomh.clock.R;
+import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
 import com.mylhyl.acp.Acp;
 import com.mylhyl.acp.AcpListener;
 import com.mylhyl.acp.AcpOptions;
 import com.sj.attendance.bl.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +40,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private FixWorkTimePolicy time;
     private TextView goToWorkText;
     private TextView backWorkText;
+    private Date date;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +52,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init(View root) {
+        date = new Date();
         clockGoWorkTime = root.findViewById(R.id.clock_button_go_to_work);
         goToWorkText = root.findViewById(R.id.clock_text_work_time);
         backWorkText = root.findViewById(R.id.clock_text_back_work_time);
@@ -52,7 +61,6 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private long getRealTime() {
-        Date date = new Date();
         long nowTime = date.getHours() * DateTime.HOUR + date.getMinutes() * DateTime.MINUTE + date.getSeconds() * DateTime.SECOND;
         return nowTime;
 
@@ -93,18 +101,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 }
                 goToWorkText.setText(goToWorkTime());
                 backWorkText.setText(backWorkTime());
-                //6.0权限处理
-                Acp.getInstance(getActivity()).request(new AcpOptions.Builder().setPermissions(
-                        Manifest.permission.SET_ALARM).build(), new AcpListener() {
-                    @Override public void onGranted() {
-                        createAlarm("下班了",20,00);
-                    }
-
-
-                    @Override public void onDenied(List<String> permissions) {
-
-                    }
-                });
+                AlarmManagerUtil.setAlarm(getActivity(), 0, date.getHours() + 9, date.getMinutes(), 0, 0, "该下班啦！！！！", 1);
 
                 break;
         }
