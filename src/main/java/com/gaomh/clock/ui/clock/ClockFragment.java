@@ -101,7 +101,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 }
                 goToWorkText.setText(goToWorkTime());
                 backWorkText.setText(backWorkTime());
-                AlarmManagerUtil.setAlarm(getActivity(), 0, date.getHours() + 9, date.getMinutes(), 0, 0, "该下班啦！！！！", 1);
+                Date date = new Date();
+                AlarmManagerUtil.setAlarm(getActivity(), 0, date.getHours(), date.getMinutes() + 1, 0, 0, "该下班啦！！！！", 1);
 
                 break;
         }
