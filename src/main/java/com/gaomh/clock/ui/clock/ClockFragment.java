@@ -1,14 +1,8 @@
 package com.gaomh.clock.ui.clock;
 
-import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.AlarmClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,60 +17,49 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.gaomh.clock.R;
 import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
-import com.mylhyl.acp.Acp;
-import com.mylhyl.acp.AcpListener;
-import com.mylhyl.acp.AcpOptions;
 import com.sj.attendance.bl.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class ClockFragment extends Fragment implements View.OnClickListener {
 
     private ClockViewModel clockViewModel;
     private Button clockGoWorkTime;
-    private FixWorkTimePolicy time;
-    private TextView goToWorkText;
-    private TextView backWorkText;
-    private Date date;
+    private FixWorkTimePolicy workTimePolicy;
+    private TextView realCheckInTimeTv;
+    private TextView planCheckOutTimeTv;
+    private TextView lateTv;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        initData();
+
         clockViewModel =
                 ViewModelProviders.of(this).get(ClockViewModel.class);
         View root = inflater.inflate(R.layout.fragment_clock, container, false);
-        init(root);
+        initView(root);
         return root;
     }
 
-    private void init(View root) {
-        date = new Date();
+    private void initView(View root) {
         clockGoWorkTime = root.findViewById(R.id.clock_button_go_to_work);
-        goToWorkText = root.findViewById(R.id.clock_text_work_time);
-        backWorkText = root.findViewById(R.id.clock_text_back_work_time);
         clockGoWorkTime.setOnClickListener(this);
-        time = new StockFixWorkTimeFullDay();
+
+        TextView checkInTv = root.findViewById(R.id.work_time_checkin);
+        checkInTv.setText(DateTime.timeToString(workTimePolicy.getCheckInTime()));
+
+        TextView checkOutTv = root.findViewById(R.id.work_time_checkout);
+        checkOutTv.setText(DateTime.timeToString(workTimePolicy.getCheckOutTime()));
+
+        realCheckInTimeTv = root.findViewById(R.id.real_check_in_time);
+        planCheckOutTimeTv = root.findViewById(R.id.plan_check_out_time);
+
+        lateTv = root.findViewById(R.id.is_late);
     }
 
-    private long getRealTime() {
-        long nowTime = date.getHours() * DateTime.HOUR + date.getMinutes() * DateTime.MINUTE + date.getSeconds() * DateTime.SECOND;
-        return nowTime;
-
-    }
-
-    private String goToWorkTime() {
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateStr = dateformat.format(System.currentTimeMillis());
-        return dateStr;
-    }
-
-    private String backWorkTime() {
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        String dateStr = dateformat.format(System.currentTimeMillis() + 9 * DateTime.HOUR);
-        return dateStr;
+    private void initData() {
+        workTimePolicy = new StockFixWorkTimeFullDay();
     }
 
     public void createAlarm(String message, int hour, int minutes) {
@@ -94,15 +77,21 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.clock_button_go_to_work:
-                boolean late = time.isLate(getRealTime());
-
-                if (late) {
-                    Toast.makeText(getActivity(), "恭喜你，迟到了。", Toast.LENGTH_SHORT).show();
-                }
-                goToWorkText.setText(goToWorkTime());
-                backWorkText.setText(backWorkTime());
                 Date date = new Date();
-                AlarmManagerUtil.setAlarm(getActivity(), 0, date.getHours(), date.getMinutes() + 1, 0, 0, "该下班啦！！！！", 1);
+                realCheckInTimeTv.setText(DateTime.formatTime(date));
+
+                boolean late = workTimePolicy.isLate(DateTime.timeInMillisByDate(date));
+                if (late) {
+                    Toast.makeText(getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
+                    lateTv.setText(R.string.late);
+                }
+
+                long dayInMillis = DateTime.dayInMillisByDate(date);
+                // 预计下班时间
+                long planCheckOutTime = dayInMillis + workTimePolicy.getCheckOutTime();
+
+                planCheckOutTimeTv.setText(DateTime.formatTime(planCheckOutTime));
+                AlarmManagerUtil.setAlarm(getActivity(), 0, planCheckOutTime, 0, 0, "该下班啦！！！！", 1);
 
                 break;
         }

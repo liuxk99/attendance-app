@@ -6,4 +6,9 @@
     <string name="title_ours">我的</string>
     <string name="text_clock_go_to_work">上班</string>
     <string name="text_clock_come_off_work">下班</string>
+    <string name="late">You\'re late!</string>
+    <string name="work_time_policy">Work-time policy</string>
+    <string name="time_placeholder">00:00</string>
+    <string name="real_checkin">Real CheckIn Time</string>
+    <string name="plan_checkout">Plan CheckOut Time</string>
 </resources>
