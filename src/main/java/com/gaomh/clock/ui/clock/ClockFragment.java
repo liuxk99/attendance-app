@@ -6,7 +6,10 @@ import android.provider.AlarmClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,22 +17,27 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-
 import com.gaomh.clock.R;
 import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
-import com.sj.attendance.bl.*;
+import com.sj.attendance.bl.DateTime;
+import com.sj.attendance.bl.FixWorkTimePolicy;
+import com.sj.attendance.bl.WorkTimePolicyFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class ClockFragment extends Fragment implements View.OnClickListener {
 
     private ClockViewModel clockViewModel;
     private Button clockGoWorkTime;
+
     private FixWorkTimePolicy workTimePolicy;
+    private List<FixWorkTimePolicy> workTimePolicyList;
+
     private TextView realCheckInTimeTv;
     private TextView planCheckOutTimeTv;
     private TextView lateTv;
+    private RadioGroup workTimePolicyGroup;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +51,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View root) {
+        initPoliciesView(root);
+
         clockGoWorkTime = root.findViewById(R.id.clock_button_go_to_work);
         clockGoWorkTime.setOnClickListener(this);
 
@@ -58,8 +68,21 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         lateTv = root.findViewById(R.id.is_late);
     }
 
+    private void initPoliciesView(View root) {
+        Spinner spinner = (Spinner) root.findViewById(R.id.policies_spinner);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getContext(), android.R.layout.simple_spinner_item);
+        for (FixWorkTimePolicy policy : workTimePolicyList) {
+            adapter.add(policy.getName());
+        }
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+    }
+
     private void initData() {
-        workTimePolicy = new StockFixWorkTimeFullDay();
+        workTimePolicyList = WorkTimePolicyFactory.createPolicies();
+        workTimePolicy = workTimePolicyList.get(0);
     }
 
     public void createAlarm(String message, int hour, int minutes) {

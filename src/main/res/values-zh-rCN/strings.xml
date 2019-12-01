@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LeClock</string>
+    <string name="app_name">考勤小助</string>
     <string name="late">迟到了!</string>
     <string name="plan_checkout">计划下班时间</string>
     <string name="real_checkin">实际上班时间</string>
     <string name="text_clock_come_off_work">下班</string>
     <string name="text_clock_go_to_work">上班</string>
-    <string name="time_placeholder">00:00</string>
+    <string name="time_placeholder">--:--</string>
     <string name="title_clock">打卡</string>
     <string name="title_history">历史</string>
     <string name="title_ours">我的</string>
