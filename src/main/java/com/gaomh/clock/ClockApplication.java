@@ -1,4 +1,11 @@
 package com.gaomh.clock;
 
-public class ClockApplication {
+import android.app.Application;
+
+public class ClockApplication extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 }

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/policies_spinner"
-        android:layout_width="fill_parent"
+    <RadioGroup
+        android:id="@+id/rg_work_time_policy_set"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/tv_work_time_policy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/work_time_policy"
@@ -24,6 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/time_placeholder" />
+        <TextView
+            android:id="@+id/work_time_latest_checkin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/time_placeholder"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/work_time_checkout"
             android:layout_width="wrap_content"
