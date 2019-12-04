@@ -1,5 +1,6 @@
 package com.gaomh.clock;
 
+import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.WorkTimePolicyFactory;
 import com.sj.attendance.bl.WorkTimePolicySet;
 
@@ -15,16 +16,16 @@ public class WorkTimePolicySetConfig {
     }
 
     public WorkTimePolicySet getWorkTimePolicySet() {
-        return workTimePolicySetList.get(workTimePolicyIndex);
+        return workTimePolicySetList.get(workTimePolicySetIndex);
     }
 
-    public void setWorkTimePolicyIndex(int workTimePolicyIndex) {
-        if (workTimePolicyIndex != this.workTimePolicyIndex) {
-            this.workTimePolicyIndex = workTimePolicyIndex;
+    public void setWorkTimePolicySetIndex(int workTimePolicySetIndex) {
+        if (workTimePolicySetIndex != this.workTimePolicySetIndex) {
+            this.workTimePolicySetIndex = workTimePolicySetIndex;
         }
     }
 
-    private int workTimePolicyIndex = 0;
+    private int workTimePolicySetIndex = 0;
 
     static public WorkTimePolicySetConfig getInstance() {
         if (workTimePolicySetConfig == null) {
@@ -35,7 +36,17 @@ public class WorkTimePolicySetConfig {
 
     private WorkTimePolicySetConfig() {
         workTimePolicySetList = WorkTimePolicyFactory.createWorkTimePolicySetList();
-//        workTimePolicyIndex = 0;
-        workTimePolicyIndex = workTimePolicySetList.size() - 1;
+//        workTimePolicySetIndex = 0;
+        workTimePolicySetIndex = workTimePolicySetList.size() - 1;
     }
+
+    public FixWorkTimePolicy getWorkTimePolicy() {
+        return workTimePolicy;
+    }
+
+    public void setWorkTimePolicy(FixWorkTimePolicy workTimePolicy) {
+        this.workTimePolicy = workTimePolicy;
+    }
+
+    private FixWorkTimePolicy workTimePolicy;
 }

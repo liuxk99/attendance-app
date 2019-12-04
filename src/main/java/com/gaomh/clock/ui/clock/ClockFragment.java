@@ -37,11 +37,9 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private ClockViewModel clockViewModel;
     private Button clockGoWorkTime;
 
+    WorkTimePolicySetConfig config = WorkTimePolicySetConfig.getInstance();
     private WorkTimePolicySet workTimePolicySet;
-
-    private FixWorkTimePolicy workTimePolicy;
     private List<FixWorkTimePolicy> workTimePolicyList;
-    private int workTimePolicyIndex = -1;
 
     private TextView realCheckInTimeTv;
     private TextView planCheckOutTimeTv;
@@ -61,27 +59,27 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
     private void initView(final View root) {
         RadioGroup radioGroup = root.findViewById(R.id.rg_work_time_policy_set);
+        radioGroup.setOrientation(LinearLayout.HORIZONTAL);
         if (!workTimePolicyList.isEmpty()) {
-            for (FixWorkTimePolicy workTimePolicy : workTimePolicyList) {
+            for (FixWorkTimePolicy policy : workTimePolicyList) {
                 RadioButton radioButton = new RadioButton(root.getContext());
-                radioButton.setTag(workTimePolicy);
-                radioButton.setText(workTimePolicy.getTitle());
+                radioButton.setTag(policy);
+                radioButton.setText(policy.getTitle());
                 radioGroup.addView(radioButton);
-                if (workTimePolicy == workTimePolicyList.get(workTimePolicyIndex)) {
+                if (policy == config.getWorkTimePolicy()) {
                     radioGroup.check(radioButton.getId());
                 }
             }
         }
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Log.d(TAG, "onCheckedChanged(" + group + ", " + checkedId + ")");
-                ClockFragment.this.workTimePolicyIndex = checkedId - 1;
-                if (0 <= ClockFragment.this.workTimePolicyIndex
-                        && ClockFragment.this.workTimePolicyIndex < ClockFragment.this.workTimePolicyList.size()) {
-                    workTimePolicy = workTimePolicyList.get(workTimePolicyIndex);
-                    updateWorkTimePolicy(root);
-                }
+                int radioButtonId = group.getCheckedRadioButtonId();
+                FixWorkTimePolicy workTimePolicy = (FixWorkTimePolicy) group.findViewById(radioButtonId).getTag();
+                config.setWorkTimePolicy(workTimePolicy);
+                updateWorkTimePolicy(root);
             }
         });
 
@@ -100,6 +98,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateWorkTimePolicy(View root) {
+        FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+
         TextView checkInTv = root.findViewById(R.id.work_time_checkin);
         checkInTv.setText(DateTime.timeToString(workTimePolicy.getCheckInTime()));
 
@@ -120,12 +120,14 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
-        workTimePolicySet = WorkTimePolicySetConfig.getInstance().getWorkTimePolicySet();
+        workTimePolicySet = config.getWorkTimePolicySet();
         workTimePolicyList = workTimePolicySet.getWorkTimePolicyList();
-        if (!workTimePolicyList.isEmpty()) {
-            workTimePolicyIndex = 0;
-            workTimePolicy = workTimePolicyList.get(workTimePolicyIndex);
-        }
+
+        FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+        if (workTimePolicy == null)
+            if (!workTimePolicyList.isEmpty()) {
+                config.setWorkTimePolicy(workTimePolicyList.get(0));
+            }
     }
 
     public void createAlarm(String message, int hour, int minutes) {
@@ -145,7 +147,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             case R.id.clock_button_go_to_work:
                 Date date = new Date();
                 realCheckInTimeTv.setText(DateTime.formatTime(date));
-
+                FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
                 boolean late = workTimePolicy.isLate(timeInMillisByDate(date));
                 if (late) {
                     Toast.makeText(getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
