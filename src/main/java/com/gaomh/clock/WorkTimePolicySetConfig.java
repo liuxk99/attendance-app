@@ -36,8 +36,8 @@ public class WorkTimePolicySetConfig {
 
     private WorkTimePolicySetConfig() {
         workTimePolicySetList = WorkTimePolicyFactory.createWorkTimePolicySetList();
-//        workTimePolicySetIndex = 0;
-        workTimePolicySetIndex = workTimePolicySetList.size() - 1;
+        workTimePolicySetIndex = 0;
+//        workTimePolicySetIndex = workTimePolicySetList.size() - 1;
     }
 
     public FixWorkTimePolicy getWorkTimePolicy() {

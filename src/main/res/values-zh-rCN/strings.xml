@@ -12,4 +12,9 @@
     <string name="title_ours">我的</string>
     <string name="title_settings">设置</string>
     <string name="work_time_policy">工时制度</string>
+    <string name="policy_title">标题</string>
+    <string name="policy_check_in">上班时间</string>
+    <string name="policy_check_out">下班时间</string>
+    <string name="policy_latest_check_in">最晚上班时间</string>
+    <string name="hint_work_time_policy_set_name">modify the policy set name</string>
 </resources>

@@ -3,17 +3,19 @@
     package="com.gaomh.clock">
 
     <permission android:name="com.android.alarm.permission.SET_ALARM" />
-    <permission android:name="android.permission.SEND_SMS"/>
+    <permission android:name="android.permission.SEND_SMS" />
+
     <application
-        android:name="ClockApplication"
+        android:name=".ClockApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:exported="true" android:name=".WorkTimePolicySetEditor"></activity>
         <activity
-            android:name="com.gaomh.clock.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,7 +8,12 @@
     <string name="text_clock_come_off_work">下班</string>
     <string name="late">You\'re late!</string>
     <string name="work_time_policy">Work-time policy</string>
-    <string name="time_placeholder">00:00</string>
+    <string name="time_placeholder">--:--</string>
     <string name="real_checkin">Real CheckIn Time</string>
     <string name="plan_checkout">Plan CheckOut Time</string>
+    <string name="policy_title">Title</string>
+    <string name="policy_check_in">Check In</string>
+    <string name="policy_check_out">Check Out</string>
+    <string name="policy_latest_check_in">Latest Check In</string>
+    <string name="hint_work_time_policy_set_name">modify the policy set name</string>
 </resources>

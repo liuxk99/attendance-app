@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+
     <Spinner
         android:id="@+id/policies_spinner"
         android:layout_width="fill_parent"
