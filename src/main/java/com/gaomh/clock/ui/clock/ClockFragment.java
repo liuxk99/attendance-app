@@ -25,9 +25,13 @@ import com.sj.attendance.bl.DateTime;
 import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.FlexWorkTimePolicy;
 import com.sj.attendance.bl.WorkTimePolicySet;
+import com.sj.lib.calander.CalendarFactory;
+import com.sj.lib.calander.CalendarUtils;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.sj.attendance.bl.DateTime.timeInMillisByDate;
 
@@ -58,6 +62,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(final View root) {
+        initDateInfo(root);
+
         RadioGroup radioGroup = root.findViewById(R.id.rg_work_time_policy_set);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
         if (!workTimePolicyList.isEmpty()) {
@@ -95,6 +101,34 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         planCheckOutTimeTv = root.findViewById(R.id.plan_check_out_time);
 
         lateTv = root.findViewById(R.id.is_late);
+    }
+
+    private void initDateInfo(View root) {
+        Calendar calendar = Calendar.getInstance();
+
+        TextView dateInfoTextView = root.findViewById(R.id.tv_date_info);
+        if (dateInfoTextView != null) {
+            String date = String.format(Locale.getDefault(), "%04d/%02d/%02d %d",
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH) + 1,
+                    calendar.get(Calendar.DAY_OF_MONTH),
+                    calendar.get(Calendar.DAY_OF_WEEK));
+            dateInfoTextView.setText(date);
+        }
+
+        TextView dateCategory = root.findViewById(R.id.tv_date_category);
+        if (dateCategory != null){
+            Calendar cal = CalendarUtils.genDate(calendar);
+            boolean isWorkDay = CalendarFactory.getInstance().calendarMap.get(cal);
+            if (isWorkDay)
+            {
+                dateCategory.setText(R.string.text_workday);
+                dateCategory.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+            }else{
+                dateCategory.setText(R.string.text_restday);
+                dateCategory.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+            }
+        }
     }
 
     private void updateWorkTimePolicy(View root) {

@@ -17,4 +17,6 @@
     <string name="policy_check_out">下班时间</string>
     <string name="policy_latest_check_in">最晚上班时间</string>
     <string name="hint_work_time_policy_set_name">modify the policy set name</string>
+    <string name="text_workday">工作日</string>
+    <string name="text_restday">休息日</string>
 </resources>

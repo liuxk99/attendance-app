@@ -35,5 +35,6 @@ dependencies {
     implementation project(path: ':business-logic')
     implementation 'com.mylhyl:acp:1.1.5'
     implementation project(path: ':alarmclock')
+    compile project(path: ':libCalendar')
 
 }
