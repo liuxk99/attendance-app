@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.gaomh.clock.R;
+import com.gaomh.clock.ResHelper;
 import com.gaomh.clock.WorkTimePolicySetConfig;
 import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
 import com.sj.attendance.bl.DateTime;
@@ -108,23 +109,25 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         TextView dateInfoTextView = root.findViewById(R.id.tv_date_info);
         if (dateInfoTextView != null) {
-            String date = String.format(Locale.getDefault(), "%04d/%02d/%02d %d",
+            int resId = ResHelper.getInstance().toWeekday(calendar.get(Calendar.DAY_OF_WEEK));
+            String weekday = getString(resId);
+
+            String date = String.format(Locale.getDefault(), "%04d/%02d/%02d %s",
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH) + 1,
                     calendar.get(Calendar.DAY_OF_MONTH),
-                    calendar.get(Calendar.DAY_OF_WEEK));
+                    weekday);
             dateInfoTextView.setText(date);
         }
 
         TextView dateCategory = root.findViewById(R.id.tv_date_category);
-        if (dateCategory != null){
+        if (dateCategory != null) {
             Calendar cal = CalendarUtils.genDate(calendar);
             boolean isWorkDay = CalendarFactory.getInstance().calendarMap.get(cal);
-            if (isWorkDay)
-            {
+            if (isWorkDay) {
                 dateCategory.setText(R.string.text_workday);
                 dateCategory.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
-            }else{
+            } else {
                 dateCategory.setText(R.string.text_restday);
                 dateCategory.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             }

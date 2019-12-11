@@ -19,4 +19,11 @@
     <string name="hint_work_time_policy_set_name">modify the policy set name</string>
     <string name="text_workday">工作日</string>
     <string name="text_restday">休息日</string>
+    <string name="WEEK_SUNDAY">星期日</string>
+    <string name="WEEK_MONDAY">星期一</string>
+    <string name="WEEK_TUESDAY">星期二</string>
+    <string name="WEEK_WEDNESDAY">星期三</string>
+    <string name="WEEK_THURSDAY">星期四</string>
+    <string name="WEEK_FRIDAY">星期五</string>
+    <string name="WEEK_SATURDAY">星期六</string>
 </resources>

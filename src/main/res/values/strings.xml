@@ -18,4 +18,11 @@
     <string name="hint_work_time_policy_set_name">modify the policy set name</string>
     <string name="text_workday">Workday</string>
     <string name="text_restday">Rest day</string>
+    <string name="WEEK_SUNDAY">Sunday</string>
+    <string name="WEEK_MONDAY">Monday</string>
+    <string name="WEEK_TUESDAY">Tuesday</string>
+    <string name="WEEK_WEDNESDAY">Wednesday</string>
+    <string name="WEEK_THURSDAY">Thursday</string>
+    <string name="WEEK_FRIDAY">Friday</string>
+    <string name="WEEK_SATURDAY">Saturday</string>
 </resources>
