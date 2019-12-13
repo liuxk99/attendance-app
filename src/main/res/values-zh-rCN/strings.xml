@@ -26,4 +26,8 @@
     <string name="WEEK_THURSDAY">星期四</string>
     <string name="WEEK_FRIDAY">星期五</string>
     <string name="WEEK_SATURDAY">星期六</string>
+    <string name="work_time_policy_title">工时制度标题</string>
+    <string name="work_time_policy_check_in_label">上班时间</string>
+    <string name="work_time_policy_latest_check_in_label">最迟上班时间</string>
+    <string name="work_time_policy_check_out_label">下班时间</string>
 </resources>

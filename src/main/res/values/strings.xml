@@ -25,4 +25,8 @@
     <string name="WEEK_THURSDAY">Thursday</string>
     <string name="WEEK_FRIDAY">Friday</string>
     <string name="WEEK_SATURDAY">Saturday</string>
+    <string name="work_time_policy_title">Title</string>
+    <string name="work_time_policy_check_in_label">Check-in time</string>
+    <string name="work_time_policy_latest_check_in_label">Latest check-in time</string>
+    <string name="work_time_policy_check_out_label">Check-out time</string>
 </resources>

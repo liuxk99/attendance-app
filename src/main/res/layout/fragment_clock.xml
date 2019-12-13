@@ -5,8 +5,12 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_day_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/background_light"
         android:orientation="vertical">
 
         <TextView
@@ -27,46 +31,110 @@
 
     </LinearLayout>
 
-
-    <RadioGroup
-        android:id="@+id/rg_work_time_policy_set"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </RadioGroup>
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/ll_work_time_policy_set"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/background_light"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_work_time_policy"
+            android:id="@+id/tv_policy_title_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:text="@string/work_time_policy_title" />
+
+        <TextView
+            android:id="@+id/tv_work_time_policy_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@id/tv_policy_title_label"
             android:text="@string/work_time_policy" />
 
-        <TextView
-            android:id="@+id/work_time_checkin"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/rg_work_time_policy_set"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/time_placeholder" />
+            android:layout_below="@id/tv_policy_title_label" />
 
-        <TextView
-            android:id="@+id/work_time_latest_checkin"
-            android:layout_width="wrap_content"
+        <!--Check-in Time-->
+        <LinearLayout
+            android:id="@+id/ll_work_time_policy_check_in"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/time_placeholder"
-            android:visibility="gone" />
+            android:layout_below="@id/rg_work_time_policy_set"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/work_time_checkout"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_work_time_policy_check_in_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/work_time_policy_check_in_label" />
+
+            <TextView
+                android:id="@+id/tv_work_time_policy_check_in_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/time_placeholder" />
+        </LinearLayout>
+
+        <!--Latest check-in Time-->
+        <LinearLayout
+            android:id="@+id/ll_work_time_policy_latest_check_in"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/time_placeholder" />
-    </LinearLayout>
+            android:layout_below="@id/rg_work_time_policy_set"
+            android:layout_toEndOf="@id/ll_work_time_policy_check_in"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_work_time_policy_latest_check_in_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/work_time_policy_latest_check_in_label"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_work_time_latest_check_in_label_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/time_placeholder"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_work_time_policy_check_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_work_time_policy_check_in"
+            android:orientation="horizontal">
+            <!--Check-out Time-->
+            <TextView
+                android:id="@+id/tv_work_time_policy_check_out_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/work_time_policy_check_out_label" />
+
+            <TextView
+                android:id="@+id/tv_work_time_policy_check_out_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/time_placeholder" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/clock_button_go_to_work"

@@ -93,7 +93,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         clockGoWorkTime = root.findViewById(R.id.clock_button_go_to_work);
         clockGoWorkTime.setOnClickListener(this);
 
-        TextView workTimePolicyTv = root.findViewById(R.id.tv_work_time_policy);
+        TextView workTimePolicyTv = root.findViewById(R.id.tv_work_time_policy_value);
         workTimePolicyTv.setText(workTimePolicySet.getTitle());
 
         updateWorkTimePolicy(root);
@@ -137,11 +137,11 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private void updateWorkTimePolicy(View root) {
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
 
-        TextView checkInTv = root.findViewById(R.id.work_time_checkin);
+        TextView checkInTv = root.findViewById(R.id.tv_work_time_policy_check_in_value);
         checkInTv.setText(DateTime.timeToString(workTimePolicy.getCheckInTime()));
 
-        TextView latestCheckInTv = root.findViewById(R.id.work_time_latest_checkin);
-        TextView checkOutTv = root.findViewById(R.id.work_time_checkout);
+        TextView latestCheckInTv = root.findViewById(R.id.tv_work_time_latest_check_in_label_value);
+        TextView checkOutTv = root.findViewById(R.id.tv_work_time_policy_check_out_value);
 
         if (workTimePolicy instanceof FlexWorkTimePolicy) {
             latestCheckInTv.setText(DateTime.timeToString(((FlexWorkTimePolicy) workTimePolicy).getLatestCheckInTime()));
