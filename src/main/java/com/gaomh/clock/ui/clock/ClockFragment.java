@@ -6,6 +6,16 @@ import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+
+
+
+
+
+
+
+
+
+
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -98,8 +108,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         updateWorkTimePolicy(root);
 
-        realCheckInTimeTv = root.findViewById(R.id.real_check_in_time);
-        planCheckOutTimeTv = root.findViewById(R.id.plan_check_out_time);
+        realCheckInTimeTv = root.findViewById(R.id.tv_real_check_in_value);
+        planCheckOutTimeTv = root.findViewById(R.id.tv_plan_check_out_time_value);
 
         lateTv = root.findViewById(R.id.is_late);
     }

@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
+    android:padding="10dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_day_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="@android:color/background_light"
         android:orientation="vertical">
 
@@ -36,25 +35,21 @@
         android:id="@+id/ll_work_time_policy_set"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@android:color/background_light"
-        android:orientation="vertical">
+        android:background="@color/line_and_outline_grey"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_policy_title_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:text="@string/work_time_policy_title" />
 
         <TextView
             android:id="@+id/tv_work_time_policy_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/tv_policy_title_label"
             android:text="@string/work_time_policy" />
 
@@ -74,16 +69,15 @@
 
             <TextView
                 android:id="@+id/tv_work_time_policy_check_in_label"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:text="@string/work_time_policy_check_in_label" />
 
             <TextView
                 android:id="@+id/tv_work_time_policy_check_in_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:hint="@string/time_placeholder" />
         </LinearLayout>
 
@@ -99,10 +93,9 @@
 
             <TextView
                 android:id="@+id/tv_work_time_policy_latest_check_in_label"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:text="@string/work_time_policy_latest_check_in_label"
                 android:visibility="gone" />
 
@@ -110,6 +103,7 @@
                 android:id="@+id/tv_work_time_latest_check_in_label_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:hint="@string/time_placeholder"
                 android:visibility="gone" />
         </LinearLayout>
@@ -123,16 +117,15 @@
             <!--Check-out Time-->
             <TextView
                 android:id="@+id/tv_work_time_policy_check_out_label"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:text="@string/work_time_policy_check_out_label" />
 
             <TextView
                 android:id="@+id/tv_work_time_policy_check_out_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:hint="@string/time_placeholder" />
         </LinearLayout>
     </RelativeLayout>
@@ -141,75 +134,83 @@
         android:id="@+id/ll_check_in_and_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:padding="10dp"
         android:background="@android:color/background_light"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_check_in"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/action_check_in" />
-
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_real_check_in_label"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="@string/real_check_in" />
 
             <TextView
-                android:id="@+id/real_check_in_time"
+                android:id="@+id/tv_real_check_in_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/tv_real_check_in_label"
                 android:hint="@string/time_placeholder" />
 
             <TextView
                 android:id="@+id/is_late"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/tv_real_check_in_value"
                 android:hint="" />
+
+            <Button
+                android:id="@+id/btn_check_in"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/btn_check_in_modify"
+                android:text="@string/action_check_in" />
 
             <Button
                 android:id="@+id/btn_check_in_modify"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:text="@string/action_modify_time" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_check_out"
+            <TextView
+                android:id="@+id/tv_plan_check_out_time_label"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/action_check_out" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:text="@string/plan_checkout" />
 
             <TextView
-                android:id="@+id/plan_check_out_time"
+                android:id="@+id/tv_plan_check_out_time_value"
+                android:layout_toEndOf="@+id/tv_plan_check_out_time_label"
+                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/time_placeholder" />
 
             <Button
+                android:id="@+id/btn_check_out"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/btn_check_out_modify"
+                android:text="@string/action_check_out" />
+
+            <Button
                 android:id="@+id/btn_check_out_modify"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:text="@string/action_modify_time" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
