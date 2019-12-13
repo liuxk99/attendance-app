@@ -3,9 +3,7 @@
     <string name="app_name">考勤小助</string>
     <string name="late">迟到了!</string>
     <string name="plan_checkout">计划下班时间</string>
-    <string name="real_checkin">实际上班时间</string>
-    <string name="text_clock_come_off_work">下班</string>
-    <string name="text_clock_go_to_work">上班</string>
+    <string name="real_check_in">实际上班时间</string>
     <string name="time_placeholder">--:--</string>
     <string name="title_clock">打卡</string>
     <string name="title_history">历史</string>
@@ -30,4 +28,7 @@
     <string name="work_time_policy_check_in_label">上班时间</string>
     <string name="work_time_policy_latest_check_in_label">最迟上班时间</string>
     <string name="work_time_policy_check_out_label">下班时间</string>
+    <string name="action_check_in">上班打卡</string>
+    <string name="action_check_out">下班打卡</string>
+    <string name="action_modify_time">修改时间</string>
 </resources>

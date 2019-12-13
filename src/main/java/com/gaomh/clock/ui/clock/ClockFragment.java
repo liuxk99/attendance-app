@@ -90,7 +90,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        clockGoWorkTime = root.findViewById(R.id.clock_button_go_to_work);
+        clockGoWorkTime = root.findViewById(R.id.btn_check_in);
         clockGoWorkTime.setOnClickListener(this);
 
         TextView workTimePolicyTv = root.findViewById(R.id.tv_work_time_policy_value);
@@ -181,7 +181,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.clock_button_go_to_work:
+            case R.id.btn_check_in:
                 Date date = new Date();
                 realCheckInTimeTv.setText(DateTime.formatTime(date));
                 FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
