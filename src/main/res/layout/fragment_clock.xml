@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:id="@+id/ll_day_info"
@@ -43,6 +43,7 @@
             android:id="@+id/tv_policy_title_label"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@string/work_time_policy_title" />
 
         <TextView
@@ -59,12 +60,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_policy_title_label" />
 
+        <View
+            android:id="@+id/v_line_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/rg_work_time_policy_set"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/darker_gray" />
+
         <!--Check-in Time-->
         <LinearLayout
             android:id="@+id/ll_work_time_policy_check_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rg_work_time_policy_set"
+            android:layout_below="@id/v_line_separator"
             android:orientation="horizontal">
 
             <TextView
@@ -136,9 +146,9 @@
         android:id="@+id/ll_check_in_and_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:background="@android:color/background_light"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -148,9 +158,9 @@
             <TextView
                 android:id="@+id/tv_real_check_in_label"
                 android:layout_width="100dp"
-                android:gravity="end"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
+                android:gravity="end"
                 android:text="@string/real_check_in" />
 
             <TextView
@@ -196,10 +206,10 @@
 
             <TextView
                 android:id="@+id/tv_plan_check_out_time_value"
-                android:layout_toEndOf="@+id/tv_plan_check_out_time_label"
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/tv_plan_check_out_time_label"
                 android:hint="@string/time_placeholder" />
 
             <Button
