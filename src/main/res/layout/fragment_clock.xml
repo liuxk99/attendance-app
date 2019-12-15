@@ -41,7 +41,7 @@
 
         <TextView
             android:id="@+id/tv_policy_title_label"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/work_time_policy_title" />
 
@@ -71,6 +71,7 @@
                 android:id="@+id/tv_work_time_policy_check_in_label"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:text="@string/work_time_policy_check_in_label" />
 
             <TextView
@@ -119,6 +120,7 @@
                 android:id="@+id/tv_work_time_policy_check_out_label"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:text="@string/work_time_policy_check_out_label" />
 
             <TextView
@@ -146,6 +148,7 @@
             <TextView
                 android:id="@+id/tv_real_check_in_label"
                 android:layout_width="100dp"
+                android:gravity="end"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="@string/real_check_in" />
@@ -188,6 +191,7 @@
                 android:id="@+id/tv_plan_check_out_time_label"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:text="@string/plan_checkout" />
 
             <TextView
