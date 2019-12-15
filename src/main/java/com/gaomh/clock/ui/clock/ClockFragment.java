@@ -6,16 +6,6 @@ import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-
-
-
-
-
-
-
-
-
-
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -49,22 +39,26 @@ import static com.sj.attendance.bl.DateTime.timeInMillisByDate;
 public class ClockFragment extends Fragment implements View.OnClickListener {
     final String TAG = ClockFragment.class.getSimpleName();
 
+    private View root;
     private ClockViewModel clockViewModel;
-    private Button clockGoWorkTime;
 
     WorkTimePolicySetConfig config = WorkTimePolicySetConfig.getInstance();
     private WorkTimePolicySet workTimePolicySet;
     private List<FixWorkTimePolicy> workTimePolicyList;
 
     private TextView realCheckInTimeTv;
+    private TextView realCheckOutTimeTv;
     private TextView planCheckOutTimeTv;
-    private TextView lateTv;
-    private View root;
+    private TextView checkInIssueTv;
+    private TextView checkOutIssueTv;
+    private int normalTextColor;
+    private int issueTextColor;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         initData();
 
+        issueTextColor = getContext().getResources().getColor(android.R.color.holo_red_dark);
         clockViewModel =
                 ViewModelProviders.of(this).get(ClockViewModel.class);
         root = inflater.inflate(R.layout.fragment_clock, container, false);
@@ -100,18 +94,25 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        clockGoWorkTime = root.findViewById(R.id.btn_check_in);
-        clockGoWorkTime.setOnClickListener(this);
-
         TextView workTimePolicyTv = root.findViewById(R.id.tv_work_time_policy_value);
         workTimePolicyTv.setText(workTimePolicySet.getTitle());
 
         updateWorkTimePolicy(root);
 
-        realCheckInTimeTv = root.findViewById(R.id.tv_real_check_in_value);
-        planCheckOutTimeTv = root.findViewById(R.id.tv_plan_check_out_time_value);
-
-        lateTv = root.findViewById(R.id.is_late);
+        {
+            realCheckInTimeTv = root.findViewById(R.id.tv_real_check_in_value);
+            Button checkInButton = root.findViewById(R.id.btn_check_in);
+            checkInButton.setOnClickListener(this);
+        }
+        planCheckOutTimeTv = root.findViewById(R.id.tv_plan_check_out_value);
+        {
+            realCheckOutTimeTv = root.findViewById(R.id.tv_real_check_out_value);
+            Button checkOutButton = root.findViewById(R.id.btn_check_out);
+            checkOutButton.setOnClickListener(this);
+        }
+        checkInIssueTv = root.findViewById(R.id.tv_check_in_issue_value);
+        normalTextColor = checkInIssueTv.getCurrentTextColor();
+        checkOutIssueTv = root.findViewById(R.id.tv_check_out_issue_value);
     }
 
     private void initDateInfo(View root) {
@@ -191,14 +192,18 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_check_in:
+            case R.id.btn_check_in: {
                 Date date = new Date();
                 realCheckInTimeTv.setText(DateTime.formatTime(date));
                 FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
                 boolean late = workTimePolicy.isLate(timeInMillisByDate(date));
                 if (late) {
                     Toast.makeText(getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
-                    lateTv.setText(R.string.late);
+
+                    checkInIssueTv.setTextColor(issueTextColor);
+                    checkInIssueTv.setText(R.string.late);
+                } else {
+                    checkInIssueTv.setTextColor(normalTextColor);
                 }
 
                 // 预计下班时间
@@ -211,8 +216,24 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 }
                 planCheckOutTimeTv.setText(DateTime.formatTime(planCheckOutTime));
                 AlarmManagerUtil.setAlarm(v.getContext(), 0, planCheckOutTime, 0, 0, "该下班啦！！！！", 1);
+            }
+            break;
 
-                break;
+            case R.id.btn_check_out: {
+                Date date = new Date();
+                realCheckOutTimeTv.setText(DateTime.formatTime(date));
+                FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+                boolean earlyLeave = workTimePolicy.isEarlyLeave(timeInMillisByDate(date));
+                if (earlyLeave) {
+                    Toast.makeText(getActivity(), R.string.early_leave, Toast.LENGTH_SHORT).show();
+
+                    checkOutIssueTv.setTextColor(issueTextColor);
+                    checkOutIssueTv.setText(R.string.early_leave);
+                } else {
+                    checkOutIssueTv.setTextColor(normalTextColor);
+                }
+            }
+            break;
         }
     }
 }

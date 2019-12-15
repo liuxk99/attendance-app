@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">考勤小助</string>
-    <string name="late">迟到了!</string>
+    <string name="late">迟到</string>
     <string name="plan_checkout">计划下班时间</string>
     <string name="real_check_in">实际上班时间</string>
     <string name="time_placeholder">--:--</string>
@@ -31,4 +31,7 @@
     <string name="action_check_in">上班打卡</string>
     <string name="action_check_out">下班打卡</string>
     <string name="action_modify_time">修改时间</string>
+    <string name="check_io_issue">打卡异常</string>
+    <string name="early_leave">早退</string>
+    <string name="unavailable">N/A</string>
 </resources>

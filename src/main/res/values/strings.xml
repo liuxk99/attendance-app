@@ -30,4 +30,7 @@
     <string name="action_check_in">check in</string>
     <string name="action_check_out">check out</string>
     <string name="action_modify_time">modify time</string>
+    <string name="check_io_issue">Check issue</string>
+    <string name="early_leave">early leave</string>
+    <string name="unavailable">N/A</string>
 </resources>
