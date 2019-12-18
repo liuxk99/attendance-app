@@ -1,5 +1,6 @@
 package com.gaomh.clock.ui.clock;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,6 +55,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private TextView checkOutIssueTv;
     private int normalTextColor;
     private int issueTextColor;
+    private Date realCheckInDate;
+    private Date secondCheckInDate;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -189,33 +193,46 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /*
+     * Function 自定义MyTimePickerDialog类，用于实现TimePickerDialog.OnTimeSetListener接口，当点击时间设置对话框中的“设置”按钮时触发该接口方法
+     */
+    public class MyTimePickerDialog implements TimePickerDialog.OnTimeSetListener {
+        public void onTimeSet(TimePicker view, int hour, int minute) {
+            secondCheckInDate = (Date) realCheckInDate.clone();
+            secondCheckInDate.setHours(hour);
+            secondCheckInDate.setMinutes(minute);
+
+            onCheckIn(secondCheckInDate);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_check_in: {
                 Date date = new Date();
-                realCheckInTimeTv.setText(DateTime.formatTime(date));
-                FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
-                boolean late = workTimePolicy.isLate(timeInMillisByDate(date));
-                if (late) {
-                    Toast.makeText(getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
+                realCheckInDate = (Date) date.clone();
+                secondCheckInDate = (Date) realCheckInDate.clone();
+                onCheckIn(date);
 
-                    checkInIssueTv.setTextColor(issueTextColor);
-                    checkInIssueTv.setText(R.string.late);
-                } else {
-                    checkInIssueTv.setTextColor(normalTextColor);
+                { // 打开修改时间对话框。
+                    v.setVisibility(View.GONE);
+                    Button button = v.getRootView().findViewById(R.id.btn_check_in_modify);
+                    button.setVisibility(View.VISIBLE);
+                    button.setOnClickListener(this);
                 }
 
-                // 预计下班时间
-                long planCheckOutTime = 0L;
-                if (workTimePolicy instanceof FlexWorkTimePolicy) {
-                    ((FlexWorkTimePolicy) workTimePolicy).setRealCheckInTime(date.getTime());
-                    planCheckOutTime = workTimePolicy.getCheckOutTime();
-                } else {
-                    planCheckOutTime = DateTime.dayInMillisByDate(date) + workTimePolicy.getCheckOutTime();
-                }
-                planCheckOutTimeTv.setText(DateTime.formatTime(planCheckOutTime));
-                AlarmManagerUtil.setAlarm(v.getContext(), 0, planCheckOutTime, 0, 0, "该下班啦！！！！", 1);
+//                realCheckInDate = date;
+            }
+            break;
+
+            case R.id.btn_check_in_modify: {
+                MyTimePickerDialog myTimePickerDialog = new MyTimePickerDialog();
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                        myTimePickerDialog, secondCheckInDate.getHours(),
+                        secondCheckInDate.getMinutes(),
+                        true);
+                timePickerDialog.show();
             }
             break;
 
@@ -235,5 +252,32 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             }
             break;
         }
+    }
+
+    private void onCheckIn(Date date) {
+        realCheckInTimeTv.setText(DateTime.formatTime(date));
+
+        FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+        boolean late = workTimePolicy.isLate(timeInMillisByDate(date));
+        if (late) {
+            Toast.makeText(getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
+
+            checkInIssueTv.setTextColor(issueTextColor);
+            checkInIssueTv.setText(R.string.late);
+        } else {
+            checkInIssueTv.setTextColor(normalTextColor);
+            checkInIssueTv.setText(R.string.normal);
+        }
+
+        // 预计下班时间
+        long planCheckOutTime = 0L;
+        if (workTimePolicy instanceof FlexWorkTimePolicy) {
+            ((FlexWorkTimePolicy) workTimePolicy).setRealCheckInTime(date.getTime());
+            planCheckOutTime = workTimePolicy.getCheckOutTime();
+        } else {
+            planCheckOutTime = DateTime.dayInMillisByDate(date) + workTimePolicy.getCheckOutTime();
+        }
+        planCheckOutTimeTv.setText(DateTime.formatTime(planCheckOutTime));
+        AlarmManagerUtil.setAlarm(this.getContext(), 0, planCheckOutTime, 0, 0, "该下班啦！！！！", 1);
     }
 }

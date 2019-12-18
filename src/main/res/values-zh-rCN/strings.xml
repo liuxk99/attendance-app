@@ -34,4 +34,5 @@
     <string name="check_io_issue">打卡异常</string>
     <string name="early_leave">早退</string>
     <string name="unavailable">N/A</string>
+    <string name="normal">正常</string>
 </resources>

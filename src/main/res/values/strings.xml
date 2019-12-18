@@ -33,4 +33,5 @@
     <string name="check_io_issue">Check issue</string>
     <string name="early_leave">early leave</string>
     <string name="unavailable">N/A</string>
+    <string name="normal">Normal</string>
 </resources>
