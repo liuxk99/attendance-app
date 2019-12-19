@@ -35,4 +35,5 @@
     <string name="unavailable">N/A</string>
     <string name="normal">Normal</string>
     <string name="real_check_out">real check out time</string>
+    <string name="checkout_time_up">checkout time up</string>
 </resources>

@@ -303,7 +303,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 modifiedCheckInDate = (Date) date.clone();
                 saveDate("modifiedCheckInDate", modifiedCheckInDate);
 
-                onModifyCheckIn(realCheckInDate);
+                onModifyCheckIn(modifiedCheckInDate);
                 onClickCheckIn(v.getRootView());
             }
             break;
@@ -326,7 +326,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 modifiedCheckOutDate = (Date) realCheckOutDate.clone();
                 saveDate("modifiedCheckOutDate", modifiedCheckOutDate);
 
-                onModifyCheckOut(date);
+                onModifyCheckOut(modifiedCheckOutDate);
                 onClickCheckOut(v.getRootView());
             }
             break;
@@ -407,6 +407,6 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         }
         planCheckOutTime = TimeUtils.getDayDate(checkInDate) + workTimePolicy.getCheckOutTime();
         planCheckOutTimeTv.setText(TimeUtils.formatTime(planCheckOutTime));
-        AlarmManagerUtil.setAlarm(this.getContext(), 0, planCheckOutTime, 0, 0, "该下班啦！！！！", 1);
+        AlarmManagerUtil.setAlarm(this.getContext(), 0, planCheckOutTime, 0, 0, getString(R.string.checkout_time_up), 1);
     }
 }

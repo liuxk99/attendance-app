@@ -36,4 +36,5 @@
     <string name="unavailable">N/A</string>
     <string name="normal">正常</string>
     <string name="real_check_out">实际下班时间</string>
+    <string name="checkout_time_up">下班时间已到</string>
 </resources>
