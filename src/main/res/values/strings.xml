@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LeClock</string>
+    <string name="app_name">9am-5pm</string>
     <string name="title_clock">打卡</string>
     <string name="title_history">历史</string>
     <string name="title_settings">设置</string>

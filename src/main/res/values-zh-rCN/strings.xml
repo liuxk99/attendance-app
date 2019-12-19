@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">考勤小助</string>
+    <string name="app_name">朝九晚五</string>
     <string name="late">迟到</string>
     <string name="plan_checkout">计划下班时间</string>
     <string name="real_check_in">实际上班时间</string>

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.gaomh.clock"
+        applicationId "org.fw.attendance"
         minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
@@ -35,6 +35,5 @@ dependencies {
     implementation project(path: ':business-logic')
     implementation 'com.mylhyl:acp:1.1.5'
     implementation project(path: ':alarmclock')
-    compile project(path: ':libCalendar')
-
+    implementation project(path: ':libCalendar')
 }

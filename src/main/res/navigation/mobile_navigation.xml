@@ -7,24 +7,24 @@
 
     <fragment
         android:id="@+id/navigation_clock"
-        android:name="com.gaomh.clock.ui.clock.ClockFragment"
+        android:name="org.fw.attendance.ui.clock.ClockFragment"
         android:label="@string/title_clock"
         tools:layout="@layout/fragment_clock" />
 
     <fragment
         android:id="@+id/navigation_history"
-        android:name="com.gaomh.clock.ui.history.HistoryFragment"
+        android:name="org.fw.attendance.ui.history.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/navigation_setting"
-        android:name="com.gaomh.clock.ui.setting.SettingFragment"
+        android:name="org.fw.attendance.ui.setting.SettingFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/navigation_ours"
-        android:name="com.gaomh.clock.ui.ours.OursFragment"
+        android:name="org.fw.attendance.ui.ours.OursFragment"
         android:label="@string/title_ours"
         tools:layout="@layout/fragment_setting" />
 </navigation>
