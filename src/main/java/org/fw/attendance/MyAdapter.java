@@ -85,7 +85,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             long checkInTime = workTimePolicy.getCheckInTime();
             long duration = workTimePolicy.getDuration();
             holder.checkInTextView.setText(DateTime.formatTime(DateTime.compoundTime(checkInTime)));
-            holder.checkOutTextView.setText(DateTime.timeToString(checkInTime + duration));
+            holder.checkOutTextView.setText(DateTime.formatRefTime(checkInTime + duration));
         }
     }
 

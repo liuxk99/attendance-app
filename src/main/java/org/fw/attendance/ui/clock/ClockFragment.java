@@ -75,7 +75,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(final View root) {
-        initDateInfo(root);
+        initDayInfo(root);
 
         RadioGroup radioGroup = root.findViewById(R.id.rg_work_time_policy_set);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
@@ -123,7 +123,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         checkOutIssueTv = root.findViewById(R.id.tv_check_out_issue_value);
     }
 
-    private void initDateInfo(View root) {
+    private void initDayInfo(View root) {
         Calendar calendar = Calendar.getInstance();
 
         TextView dateInfoTextView = root.findViewById(R.id.tv_date_info);
@@ -157,22 +157,10 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
 
         TextView checkInTv = root.findViewById(R.id.tv_work_time_policy_check_in_value);
-        checkInTv.setText(DateTime.timeToString(workTimePolicy.getCheckInTime()));
+        checkInTv.setText(workTimePolicy.toCheckIn());
 
-        TextView latestCheckInTv = root.findViewById(R.id.tv_work_time_latest_check_in_label_value);
-        TextView checkOutTv = root.findViewById(R.id.tv_work_time_policy_check_out_value);
-
-        if (workTimePolicy instanceof FlexWorkTimePolicy) {
-            latestCheckInTv.setText(DateTime.timeToString(((FlexWorkTimePolicy) workTimePolicy).getLatestCheckInTime()));
-
-            latestCheckInTv.setVisibility(View.VISIBLE);
-            checkOutTv.setVisibility(View.GONE);
-        } else {
-            checkOutTv.setText(DateTime.timeToString(workTimePolicy.getCheckOutTime()));
-
-            latestCheckInTv.setVisibility(View.GONE);
-            checkOutTv.setVisibility(View.VISIBLE);
-        }
+        TextView checkOuTv = root.findViewById(R.id.tv_work_time_policy_check_out_value);
+        checkOuTv.setText(workTimePolicy.toCheckOut());
     }
 
     private void initData() {
@@ -280,6 +268,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void onCheckOut(Date date) {
+        Log.i(TAG, "onCheckOut(" + date + ")");
+
         realCheckOutTimeTv.setText(DateTime.formatTime(date));
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
         boolean earlyLeave = workTimePolicy.isEarlyLeave(timeInMillisByDate(date));
