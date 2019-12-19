@@ -129,7 +129,6 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             realCheckInTimeTv = root.findViewById(R.id.tv_real_check_in_value);
             Button checkInButton = root.findViewById(R.id.btn_check_in);
             checkInButton.setOnClickListener(this);
-
         }
         planCheckOutTimeTv = root.findViewById(R.id.tv_plan_check_out_value);
         {
@@ -144,31 +143,46 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
     private void LoadDates() {
         Date now = new Date();
+
+        String realCheckInDateStr = sp.getString("realCheckInDate", "");
+        if (!realCheckInDateStr.isEmpty()) {
+            try {
+                Date date = TimeUtils.fromISO8601(realCheckInDateStr);
+                if (TimeUtils.isSameDay(date, now)) {
+                    this.realCheckInDate = date;
+                    onClickCheckIn(root);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
         String modifiedCheckInDateStr = sp.getString("modifiedCheckInDate", "");
         if (!modifiedCheckInDateStr.isEmpty()) {
             try {
                 Date date = TimeUtils.fromISO8601(modifiedCheckInDateStr);
                 if (TimeUtils.isSameDay(date, now)) {
                     this.modifiedCheckInDate = date;
-                    onCheckIn(modifiedCheckInDate);
+                    onModifyCheckIn(modifiedCheckInDate);
                 }
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        } else {
-            String realCheckInDateStr = sp.getString("realCheckInDate", "");
-            if (!realCheckInDateStr.isEmpty()) {
-                try {
-                    Date date = TimeUtils.fromISO8601(realCheckInDateStr);
-                    if (TimeUtils.isSameDay(date, now)) {
-                        this.realCheckInDate = date;
-                        onClickCheckIn(root);
-                    }
+        }
 
-                } catch (ParseException e) {
-                    e.printStackTrace();
+        String realCheckOutDateStr = sp.getString("realCheckOutDate", "");
+        if (!realCheckOutDateStr.isEmpty()) {
+            try {
+                Date date = TimeUtils.fromISO8601(realCheckOutDateStr);
+                if (TimeUtils.isSameDay(date, now)) {
+                    realCheckOutDate = date;
+                    onClickCheckOut(root);
                 }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }
 
@@ -179,26 +193,11 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 if (TimeUtils.isSameDay(date, now)) {
                     this.modifiedCheckOutDate = date;
 
-                    onClickCheckOut(root);
-                    onCheckIn(modifiedCheckOutDate);
+                    onModifyCheckOut(modifiedCheckOutDate);
                 }
 
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
-        } else {
-            String realCheckOutDateStr = sp.getString("realCheckOutDate", "");
-            if (!realCheckOutDateStr.isEmpty()) {
-                try {
-                    Date date = TimeUtils.fromISO8601(realCheckOutDateStr);
-                    if (TimeUtils.isSameDay(date, now)) {
-                        realCheckOutDate = date;
-                        onClickCheckOut(root);
-                    }
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }
@@ -266,7 +265,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     /*
-     * Function 自定义MyTimePickerDialog类，用于实现TimePickerDialog.OnTimeSetListener接口，当点击时间设置对话框中的“设置”按钮时触发该接口方法
+     * 实现TimePickerDialog.OnTimeSetListener接口，处理新的时间输入。
      */
     public class CheckInTimePickerListener implements TimePickerDialog.OnTimeSetListener {
         public void onTimeSet(TimePicker view, int hour, int minute) {
@@ -275,12 +274,12 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             modifiedCheckInDate.setMinutes(minute);
 
             saveDate("modifiedCheckInDate", modifiedCheckInDate);
-            onCheckIn(modifiedCheckInDate);
+            onModifyCheckIn(modifiedCheckInDate);
         }
     }
 
     /*
-     * Function 自定义MyTimePickerDialog类，用于实现TimePickerDialog.OnTimeSetListener接口，当点击时间设置对话框中的“设置”按钮时触发该接口方法
+     * 实现TimePickerDialog.OnTimeSetListener接口，处理新的时间输入。
      */
     public class CheckOutTimePickerListener implements TimePickerDialog.OnTimeSetListener {
         public void onTimeSet(TimePicker view, int hour, int minute) {
@@ -289,7 +288,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             modifiedCheckOutDate.setMinutes(minute);
 
             saveDate("modifiedCheckOutDate", modifiedCheckOutDate);
-            onCheckOut(modifiedCheckOutDate);
+            onModifyCheckOut(modifiedCheckOutDate);
         }
     }
 
@@ -304,7 +303,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 modifiedCheckInDate = (Date) date.clone();
                 saveDate("modifiedCheckInDate", modifiedCheckInDate);
 
-                onCheckIn(realCheckInDate);
+                onModifyCheckIn(realCheckInDate);
                 onClickCheckIn(v.getRootView());
             }
             break;
@@ -327,7 +326,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 modifiedCheckOutDate = (Date) realCheckOutDate.clone();
                 saveDate("modifiedCheckOutDate", modifiedCheckOutDate);
 
-                onCheckOut(date);
+                onModifyCheckOut(date);
                 onClickCheckOut(v.getRootView());
             }
             break;
@@ -369,8 +368,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         checkInButton.setVisibility(View.GONE);
     }
 
-    private void onCheckOut(Date checkOutDate) {
-        Log.i(TAG, "onCheckOut(" + checkOutDate + ")");
+    private void onModifyCheckOut(Date checkOutDate) {
+        Log.i(TAG, "onModifyCheckOut(" + checkOutDate + ")");
 
         realCheckOutTimeTv.setText(TimeUtils.formatTime(checkOutDate));
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
@@ -386,7 +385,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void onCheckIn(Date checkInDate) {
+    private void onModifyCheckIn(Date checkInDate) {
         realCheckInTimeTv.setText(TimeUtils.formatTime(checkInDate));
 
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
