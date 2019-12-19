@@ -34,4 +34,5 @@
     <string name="early_leave">early leave</string>
     <string name="unavailable">N/A</string>
     <string name="normal">Normal</string>
+    <string name="real_check_out">real check out time</string>
 </resources>

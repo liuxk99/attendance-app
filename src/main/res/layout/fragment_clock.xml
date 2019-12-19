@@ -233,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_plan_check_out_label"
                 android:gravity="end"
-                android:text="@string/plan_checkout" />
+                android:text="@string/real_check_out" />
 
             <TextView
                 android:id="@+id/tv_real_check_out_value"

@@ -20,9 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import org.fw.attendance.R;
-import org.fw.attendance.ResHelper;
-import org.fw.attendance.WorkTimePolicySetConfig;
 import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
 import com.sj.attendance.bl.DateTime;
 import com.sj.attendance.bl.FixWorkTimePolicy;
@@ -30,6 +27,10 @@ import com.sj.attendance.bl.FlexWorkTimePolicy;
 import com.sj.attendance.bl.WorkTimePolicySet;
 import com.sj.lib.calander.CalendarFactory;
 import com.sj.lib.calander.CalendarUtils;
+
+import org.fw.attendance.R;
+import org.fw.attendance.ResHelper;
+import org.fw.attendance.WorkTimePolicySetConfig;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -56,7 +57,10 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private int normalTextColor;
     private int issueTextColor;
     private Date realCheckInDate;
-    private Date secondCheckInDate;
+    private Date modifiedCheckInDate;
+
+    private Date realCheckOutDate;
+    private Date modifiedCheckOutDate;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -196,13 +200,26 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     /*
      * Function 自定义MyTimePickerDialog类，用于实现TimePickerDialog.OnTimeSetListener接口，当点击时间设置对话框中的“设置”按钮时触发该接口方法
      */
-    public class MyTimePickerDialog implements TimePickerDialog.OnTimeSetListener {
+    public class CheckInTimePickerListener implements TimePickerDialog.OnTimeSetListener {
         public void onTimeSet(TimePicker view, int hour, int minute) {
-            secondCheckInDate = (Date) realCheckInDate.clone();
-            secondCheckInDate.setHours(hour);
-            secondCheckInDate.setMinutes(minute);
+            modifiedCheckInDate = (Date) realCheckInDate.clone();
+            modifiedCheckInDate.setHours(hour);
+            modifiedCheckInDate.setMinutes(minute);
 
-            onCheckIn(secondCheckInDate);
+            onCheckIn(modifiedCheckInDate);
+        }
+    }
+
+    /*
+     * Function 自定义MyTimePickerDialog类，用于实现TimePickerDialog.OnTimeSetListener接口，当点击时间设置对话框中的“设置”按钮时触发该接口方法
+     */
+    public class CheckOutTimePickerListener implements TimePickerDialog.OnTimeSetListener {
+        public void onTimeSet(TimePicker view, int hour, int minute) {
+            modifiedCheckOutDate = (Date) realCheckOutDate.clone();
+            modifiedCheckOutDate.setHours(hour);
+            modifiedCheckOutDate.setMinutes(minute);
+
+            onCheckOut(modifiedCheckOutDate);
         }
     }
 
@@ -212,25 +229,24 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_check_in: {
                 Date date = new Date();
                 realCheckInDate = (Date) date.clone();
-                secondCheckInDate = (Date) realCheckInDate.clone();
+                modifiedCheckInDate = (Date) realCheckInDate.clone();
                 onCheckIn(date);
 
                 { // 打开修改时间对话框。
-                    v.setVisibility(View.GONE);
                     Button button = v.getRootView().findViewById(R.id.btn_check_in_modify);
-                    button.setVisibility(View.VISIBLE);
                     button.setOnClickListener(this);
-                }
 
-//                realCheckInDate = date;
+                    button.setVisibility(View.VISIBLE);
+                    v.setVisibility(View.GONE);
+                }
             }
             break;
 
             case R.id.btn_check_in_modify: {
-                MyTimePickerDialog myTimePickerDialog = new MyTimePickerDialog();
+                CheckInTimePickerListener checkInTimePickerListener = new CheckInTimePickerListener();
                 TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                        myTimePickerDialog, secondCheckInDate.getHours(),
-                        secondCheckInDate.getMinutes(),
+                        checkInTimePickerListener, modifiedCheckInDate.getHours(),
+                        modifiedCheckInDate.getMinutes(),
                         true);
                 timePickerDialog.show();
             }
@@ -238,19 +254,43 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
             case R.id.btn_check_out: {
                 Date date = new Date();
-                realCheckOutTimeTv.setText(DateTime.formatTime(date));
-                FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
-                boolean earlyLeave = workTimePolicy.isEarlyLeave(timeInMillisByDate(date));
-                if (earlyLeave) {
-                    Toast.makeText(getActivity(), R.string.early_leave, Toast.LENGTH_SHORT).show();
+                realCheckOutDate = (Date) date.clone();
+                modifiedCheckOutDate = (Date) realCheckOutDate.clone();
+                onCheckOut(date);
+                { // 打开修改时间对话框
+                    Button button = v.getRootView().findViewById(R.id.btn_check_out_modify);
+                    button.setOnClickListener(this);
 
-                    checkOutIssueTv.setTextColor(issueTextColor);
-                    checkOutIssueTv.setText(R.string.early_leave);
-                } else {
-                    checkOutIssueTv.setTextColor(normalTextColor);
+                    v.setVisibility(View.GONE);
+                    button.setVisibility(View.VISIBLE);
                 }
             }
             break;
+
+            case R.id.btn_check_out_modify: {
+                CheckOutTimePickerListener checkOutListener = new CheckOutTimePickerListener();
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                        checkOutListener, modifiedCheckOutDate.getHours(),
+                        modifiedCheckOutDate.getMinutes(),
+                        true);
+                timePickerDialog.show();
+            }
+            break;
+        }
+    }
+
+    private void onCheckOut(Date date) {
+        realCheckOutTimeTv.setText(DateTime.formatTime(date));
+        FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+        boolean earlyLeave = workTimePolicy.isEarlyLeave(timeInMillisByDate(date));
+        if (earlyLeave) {
+            Toast.makeText(getActivity(), R.string.early_leave, Toast.LENGTH_SHORT).show();
+
+            checkOutIssueTv.setTextColor(issueTextColor);
+            checkOutIssueTv.setText(R.string.early_leave);
+        } else {
+            checkOutIssueTv.setTextColor(normalTextColor);
+            checkOutIssueTv.setText(R.string.normal);
         }
     }
 

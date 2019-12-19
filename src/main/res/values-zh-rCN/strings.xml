@@ -35,4 +35,5 @@
     <string name="early_leave">早退</string>
     <string name="unavailable">N/A</string>
     <string name="normal">正常</string>
+    <string name="real_check_out">实际下班时间</string>
 </resources>
