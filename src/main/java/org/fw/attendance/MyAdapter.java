@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.sj.attendance.bl.DateTime;
+import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.FlexWorkTimePolicy;
 
@@ -75,8 +75,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.latestCheckInLayout.setVisibility(View.VISIBLE);
             {
                 FlexWorkTimePolicy policy = (FlexWorkTimePolicy) workTimePolicy;
-                long time = DateTime.compoundTime(policy.getLatestCheckInTime());
-                holder.latestCheckInTextView.setText(DateTime.formatTime(time));
+                long time = TimeUtils.compoundTime(policy.getLatestCheckInTime());
+                holder.latestCheckInTextView.setText(TimeUtils.formatTime(time));
             }
         } else {
             holder.latestCheckInLayout.setVisibility(View.GONE);
@@ -84,8 +84,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         {
             long checkInTime = workTimePolicy.getCheckInTime();
             long duration = workTimePolicy.getDuration();
-            holder.checkInTextView.setText(DateTime.formatTime(DateTime.compoundTime(checkInTime)));
-            holder.checkOutTextView.setText(DateTime.formatRefTime(checkInTime + duration));
+            holder.checkInTextView.setText(TimeUtils.formatTime(TimeUtils.compoundTime(checkInTime)));
+            holder.checkOutTextView.setText(TimeUtils.formatRefTime(checkInTime + duration));
         }
     }
 

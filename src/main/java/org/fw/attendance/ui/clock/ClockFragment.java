@@ -17,11 +17,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
-import com.sj.attendance.bl.DateTime;
+import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.FlexWorkTimePolicy;
 import com.sj.attendance.bl.WorkTimePolicySet;
@@ -37,10 +38,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.sj.attendance.bl.DateTime.timeInMillisByDate;
+import static com.sj.attendance.bl.TimeUtils.timeInMillisByDate;
 
 public class ClockFragment extends Fragment implements View.OnClickListener {
     final String TAG = ClockFragment.class.getSimpleName();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate(" + savedInstanceState + ")");
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.i(TAG, "onSaveInstanceState(" + outState + ")");
+        super.onSaveInstanceState(outState);
+    }
 
     private View root;
     private ClockViewModel clockViewModel;
@@ -270,7 +283,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private void onCheckOut(Date date) {
         Log.i(TAG, "onCheckOut(" + date + ")");
 
-        realCheckOutTimeTv.setText(DateTime.formatTime(date));
+        realCheckOutTimeTv.setText(TimeUtils.formatTime(date));
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
         boolean earlyLeave = workTimePolicy.isEarlyLeave(timeInMillisByDate(date));
         if (earlyLeave) {
@@ -285,7 +298,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void onCheckIn(Date date) {
-        realCheckInTimeTv.setText(DateTime.formatTime(date));
+        realCheckInTimeTv.setText(TimeUtils.formatTime(date));
 
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
         boolean late = workTimePolicy.isLate(timeInMillisByDate(date));
@@ -305,9 +318,9 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             ((FlexWorkTimePolicy) workTimePolicy).setRealCheckInTime(date.getTime());
             planCheckOutTime = workTimePolicy.getCheckOutTime();
         } else {
-            planCheckOutTime = DateTime.dayInMillisByDate(date) + workTimePolicy.getCheckOutTime();
+            planCheckOutTime = TimeUtils.dayInMillisByDate(date) + workTimePolicy.getCheckOutTime();
         }
-        planCheckOutTimeTv.setText(DateTime.formatTime(planCheckOutTime));
+        planCheckOutTimeTv.setText(TimeUtils.formatTime(planCheckOutTime));
         AlarmManagerUtil.setAlarm(this.getContext(), 0, planCheckOutTime, 0, 0, "该下班啦！！！！", 1);
     }
 }
