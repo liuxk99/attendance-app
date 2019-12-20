@@ -262,13 +262,14 @@
         android:background="@color/line_and_outline_grey">
 
         <!-- Title, Type -->
+
         <TextView
             android:id="@+id/tv_work_time_policy_title_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:text="@string/work_time_policy_title"
-            app:layout_constraintEnd_toStartOf="@+id/tv_work_time_policy_value_item"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -278,6 +279,7 @@
             android:layout_height="wrap_content"
             android:text="@string/work_time_policy_type"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- check-in time label/value-->
@@ -294,6 +296,7 @@
             android:id="@+id/tv_check_in_value_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:hint="@string/time_placeholder"
             app:layout_constraintStart_toEndOf="@+id/tv_work_time_policy_check_in_label_item"
             app:layout_constraintTop_toTopOf="@+id/tv_work_time_policy_check_in_label_item" />
@@ -312,6 +315,7 @@
             android:id="@+id/tv_real_check_in_value_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:hint="@string/time_placeholder"
             app:layout_constraintStart_toEndOf="@+id/tv_real_check_in_label_item"
             app:layout_constraintTop_toTopOf="@+id/tv_real_check_in_label_item" />
@@ -331,6 +335,7 @@
             android:id="@+id/tv_check_in_issue_value_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:hint=""
             android:text="@string/unavailable"
             app:layout_constraintStart_toEndOf="@+id/tv_check_in_issue_label_item"
@@ -343,6 +348,64 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
+        <!-- check out label/value-->
+        <TextView
+            android:id="@+id/tv_work_time_policy_check_out_label_item"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/work_time_policy_check_out_label"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/tv_work_time_policy_check_in_label_item" />
+
+        <TextView
+            android:id="@+id/tv_check_out_value_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:hint="@string/time_placeholder"
+            app:layout_constraintStart_toEndOf="@+id/tv_work_time_policy_check_out_label_item"
+            app:layout_constraintTop_toTopOf="@+id/tv_work_time_policy_check_out_label_item" />
+
+        <!-- real check out label/value-->
+        <TextView
+            android:id="@+id/tv_plan_check_out_label_item"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/plan_checkout"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/tv_work_time_policy_check_out_label_item" />
+
+        <TextView
+            android:id="@+id/tv_plan_check_out_value_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:hint="@string/time_placeholder"
+            app:layout_constraintStart_toEndOf="@+id/tv_plan_check_out_label_item"
+            app:layout_constraintTop_toTopOf="@+id/tv_plan_check_out_label_item" />
+
+        <!-- check out issue label/value-->
+        <TextView
+            android:id="@+id/tv_check_out_issue_label_item"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:hint=""
+            android:text="@string/check_io_issue"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/tv_plan_check_out_label_item" />
+
+        <TextView
+            android:id="@+id/tv_check_out_issue_value_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:hint=""
+            android:text="@string/unavailable"
+            app:layout_constraintStart_toEndOf="@+id/tv_check_out_issue_label_item"
+            app:layout_constraintTop_toTopOf="@+id/tv_check_out_issue_label_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
