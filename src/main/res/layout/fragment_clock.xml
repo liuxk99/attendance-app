@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
@@ -91,33 +92,6 @@
                 android:layout_marginStart="10dp"
                 android:hint="@string/time_placeholder" />
         </LinearLayout>
-
-<!--        &lt;!&ndash;Latest check-in Time&ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/ll_work_time_policy_latest_check_in"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/rg_work_time_policy_set"-->
-<!--            android:layout_toEndOf="@id/ll_work_time_policy_check_in"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:visibility="gone">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_work_time_policy_latest_check_in_label"-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginEnd="10dp"-->
-<!--                android:text="@string/work_time_policy_latest_check_in_label"-->
-<!--                android:visibility="gone" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_work_time_latest_check_in_label_value"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:hint="@string/time_placeholder"-->
-<!--                android:visibility="gone" />-->
-<!--        </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/ll_work_time_policy_check_out"
@@ -280,5 +254,96 @@
                 android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/line_and_outline_grey">
+
+        <!-- Title, Type -->
+        <TextView
+            android:id="@+id/tv_work_time_policy_title_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/work_time_policy_title"
+            app:layout_constraintEnd_toStartOf="@+id/tv_work_time_policy_value_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_work_time_policy_value_item"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/work_time_policy_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- check-in time label/value-->
+        <TextView
+            android:id="@+id/tv_work_time_policy_check_in_label_item"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/work_time_policy_check_in_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_work_time_policy_title_item" />
+
+        <TextView
+            android:id="@+id/tv_check_in_value_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/time_placeholder"
+            app:layout_constraintStart_toEndOf="@+id/tv_work_time_policy_check_in_label_item"
+            app:layout_constraintTop_toTopOf="@+id/tv_work_time_policy_check_in_label_item" />
+
+        <!-- real check-in time label/value-->
+        <TextView
+            android:id="@+id/tv_real_check_in_label_item"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/real_check_in"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_work_time_policy_check_in_label_item" />
+
+        <TextView
+            android:id="@+id/tv_real_check_in_value_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/time_placeholder"
+            app:layout_constraintStart_toEndOf="@+id/tv_real_check_in_label_item"
+            app:layout_constraintTop_toTopOf="@+id/tv_real_check_in_label_item" />
+
+        <!-- real check-in issue label/value-->
+        <TextView
+            android:id="@+id/tv_check_in_issue_label_item"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:hint=""
+            android:text="@string/check_io_issue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_real_check_in_label_item" />
+
+        <TextView
+            android:id="@+id/tv_check_in_issue_value_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:text="@string/unavailable"
+            app:layout_constraintStart_toEndOf="@+id/tv_check_in_issue_label_item"
+            app:layout_constraintTop_toTopOf="@+id/tv_check_in_issue_label_item" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

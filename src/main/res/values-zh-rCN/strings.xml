@@ -25,9 +25,9 @@
     <string name="WEEK_FRIDAY">星期五</string>
     <string name="WEEK_SATURDAY">星期六</string>
     <string name="work_time_policy_title">工时制度标题</string>
-    <string name="work_time_policy_check_in_label">上班时间</string>
+    <string name="work_time_policy_check_in_label">规定上班时间</string>
     <string name="work_time_policy_latest_check_in_label">最迟上班时间</string>
-    <string name="work_time_policy_check_out_label">下班时间</string>
+    <string name="work_time_policy_check_out_label">规定下班时间</string>
     <string name="action_check_in">上班打卡</string>
     <string name="action_check_out">下班打卡</string>
     <string name="action_modify_time">修改时间</string>
@@ -37,4 +37,5 @@
     <string name="normal">正常</string>
     <string name="real_check_out">实际下班时间</string>
     <string name="checkout_time_up">下班时间已到</string>
+    <string name="work_time_policy_type">Type</string>
 </resources>
