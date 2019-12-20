@@ -262,9 +262,8 @@
         android:background="@color/line_and_outline_grey">
 
         <!-- Title, Type -->
-
         <TextView
-            android:id="@+id/tv_work_time_policy_title_item"
+            android:id="@+id/holder_tv_work_time_policy_set_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
@@ -274,7 +273,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_work_time_policy_value_item"
+            android:id="@+id/holder_tv_work_time_policy_title"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/work_time_policy_type"
@@ -290,10 +289,10 @@
             android:gravity="end"
             android:text="@string/work_time_policy_check_in_label"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_work_time_policy_title_item" />
+            app:layout_constraintTop_toBottomOf="@+id/holder_tv_work_time_policy_set_title" />
 
         <TextView
-            android:id="@+id/tv_check_in_value_item"
+            android:id="@+id/holder_tv_check_in_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -312,7 +311,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_work_time_policy_check_in_label_item" />
 
         <TextView
-            android:id="@+id/tv_real_check_in_value_item"
+            android:id="@+id/holder_tv_real_check_in_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -332,7 +331,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_real_check_in_label_item" />
 
         <TextView
-            android:id="@+id/tv_check_in_issue_value_item"
+            android:id="@+id/holder_tv_check_in_issue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -359,7 +358,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_work_time_policy_check_in_label_item" />
 
         <TextView
-            android:id="@+id/tv_check_out_value_item"
+            android:id="@+id/holder_tv_plan_check_out_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -378,7 +377,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_work_time_policy_check_out_label_item" />
 
         <TextView
-            android:id="@+id/tv_plan_check_out_value_item"
+            android:id="@+id/holder_tv_real_check_out_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -398,7 +397,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_plan_check_out_label_item" />
 
         <TextView
-            android:id="@+id/tv_check_out_issue_value_item"
+            android:id="@+id/holder_tv_check_out_issue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

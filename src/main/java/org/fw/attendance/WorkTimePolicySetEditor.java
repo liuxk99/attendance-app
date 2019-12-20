@@ -47,7 +47,7 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
 
             // specify an adapter (see also next example)
-            mAdapter = new MyAdapter(mWorkTimePolicySet.getWorkTimePolicyList());
+            mAdapter = new WorkTimePolicyAdapter(mWorkTimePolicySet.getWorkTimePolicyList());
             recyclerView.setAdapter(mAdapter);
             recyclerView.addItemDecoration(new MyItemDecoration());
         }

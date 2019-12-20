@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/line_and_outline_grey"
+    android:orientation="vertical">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/holder_tv_work_time_policy_set_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/work_time_policy_title"
+        app:layout_constraintEnd_toStartOf="@id/holder_tv_work_time_policy_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Type value-->
+    <TextView
+        android:id="@+id/holder_tv_work_time_policy_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/work_time_policy_type"
+        app:layout_constraintEnd_toStartOf="@id/holder_tv_check_in_time"
+        app:layout_constraintStart_toEndOf="@+id/holder_tv_work_time_policy_set_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- check-in time value-->
+    <TextView
+        android:id="@+id/holder_tv_check_in_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/time_placeholder"
+        app:layout_constraintEnd_toStartOf="@id/holder_tv_real_check_in_time"
+        app:layout_constraintStart_toEndOf="@id/holder_tv_work_time_policy_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- real check-in time value-->
+    <TextView
+        android:id="@+id/holder_tv_real_check_in_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/time_placeholder"
+        app:layout_constraintEnd_toStartOf="@id/holder_tv_check_in_issue"
+        app:layout_constraintStart_toEndOf="@id/holder_tv_check_in_time"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- real check-in issue value-->
+    <TextView
+        android:id="@+id/holder_tv_check_in_issue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint=""
+        android:text="@string/unavailable"
+        app:layout_constraintEnd_toStartOf="@id/holder_tv_plan_check_out_time"
+        app:layout_constraintStart_toEndOf="@id/holder_tv_real_check_in_time"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- check out value-->
+    <TextView
+        android:id="@+id/holder_tv_plan_check_out_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/time_placeholder"
+        app:layout_constraintEnd_toStartOf="@id/holder_tv_real_check_out_time"
+        app:layout_constraintStart_toEndOf="@id/holder_tv_check_in_issue"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <!-- real check out value-->
+    <TextView
+        android:id="@+id/holder_tv_real_check_out_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/time_placeholder"
+        app:layout_constraintEnd_toStartOf="@id/holder_tv_check_out_issue"
+        app:layout_constraintStart_toEndOf="@id/holder_tv_plan_check_out_time"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- check out issue value-->
+    <TextView
+        android:id="@+id/holder_tv_check_out_issue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint=""
+        android:text="@string/unavailable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/holder_tv_real_check_out_time"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

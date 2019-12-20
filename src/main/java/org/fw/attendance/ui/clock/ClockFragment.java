@@ -401,11 +401,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         }
 
         // 预计下班时间
-        long planCheckOutTime = 0L;
-        if (workTimePolicy instanceof FlexWorkTimePolicy) {
-            ((FlexWorkTimePolicy) workTimePolicy).setRealCheckInTime(checkInDate);
-        }
-        planCheckOutTime = TimeUtils.getDayDate(checkInDate) + workTimePolicy.getCheckOutTime();
+        long planCheckOutTime = workTimePolicy.getPlanCheckOutTime(checkInDate);
         planCheckOutTimeTv.setText(TimeUtils.formatTime(planCheckOutTime));
         AlarmManagerUtil.setAlarm(this.getContext(), 0, planCheckOutTime, 0, 0, getString(R.string.checkout_time_up), 1);
     }

@@ -16,7 +16,7 @@ import com.sj.attendance.bl.FlexWorkTimePolicy;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class WorkTimePolicyAdapter extends RecyclerView.Adapter<WorkTimePolicyAdapter.MyViewHolder> {
     private List<FixWorkTimePolicy> mDataset;
 
     // Provide a reference to the views for each data item
@@ -44,14 +44,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<FixWorkTimePolicy> workTimePolicyList) {
+    public WorkTimePolicyAdapter(List<FixWorkTimePolicy> workTimePolicyList) {
         mDataset = workTimePolicyList;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public WorkTimePolicyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                 int viewType) {
         // create a new view
         ConstraintLayout policyLayout = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.work_time_policy_set_item, parent, false);
