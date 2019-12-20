@@ -10,4 +10,11 @@ public class CheckInOutInfo {
     public FixWorkTimePolicy workTimePolicy;
     public Date realCheckInTime;
     public Date realCheckOutTime;
+
+    public CheckInOutInfo(WorkTimePolicySet workTimePolicySet, FixWorkTimePolicy workTimePolicy, Date realCheckInDate, Date realCheckOutDate) {
+        this.workTimePolicySet = workTimePolicySet;
+        this.workTimePolicy = workTimePolicy;
+        this.realCheckInTime = realCheckInDate;
+        this.realCheckOutTime = realCheckOutDate;
+    }
 }

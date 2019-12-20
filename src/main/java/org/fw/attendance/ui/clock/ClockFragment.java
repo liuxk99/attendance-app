@@ -22,20 +22,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
 import com.sj.attendance.bl.FixWorkTimePolicy;
-import com.sj.attendance.bl.FlexWorkTimePolicy;
 import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.WorkTimePolicySet;
 import com.sj.lib.calander.CalendarFactory;
 import com.sj.lib.calander.CalendarUtils;
 
+import org.fw.attendance.CheckInOutInfo;
+import org.fw.attendance.CheckInOutRecordAdapter;
+import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
 import org.fw.attendance.ResHelper;
+import org.fw.attendance.WorkTimePolicyAdapter;
 import org.fw.attendance.WorkTimePolicySetConfig;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +50,11 @@ import java.util.Locale;
 public class ClockFragment extends Fragment implements View.OnClickListener {
     final String TAG = ClockFragment.class.getSimpleName();
     private SharedPreferences sp;
+    private RecyclerView checkInOutRecordRecyclerView;
+    private LinearLayoutManager layoutManager;
+    private List<CheckInOutInfo> mInfoList = new ArrayList<>();
+    private CheckInOutInfo todayInfo;
+    private CheckInOutRecordAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +100,10 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         sp = getContext().getSharedPreferences("check in-out", Context.MODE_PRIVATE);
         LoadDates();
+
+        todayInfo = new CheckInOutInfo(workTimePolicySet, config.getWorkTimePolicy(), realCheckInDate, realCheckOutDate);
+        mInfoList.add(todayInfo);
+
         return root;
     }
 
@@ -139,6 +154,22 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         checkInIssueTv = root.findViewById(R.id.tv_check_in_issue_value);
         normalTextColor = checkInIssueTv.getCurrentTextColor();
         checkOutIssueTv = root.findViewById(R.id.tv_check_out_issue_value);
+
+        {
+            checkInOutRecordRecyclerView = root.findViewById(R.id.rv_check_in_out_records);
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            checkInOutRecordRecyclerView.setHasFixedSize(true);
+
+            // use a linear layout manager
+            layoutManager = new LinearLayoutManager(getContext());
+            checkInOutRecordRecyclerView.setLayoutManager(layoutManager);
+
+            // specify an adapter (see also next example)
+            mAdapter = new CheckInOutRecordAdapter(mInfoList);
+            checkInOutRecordRecyclerView.setAdapter(mAdapter);
+            checkInOutRecordRecyclerView.addItemDecoration(new MyItemDecoration());
+        }
     }
 
     private void LoadDates() {
@@ -356,6 +387,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         v.setVisibility(View.GONE);
         button.setVisibility(View.VISIBLE);
+
+        mAdapter.notifyDataSetChanged();
     }
 
     private void onClickCheckIn(View root) {
@@ -366,10 +399,17 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         modifyCheckInButton.setVisibility(View.VISIBLE);
         checkInButton.setVisibility(View.GONE);
+
+        mAdapter.notifyDataSetChanged();
     }
 
     private void onModifyCheckOut(Date checkOutDate) {
         Log.i(TAG, "onModifyCheckOut(" + checkOutDate + ")");
+
+        if (todayInfo != null) {
+            todayInfo.realCheckOutTime = checkOutDate;
+            mAdapter.notifyDataSetChanged();
+        }
 
         realCheckOutTimeTv.setText(TimeUtils.formatTime(checkOutDate));
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
@@ -386,7 +426,13 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void onModifyCheckIn(Date checkInDate) {
+        Log.i(TAG, "onModifyCheckOut(" + checkInDate + ")");
+
         realCheckInTimeTv.setText(TimeUtils.formatTime(checkInDate));
+        if (todayInfo != null) {
+            todayInfo.realCheckInTime = checkInDate;
+            mAdapter.notifyDataSetChanged();
+        }
 
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
         boolean late = workTimePolicy.isLate(checkInDate);
