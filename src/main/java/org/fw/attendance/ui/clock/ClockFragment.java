@@ -34,10 +34,13 @@ import com.sj.lib.calander.CalendarUtils;
 
 import org.fw.attendance.CheckInOutInfo;
 import org.fw.attendance.CheckInOutRecordAdapter;
+import com.sj.time.DateDub;
+import com.sj.time.DateObserver;
+import com.sj.time.DateStore;
+import org.fw.attendance.DateStore4A;
 import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
 import org.fw.attendance.ResHelper;
-import org.fw.attendance.WorkTimePolicyAdapter;
 import org.fw.attendance.WorkTimePolicySetConfig;
 
 import java.text.ParseException;
@@ -82,11 +85,14 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private TextView checkOutIssueTv;
     private int normalTextColor;
     private int issueTextColor;
-    private Date realCheckInDate;
-    private Date modifiedCheckInDate;
 
-    private Date realCheckOutDate;
-    private Date modifiedCheckOutDate;
+    private Date checkInSnapshot;
+    private DateStore checkInSnapshotStore;
+    private DateDub realCheckInDub;
+
+    private Date checkOutSnapshot;
+    private DateStore checkOutSnapshotStore;
+    private DateDub realCheckOutDub;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -98,10 +104,10 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         root = inflater.inflate(R.layout.fragment_clock, container, false);
         initView(root);
 
-        sp = getContext().getSharedPreferences("check in-out", Context.MODE_PRIVATE);
         LoadDates();
 
-        todayInfo = new CheckInOutInfo(workTimePolicySet, config.getWorkTimePolicy(), realCheckInDate, realCheckOutDate);
+        todayInfo = new CheckInOutInfo(workTimePolicySet, config.getWorkTimePolicy(),
+                realCheckInDub.getDate(), realCheckOutDub.getDate());
         mInfoList.add(todayInfo);
 
         return root;
@@ -142,13 +148,13 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         {
             realCheckInTimeTv = root.findViewById(R.id.tv_real_check_in_value);
-            Button checkInButton = root.findViewById(R.id.btn_check_in);
+            Button checkInButton = root.findViewById(R.id.btn_check_in_snapshot);
             checkInButton.setOnClickListener(this);
         }
         planCheckOutTimeTv = root.findViewById(R.id.tv_plan_check_out_value);
         {
             realCheckOutTimeTv = root.findViewById(R.id.tv_real_check_out_value);
-            Button checkOutButton = root.findViewById(R.id.btn_check_out);
+            Button checkOutButton = root.findViewById(R.id.btn_check_out_snapshot);
             checkOutButton.setOnClickListener(this);
         }
         checkInIssueTv = root.findViewById(R.id.tv_check_in_issue_value);
@@ -173,64 +179,43 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void LoadDates() {
-        Date now = new Date();
+        sp = getContext().getSharedPreferences("check in-out", Context.MODE_PRIVATE);
 
-        String realCheckInDateStr = sp.getString("realCheckInDate", "");
-        if (!realCheckInDateStr.isEmpty()) {
-            try {
-                Date date = TimeUtils.fromISO8601(realCheckInDateStr);
-                if (TimeUtils.isSameDay(date, now)) {
-                    this.realCheckInDate = date;
-                    onClickCheckIn(root);
-                }
+        // check in
+        DateStore4A realCheckInStore = new DateStore4A(sp, "realCheckIn");
+        realCheckInDub = new DateDub();
+        realCheckInDub.addObserver(new RealCheckInDateObserver());
 
-            } catch (ParseException e) {
-                e.printStackTrace();
+        checkInSnapshotStore = new DateStore4A(sp, "checkInSnapshot");
+        try {
+            checkInSnapshot = checkInSnapshotStore.load();
+            if (checkInSnapshot != null) {
+                onClickCheckIn(getView());
+                realCheckInDub.setDate(checkInSnapshot);
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        realCheckInDub.setStore(realCheckInStore);
+        realCheckInDub.notifyObserver();
 
-        String modifiedCheckInDateStr = sp.getString("modifiedCheckInDate", "");
-        if (!modifiedCheckInDateStr.isEmpty()) {
-            try {
-                Date date = TimeUtils.fromISO8601(modifiedCheckInDateStr);
-                if (TimeUtils.isSameDay(date, now)) {
-                    this.modifiedCheckInDate = date;
-                    onModifyCheckIn(modifiedCheckInDate);
-                }
+        // check out
+        DateStore4A realCheckOutStore = new DateStore4A(sp, "realCheckOut");
+        realCheckOutDub = new DateDub();
+        realCheckOutDub.addObserver(new RealCheckOutDateObserver());
 
-            } catch (ParseException e) {
-                e.printStackTrace();
+        checkOutSnapshotStore = new DateStore4A(sp, "checkOutSnapshot");
+        try {
+            checkOutSnapshot = checkOutSnapshotStore.load();
+            if (checkOutSnapshot != null) {
+                onClickCheckIn(getView());
+                realCheckOutDub.setDate(checkOutSnapshot);
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-
-        String realCheckOutDateStr = sp.getString("realCheckOutDate", "");
-        if (!realCheckOutDateStr.isEmpty()) {
-            try {
-                Date date = TimeUtils.fromISO8601(realCheckOutDateStr);
-                if (TimeUtils.isSameDay(date, now)) {
-                    realCheckOutDate = date;
-                    onClickCheckOut(root);
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String modifiedCheckOutDateStr = sp.getString("modifiedCheckOutDate", "");
-        if (!modifiedCheckOutDateStr.isEmpty()) {
-            try {
-                Date date = TimeUtils.fromISO8601(modifiedCheckOutDateStr);
-                if (TimeUtils.isSameDay(date, now)) {
-                    this.modifiedCheckOutDate = date;
-
-                    onModifyCheckOut(modifiedCheckOutDate);
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+        realCheckInDub.setStore(realCheckOutStore);
+        realCheckInDub.notifyObserver();
     }
 
     private void initDayInfo(View root) {
@@ -300,12 +285,11 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
      */
     public class CheckInTimePickerListener implements TimePickerDialog.OnTimeSetListener {
         public void onTimeSet(TimePicker view, int hour, int minute) {
-            modifiedCheckInDate = (Date) realCheckInDate.clone();
-            modifiedCheckInDate.setHours(hour);
-            modifiedCheckInDate.setMinutes(minute);
+            Date realCheckInDate = (Date) checkInSnapshot.clone();
+            realCheckInDate.setHours(hour);
+            realCheckInDate.setMinutes(minute);
 
-            saveDate("modifiedCheckInDate", modifiedCheckInDate);
-            onModifyCheckIn(modifiedCheckInDate);
+            realCheckInDub.setDate(realCheckInDate);
         }
     }
 
@@ -314,59 +298,58 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
      */
     public class CheckOutTimePickerListener implements TimePickerDialog.OnTimeSetListener {
         public void onTimeSet(TimePicker view, int hour, int minute) {
-            modifiedCheckOutDate = (Date) realCheckOutDate.clone();
-            modifiedCheckOutDate.setHours(hour);
-            modifiedCheckOutDate.setMinutes(minute);
+            Date date = (Date) checkOutSnapshot.clone();
+            date.setHours(hour);
+            date.setMinutes(minute);
 
-            saveDate("modifiedCheckOutDate", modifiedCheckOutDate);
-            onModifyCheckOut(modifiedCheckOutDate);
+            realCheckOutDub.setDate(date);
         }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_check_in: {
+            case R.id.btn_check_in_snapshot: {
                 Date date = new Date();
-                realCheckInDate = (Date) date.clone();
-                saveDate("realCheckInDate", realCheckInDate);
+                {
+                    checkInSnapshot = (Date) date.clone();
+                    checkInSnapshotStore.save(checkInSnapshot);
+                    onClickCheckIn(v.getRootView());
+                }
 
-                modifiedCheckInDate = (Date) date.clone();
-                saveDate("modifiedCheckInDate", modifiedCheckInDate);
-
-                onModifyCheckIn(modifiedCheckInDate);
-                onClickCheckIn(v.getRootView());
+                realCheckInDub.setDate(date);
             }
             break;
 
-            case R.id.btn_check_in_modify: {
+            case R.id.btn_real_check_in: {
+                Date realCheckInDate = realCheckInDub.getDate();
                 CheckInTimePickerListener checkInTimePickerListener = new CheckInTimePickerListener();
                 TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                        checkInTimePickerListener, modifiedCheckInDate.getHours(),
-                        modifiedCheckInDate.getMinutes(),
+                        checkInTimePickerListener, realCheckInDate.getHours(),
+                        realCheckInDate.getMinutes(),
                         true);
                 timePickerDialog.show();
             }
             break;
 
-            case R.id.btn_check_out: {
+            case R.id.btn_check_out_snapshot: {
                 Date date = new Date();
-                realCheckOutDate = (Date) date.clone();
-                saveDate("realCheckOutDate", realCheckOutDate);
+                {
+                    checkOutSnapshot = (Date) date.clone();
+                    checkOutSnapshotStore.save(checkOutSnapshot);
+                    onClickCheckOut(v.getRootView());
+                }
 
-                modifiedCheckOutDate = (Date) realCheckOutDate.clone();
-                saveDate("modifiedCheckOutDate", modifiedCheckOutDate);
-
-                onModifyCheckOut(modifiedCheckOutDate);
-                onClickCheckOut(v.getRootView());
+                realCheckOutDub.setDate(date);
             }
             break;
 
-            case R.id.btn_check_out_modify: {
+            case R.id.btn_real_check_out: {
+                Date realCheckOutDate = realCheckOutDub.getDate();
                 CheckOutTimePickerListener checkOutListener = new CheckOutTimePickerListener();
                 TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-                        checkOutListener, modifiedCheckOutDate.getHours(),
-                        modifiedCheckOutDate.getMinutes(),
+                        checkOutListener, realCheckOutDate.getHours(),
+                        realCheckOutDate.getMinutes(),
                         true);
                 timePickerDialog.show();
             }
@@ -381,8 +364,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
     private void onClickCheckOut(View root) {
         // 打开修改时间对话框
-        Button v = root.findViewById(R.id.btn_check_out);
-        Button button = root.findViewById(R.id.btn_check_out_modify);
+        Button v = root.findViewById(R.id.btn_check_out_snapshot);
+        Button button = root.findViewById(R.id.btn_real_check_out);
         button.setOnClickListener(this);
 
         v.setVisibility(View.GONE);
@@ -392,63 +375,76 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void onClickCheckIn(View root) {
-        // 打开修改时间对话框。
-        Button checkInButton = root.findViewById(R.id.btn_check_in);
-        Button modifyCheckInButton = root.findViewById(R.id.btn_check_in_modify);
-        modifyCheckInButton.setOnClickListener(this);
+        if (root != null) {
+            // 打开修改时间对话框。
+            Button checkInButton = root.findViewById(R.id.btn_check_in_snapshot);
+            Button modifyCheckInButton = root.findViewById(R.id.btn_real_check_in);
+            modifyCheckInButton.setOnClickListener(this);
 
-        modifyCheckInButton.setVisibility(View.VISIBLE);
-        checkInButton.setVisibility(View.GONE);
+            modifyCheckInButton.setVisibility(View.VISIBLE);
+            checkInButton.setVisibility(View.GONE);
 
-        mAdapter.notifyDataSetChanged();
-    }
-
-    private void onModifyCheckOut(Date checkOutDate) {
-        Log.i(TAG, "onModifyCheckOut(" + checkOutDate + ")");
-
-        if (todayInfo != null) {
-            todayInfo.realCheckOutTime = checkOutDate;
             mAdapter.notifyDataSetChanged();
-        }
-
-        realCheckOutTimeTv.setText(TimeUtils.formatTime(checkOutDate));
-        FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
-        boolean earlyLeave = workTimePolicy.isEarlyLeave(checkOutDate);
-        if (earlyLeave) {
-            Toast.makeText(getActivity(), R.string.early_leave, Toast.LENGTH_SHORT).show();
-
-            checkOutIssueTv.setTextColor(issueTextColor);
-            checkOutIssueTv.setText(R.string.early_leave);
-        } else {
-            checkOutIssueTv.setTextColor(normalTextColor);
-            checkOutIssueTv.setText(R.string.normal);
         }
     }
 
-    private void onModifyCheckIn(Date checkInDate) {
-        Log.i(TAG, "onModifyCheckOut(" + checkInDate + ")");
+    class RealCheckInDateObserver implements DateObserver {
 
-        realCheckInTimeTv.setText(TimeUtils.formatTime(checkInDate));
-        if (todayInfo != null) {
-            todayInfo.realCheckInTime = checkInDate;
-            mAdapter.notifyDataSetChanged();
+        @Override
+        public void onDateChanged(Date checkInDate) {
+            Log.i(TAG, "RealCheckInDateObserver.onDateChanged(" + checkInDate + ")");
+            if (checkInDate != null) {
+
+                realCheckInTimeTv.setText(TimeUtils.formatTime(checkInDate));
+                if (todayInfo != null) {
+                    todayInfo.realCheckInTime = checkInDate;
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+                boolean late = workTimePolicy.isLate(checkInDate);
+                if (late) {
+                    Toast.makeText(ClockFragment.this.getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
+
+                    checkInIssueTv.setTextColor(issueTextColor);
+                    checkInIssueTv.setText(R.string.late);
+                } else {
+                    checkInIssueTv.setTextColor(normalTextColor);
+                    checkInIssueTv.setText(R.string.normal);
+                }
+
+                // 预计下班时间
+                long planCheckOutTime = workTimePolicy.getPlanCheckOutTime(checkInDate);
+                planCheckOutTimeTv.setText(TimeUtils.formatTime(planCheckOutTime));
+                AlarmManagerUtil.setAlarm(ClockFragment.this.getContext(), 0, planCheckOutTime, 0, 0, getString(R.string.checkout_time_up), 1);
+            }
         }
+    }
 
-        FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
-        boolean late = workTimePolicy.isLate(checkInDate);
-        if (late) {
-            Toast.makeText(getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
+    private class RealCheckOutDateObserver implements DateObserver {
+        @Override
+        public void onDateChanged(Date date) {
+            Log.i(TAG, "RealCheckOutDateObserver.onDateChanged(" + date + ")");
 
-            checkInIssueTv.setTextColor(issueTextColor);
-            checkInIssueTv.setText(R.string.late);
-        } else {
-            checkInIssueTv.setTextColor(normalTextColor);
-            checkInIssueTv.setText(R.string.normal);
+            if (date != null) {
+                if (todayInfo != null) {
+                    todayInfo.realCheckOutTime = date;
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                realCheckOutTimeTv.setText(TimeUtils.formatTime(date));
+                FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+                boolean earlyLeave = workTimePolicy.isEarlyLeave(date);
+                if (earlyLeave) {
+                    Toast.makeText(getActivity(), R.string.early_leave, Toast.LENGTH_SHORT).show();
+
+                    checkOutIssueTv.setTextColor(issueTextColor);
+                    checkOutIssueTv.setText(R.string.early_leave);
+                } else {
+                    checkOutIssueTv.setTextColor(normalTextColor);
+                    checkOutIssueTv.setText(R.string.normal);
+                }
+            }
         }
-
-        // 预计下班时间
-        long planCheckOutTime = workTimePolicy.getPlanCheckOutTime(checkInDate);
-        planCheckOutTimeTv.setText(TimeUtils.formatTime(planCheckOutTime));
-        AlarmManagerUtil.setAlarm(this.getContext(), 0, planCheckOutTime, 0, 0, getString(R.string.checkout_time_up), 1);
     }
 }

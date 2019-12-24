@@ -165,15 +165,15 @@
                 android:text="@string/unavailable" />
 
             <Button
-                android:id="@+id/btn_check_in"
+                android:id="@+id/btn_check_in_snapshot"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_toStartOf="@id/btn_check_in_modify"
+                android:layout_toStartOf="@id/btn_real_check_in"
                 android:text="@string/action_check_in" />
 
             <Button
-                android:id="@+id/btn_check_in_modify"
+                android:id="@+id/btn_real_check_in"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -238,15 +238,15 @@
                 android:text="@string/unavailable" />
 
             <Button
-                android:id="@+id/btn_check_out"
+                android:id="@+id/btn_check_out_snapshot"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_toStartOf="@id/btn_check_out_modify"
+                android:layout_toStartOf="@id/btn_real_check_out"
                 android:text="@string/action_check_out" />
 
             <Button
-                android:id="@+id/btn_check_out_modify"
+                android:id="@+id/btn_real_check_out"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
