@@ -72,21 +72,21 @@
 
         <!--Check-in Time-->
         <LinearLayout
-            android:id="@+id/ll_work_time_policy_check_in"
+            android:id="@+id/ll_policy_check_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/v_line_separator1"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_work_time_policy_check_in_label"
+                android:id="@+id/tv_policy_check_in_label"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/work_time_policy_check_in_label" />
 
             <TextView
-                android:id="@+id/tv_work_time_policy_check_in_value"
+                android:id="@+id/tv_policy_check_in_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -94,21 +94,21 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_work_time_policy_check_out"
+            android:id="@+id/ll_policy_check_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ll_work_time_policy_check_in"
+            android:layout_below="@id/ll_policy_check_in"
             android:orientation="horizontal">
             <!--Check-out Time-->
             <TextView
-                android:id="@+id/tv_work_time_policy_check_out_label"
+                android:id="@+id/tv_policy_check_out_label"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/work_time_policy_check_out_label" />
 
             <TextView
-                android:id="@+id/tv_work_time_policy_check_out_value"
+                android:id="@+id/tv_policy_check_out_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

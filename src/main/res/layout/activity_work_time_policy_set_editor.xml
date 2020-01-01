@@ -6,19 +6,28 @@
     android:layout_height="wrap_content"
     tools:context=".WorkTimePolicySetEditor">
 
+    <TextView
+        android:id="@+id/tv_policy_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@id/et_work_time_policy_set_name"
+        />
 
     <EditText
         android:id="@+id/et_work_time_policy_set_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="277dp"
+        android:layout_height="43dp"
         android:ems="10"
         android:hint="@string/hint_work_time_policy_set_name"
         android:inputType="textPersonName"
         android:text=""
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/tv_policy_title"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view"
@@ -32,11 +41,8 @@
         android:layout_marginBottom="10dp"
         android:background="@android:color/darker_gray"
 
-        app:layout_constraintBottom_toBottomOf="@+id/et_work_time_policy_set_name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
          />
 </androidx.constraintlayout.widget.ConstraintLayout>

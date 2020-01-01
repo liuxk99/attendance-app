@@ -1,6 +1,7 @@
 package org.fw.attendance;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.sj.attendance.bl.TimeUtils;
@@ -23,9 +24,11 @@ public class DateStore4A implements DateStore {
     @Override
     public Date load() throws ParseException {
         String dateStr = sharedPreferences.getString(key, "");
-        Date date = TimeUtils.fromISO8601(dateStr);
-        if (TimeUtils.isSameDay(date, new Date())) {
-            return date;
+        if (!TextUtils.isEmpty(dateStr)) {
+            Date date = TimeUtils.fromISO8601(dateStr);
+            if (TimeUtils.isSameDay(date, new Date())) {
+                return date;
+            }
         }
 
         return null;
@@ -35,7 +38,7 @@ public class DateStore4A implements DateStore {
     public void save(Date date) {
         Log.i(TAG, "saveDate(" + date + ")");
         if (sharedPreferences != null) {
-            sharedPreferences.edit().putString(key, TimeUtils.toISO8601(date)).apply();
+            sharedPreferences.edit().putString(key, TimeUtils.toISO8601(date)).commit();
         }
     }
 }

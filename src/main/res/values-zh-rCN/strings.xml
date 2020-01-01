@@ -10,7 +10,7 @@
     <string name="title_ours">我的</string>
     <string name="title_settings">设置</string>
     <string name="work_time_policy">工时制度</string>
-    <string name="policy_title">标题</string>
+    <string name="title">标题</string>
     <string name="policy_check_in">上班时间</string>
     <string name="policy_check_out">下班时间</string>
     <string name="policy_latest_check_in">最晚上班时间</string>
@@ -38,4 +38,7 @@
     <string name="real_check_out">实际下班时间</string>
     <string name="checkout_time_up">下班时间已到</string>
     <string name="work_time_policy_type">Type</string>
+    <string name="modify_policy">修改时间</string>
+    <string name="placeholder">---</string>
+    <string name="action_add_policy_set">添加工时规定集合</string>
 </resources>

@@ -9,7 +9,7 @@
     <string name="time_placeholder">--:--</string>
     <string name="real_check_in">Real CheckIn Time</string>
     <string name="plan_checkout">Plan CheckOut Time</string>
-    <string name="policy_title">Title</string>
+    <string name="title">Title</string>
     <string name="policy_check_in">Check In</string>
     <string name="policy_check_out">Check Out</string>
     <string name="policy_latest_check_in">Latest Check In</string>
@@ -37,4 +37,7 @@
     <string name="real_check_out">real check out time</string>
     <string name="checkout_time_up">checkout time up</string>
     <string name="work_time_policy_type">Type</string>
+    <string name="modify_policy">Modify Policy</string>
+    <string name="placeholder">---</string>
+    <string name="action_add_policy_set">Add work-time policy set</string>
 </resources>

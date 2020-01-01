@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".WorkTimePolicySetEditor">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="100dp" />
+
+    <TextView
+        android:id="@+id/tv_policy_set_title_value"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        android:gravity="center"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_policy_check_in"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_policy_check_in_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="@string/work_time_policy_check_in_label" />
+
+        <TextView
+            android:id="@+id/tv_policy_check_in_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:hint="@string/time_placeholder" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_policy_check_out"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@id/ll_policy_check_in">
+        <!--Check-out Time-->
+        <TextView
+            android:id="@+id/tv_policy_check_out_label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="@string/work_time_policy_check_out_label" />
+
+        <TextView
+            android:id="@+id/tv_policy_check_out_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:hint="@string/time_placeholder" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

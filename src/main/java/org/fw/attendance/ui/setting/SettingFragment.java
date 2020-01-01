@@ -4,23 +4,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.sj.attendance.bl.WorkTimePolicySet;
-
+import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
+import org.fw.attendance.WorkTimePolicySetAdapter;
 import org.fw.attendance.WorkTimePolicySetConfig;
-
-import java.util.List;
 
 public class SettingFragment extends Fragment {
 
     private org.fw.attendance.ui.setting.SettingViewModel settingViewModel;
+    private RecyclerView workTimePolicySetListView;
+    private LinearLayoutManager layoutManager;
+    private WorkTimePolicySetAdapter mAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,24 +35,26 @@ public class SettingFragment extends Fragment {
 
     private void initViews(View root) {
         initData();
-        initPoliciesView(root);
+        initPolicySetListView(root);
     }
 
     private void initData() {
 
     }
 
-    private void initPoliciesView(View root) {
-        Spinner spinner = root.findViewById(R.id.policies_spinner);
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(getContext(), android.R.layout.simple_spinner_item);
-        List<WorkTimePolicySet> workTimePolicySetList = WorkTimePolicySetConfig.getInstance().getWorkTimePolicySetList();
-        for (WorkTimePolicySet workTimePolicySet : workTimePolicySetList) {
-            adapter.add(workTimePolicySet.getTitle());
-        }
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-    }
+    private void initPolicySetListView(View root) {
+        workTimePolicySetListView = root.findViewById(R.id.rv_policy_set_list);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        workTimePolicySetListView.setHasFixedSize(true);
 
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(getContext());
+        workTimePolicySetListView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new WorkTimePolicySetAdapter(WorkTimePolicySetConfig.getWorkTimePolicySetList());
+        workTimePolicySetListView.setAdapter(mAdapter);
+        workTimePolicySetListView.addItemDecoration(new MyItemDecoration());
+    }
 }

@@ -251,10 +251,10 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private void updateWorkTimePolicy(View root) {
         FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
 
-        TextView checkInTv = root.findViewById(R.id.tv_work_time_policy_check_in_value);
+        TextView checkInTv = root.findViewById(R.id.tv_policy_check_in_value);
         checkInTv.setText(workTimePolicy.toCheckIn());
 
-        TextView checkOuTv = root.findViewById(R.id.tv_work_time_policy_check_out_value);
+        TextView checkOuTv = root.findViewById(R.id.tv_policy_check_out_value);
         checkOuTv.setText(workTimePolicy.toCheckOut());
     }
 

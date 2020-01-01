@@ -16,7 +16,7 @@ import com.sj.attendance.bl.FlexWorkTimePolicy;
 
 import java.util.List;
 
-public class WorkTimePolicyAdapter extends RecyclerView.Adapter<WorkTimePolicyAdapter.MyViewHolder> {
+public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyAdapter2.MyViewHolder> {
     private List<FixWorkTimePolicy> mDataset;
 
     // Provide a reference to the views for each data item
@@ -31,7 +31,12 @@ public class WorkTimePolicyAdapter extends RecyclerView.Adapter<WorkTimePolicyAd
         private TextView latestCheckInTextView;
         private TextView checkOutTextView;
 
-        MyViewHolder(ConstraintLayout linearLayout, TextView titleTv, TextView checkInTextView, TextView checkOutTextView, TextView latestCheckInTextView, Group latestCheckInLayout) {
+        MyViewHolder(ConstraintLayout linearLayout,
+                     TextView titleTv,
+                     TextView checkInTextView,
+                     TextView checkOutTextView,
+                     TextView latestCheckInTextView,
+                     Group latestCheckInLayout) {
             super(linearLayout);
             this.titleTv = titleTv;
             this.checkInTextView = checkInTextView;
@@ -44,18 +49,18 @@ public class WorkTimePolicyAdapter extends RecyclerView.Adapter<WorkTimePolicyAd
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public WorkTimePolicyAdapter(List<FixWorkTimePolicy> workTimePolicyList) {
+    WorkTimePolicyAdapter2(List<FixWorkTimePolicy> workTimePolicyList) {
         mDataset = workTimePolicyList;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public WorkTimePolicyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                 int viewType) {
+    public WorkTimePolicyAdapter2.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                  int viewType) {
         // create a new view
         ConstraintLayout policyLayout = (ConstraintLayout) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.work_time_policy_set_item, parent, false);
-        TextView titleTextView = policyLayout.findViewById(R.id.tv_policy_title_value);
+                .inflate(R.layout.work_time_policy_item_2, parent, false);
+        TextView titleTextView = policyLayout.findViewById(R.id.tv_policy_set_title_value);
         TextView checkInTextView = policyLayout.findViewById(R.id.tv_check_in_value);
         TextView latestCheckInTextView = policyLayout.findViewById(R.id.tv_latest_check_in_value);
         TextView checkOutTextView = policyLayout.findViewById(R.id.tv_check_out_value);
