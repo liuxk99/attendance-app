@@ -40,4 +40,7 @@
     <string name="modify_policy">Modify Policy</string>
     <string name="placeholder">---</string>
     <string name="action_add_policy_set">Add work-time policy set</string>
+    <string name="action_add_policy">Add new work-time policy</string>
+    <string name="no_title">No title</string>
+    <string name="hint_policy_title">Work-time policy name</string>
 </resources>

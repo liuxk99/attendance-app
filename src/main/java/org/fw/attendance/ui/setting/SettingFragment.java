@@ -1,9 +1,11 @@
 package org.fw.attendance.ui.setting;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,7 @@ import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
 import org.fw.attendance.WorkTimePolicySetAdapter;
 import org.fw.attendance.WorkTimePolicySetConfig;
+import org.fw.attendance.WorkTimePolicySetEditor;
 
 public class SettingFragment extends Fragment {
 
@@ -22,6 +25,7 @@ public class SettingFragment extends Fragment {
     private RecyclerView workTimePolicySetListView;
     private LinearLayoutManager layoutManager;
     private WorkTimePolicySetAdapter mAdapter;
+    private Button addPolicySetButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +40,22 @@ public class SettingFragment extends Fragment {
     private void initViews(View root) {
         initData();
         initPolicySetListView(root);
+
+        initAddPolicySetButton(root);
+    }
+
+    private void initAddPolicySetButton(View root) {
+        addPolicySetButton = root.findViewById(R.id.btn_add_policy_set);
+        if (addPolicySetButton != null){
+            addPolicySetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(WorkTimePolicySetEditor.ACTION.ADD);
+                    intent.setClass(SettingFragment.this.getActivity(), WorkTimePolicySetEditor.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void initData() {

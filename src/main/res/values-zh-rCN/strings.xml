@@ -40,5 +40,8 @@
     <string name="work_time_policy_type">Type</string>
     <string name="modify_policy">修改时间</string>
     <string name="placeholder">---</string>
-    <string name="action_add_policy_set">添加工时规定集合</string>
+    <string name="action_add_policy_set">添加工时制度集合</string>
+    <string name="action_add_policy">添加新的工时制度</string>
+    <string name="no_title">无题</string>
+    <string name="hint_policy_title">公示制度名称</string>
 </resources>

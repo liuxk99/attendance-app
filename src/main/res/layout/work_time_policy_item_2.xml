@@ -18,7 +18,7 @@
 
     <!-- Title-->
     <TextView
-        android:id="@+id/tv_policy_set_title_label"
+        android:id="@+id/tv_policy_title_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:text="@string/policy_check_in"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_policy_set_title_label" />
+        app:layout_constraintTop_toBottomOf="@id/tv_policy_title_label" />
 
     <TextView
         android:id="@+id/tv_check_in_value"
@@ -54,7 +54,7 @@
         android:text="@string/time_placeholder"
         app:layout_constraintLeft_toRightOf="@id/guideline1"
         app:layout_constraintRight_toRightOf="@id/guideline2"
-        app:layout_constraintTop_toBottomOf="@id/tv_policy_set_title_label" />
+        app:layout_constraintTop_toBottomOf="@id/tv_policy_title_label" />
 
     <!--  Latest CheckIn  -->
     <TextView
