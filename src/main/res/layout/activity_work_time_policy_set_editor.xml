@@ -7,11 +7,11 @@
     tools:context=".WorkTimePolicySetEditor">
 
     <TextView
-        android:id="@+id/tv_policy_title"
+        android:id="@+id/tv_policy_short_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="@string/title"
+        android:text="@string/short_name"
         app:layout_constraintBaseline_toBaselineOf="@id/et_work_time_policy_set_name"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -26,7 +26,7 @@
         android:text=""
         app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_policy_title" />
+        app:layout_constraintStart_toEndOf="@id/tv_policy_short_name" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view"

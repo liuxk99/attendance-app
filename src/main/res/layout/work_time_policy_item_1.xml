@@ -17,7 +17,7 @@
         android:id="@+id/tv_policy_set_title_value"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="@string/title"
+        android:text="@string/short_name"
         android:gravity="center"
 
         app:layout_constraintBottom_toBottomOf="parent"

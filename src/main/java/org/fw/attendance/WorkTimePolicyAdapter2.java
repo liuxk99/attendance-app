@@ -75,7 +75,7 @@ public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyA
         // - replace the contents of the view with that element
         FixWorkTimePolicy workTimePolicy = mDataset.get(position);
 
-        holder.titleTv.setText(workTimePolicy.getTitle());
+        holder.titleTv.setText(workTimePolicy.getShortName());
         if (workTimePolicy instanceof FlexWorkTimePolicy) {
             holder.latestCheckInLayout.setVisibility(View.VISIBLE);
             {

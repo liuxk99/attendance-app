@@ -5,25 +5,49 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <!-- Title-->
+    <!-- name -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_policy_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:text="@string/name" />
+
+        <EditText
+            android:id="@+id/ed_policy_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_policy_editor"
+            android:layout_weight="7"
+            android:hint="@string/hint_policy_name"
+            android:text="" />
+    </LinearLayout>
+
+    <!-- short name-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/tv_policy_title"
+            android:id="@+id/tv_policy_short_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:gravity="end"
-            android:text="@string/title" />
+            android:text="@string/short_name" />
         <EditText
-            android:id="@+id/ed_policy_title"
+            android:id="@+id/ed_policy_short_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:layout_marginStart="@dimen/margin_start_policy_editor"
-            android:hint="@string/hint_policy_title"
+            android:hint="@string/hint_policy_short_name"
             android:text="" />
     </LinearLayout>
 
@@ -119,4 +143,6 @@
             android:layout_marginStart="@dimen/margin_start_policy_editor"
             android:text="@string/action_modify_time" />
     </LinearLayout>
+
+
 </LinearLayout>

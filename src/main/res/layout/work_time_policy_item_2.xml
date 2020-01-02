@@ -16,12 +16,12 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="129dp" />
 
-    <!-- Title-->
+    <!-- short name -->
     <TextView
         android:id="@+id/tv_policy_title_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title"
+        android:text="@string/short_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

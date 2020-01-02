@@ -1,7 +1,9 @@
 package org.fw.attendance;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,9 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sj.attendance.bl.FlexWorkTimePolicy;
 import com.sj.attendance.bl.WorkTimePolicySet;
 
 public class WorkTimePolicySetEditor extends AppCompatActivity {
+    private final String TAG = WorkTimePolicySetEditor.class.getSimpleName();
+
     private Button addPolicyButton;
 
     public class ACTION {
@@ -76,8 +81,15 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (v.equals(addPolicyButton)) {
-                    WorkTimePolicyEditDialog dialog = new WorkTimePolicyEditDialog(WorkTimePolicySetEditor.this);
-                    dialog.show();
+                    final WorkTimePolicyEditDialog policyEditDialog = new WorkTimePolicyEditDialog(WorkTimePolicySetEditor.this);
+                    policyEditDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            FlexWorkTimePolicy policy = policyEditDialog.getPolicy();
+                            Log.i(TAG, "" + policy);
+                        }
+                    });
+                    policyEditDialog.show();
                 }
             }
         });

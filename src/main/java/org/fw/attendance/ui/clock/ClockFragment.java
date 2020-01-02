@@ -122,7 +122,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             for (FixWorkTimePolicy policy : workTimePolicyList) {
                 RadioButton radioButton = new RadioButton(root.getContext());
                 radioButton.setTag(policy);
-                radioButton.setText(policy.getTitle());
+                radioButton.setText(policy.getShortName());
                 radioGroup.addView(radioButton);
                 if (policy == config.getWorkTimePolicy()) {
                     radioGroup.check(radioButton.getId());

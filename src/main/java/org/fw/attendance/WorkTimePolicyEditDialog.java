@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.sj.attendance.bl.FlexWorkTimePolicy;
 import com.sj.attendance.bl.TimeUtils;
 
 public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClickListener {
@@ -18,12 +20,13 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
     private TextView checkInTextView;
     private TextView latestCheckInTextView;
     private TextView checkOutTextView;
+    private EditText titleEditText;
 
-    protected WorkTimePolicyEditDialog(Context context) {
+    WorkTimePolicyEditDialog(Context context) {
         super(context);
     }
 
-    protected WorkTimePolicyEditDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+    WorkTimePolicyEditDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 
@@ -33,7 +36,7 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
 
         setContentView(R.layout.work_time_policy_editor_dialog);
 
-        EditText titleEditText = findViewById(R.id.ed_policy_title);
+        titleEditText = findViewById(R.id.ed_policy_short_name);
 
         Button checkInButton = findViewById(R.id.btn_modify_time_check_in);
         checkInButton.setOnClickListener(this);
@@ -130,5 +133,11 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
                 min,
                 true);
         timePickerDialog.show();
+    }
+
+    public FlexWorkTimePolicy getPolicy() {
+        Editable title = titleEditText.getText();
+        FlexWorkTimePolicy policy = new FlexWorkTimePolicy(title.toString(), checkInTime, latestCheckInTime, checkOutTime);
+        return policy;
     }
 }
