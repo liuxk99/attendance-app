@@ -46,4 +46,7 @@
     <string name="hint_policy_short_name">Input short name</string>
     <string name="name">work-time policy name</string>
     <string name="short_name">short name</string>
+    <string name="policy_editor_title">Work-Time policy Editor</string>
+    <string name="dummy_policy_name">dummy policy name</string>
+    <string name="dummy_policy_short_name">dummy policy short name</string>
 </resources>

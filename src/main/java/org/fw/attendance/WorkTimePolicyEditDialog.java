@@ -20,7 +20,8 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
     private TextView checkInTextView;
     private TextView latestCheckInTextView;
     private TextView checkOutTextView;
-    private EditText titleEditText;
+    private EditText nameEditText;
+    private EditText shortNameEditText;
 
     WorkTimePolicyEditDialog(Context context) {
         super(context);
@@ -36,7 +37,8 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
 
         setContentView(R.layout.work_time_policy_editor_dialog);
 
-        titleEditText = findViewById(R.id.ed_policy_short_name);
+        nameEditText = findViewById(R.id.ed_policy_name);
+        shortNameEditText = findViewById(R.id.ed_policy_short_name);
 
         Button checkInButton = findViewById(R.id.btn_modify_time_check_in);
         checkInButton.setOnClickListener(this);
@@ -135,9 +137,9 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
         timePickerDialog.show();
     }
 
-    public FlexWorkTimePolicy getPolicy() {
-        Editable title = titleEditText.getText();
-        FlexWorkTimePolicy policy = new FlexWorkTimePolicy(title.toString(), checkInTime, latestCheckInTime, checkOutTime);
-        return policy;
+    FlexWorkTimePolicy getPolicy() {
+        Editable name = nameEditText.getText();
+        Editable shortName = shortNameEditText.getText();
+        return new FlexWorkTimePolicy(name.toString(), shortName.toString(), checkInTime, latestCheckInTime, checkOutTime);
     }
 }

@@ -9,15 +9,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.FlexWorkTimePolicy;
+import com.sj.attendance.bl.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyAdapter2.MyViewHolder> {
-    private List<FixWorkTimePolicy> mDataset;
+    private List<FixWorkTimePolicy> mDataset = new ArrayList<>();
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -50,7 +50,7 @@ public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyA
 
     // Provide a suitable constructor (depends on the kind of dataset)
     WorkTimePolicyAdapter2(List<FixWorkTimePolicy> workTimePolicyList) {
-        mDataset = workTimePolicyList;
+        updateData(workTimePolicyList);
     }
 
     // Create new views (invoked by the layout manager)
@@ -98,5 +98,12 @@ public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyA
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    void updateData(List<FixWorkTimePolicy> workTimePolicyList) {
+        mDataset.clear();
+        mDataset.addAll(workTimePolicyList);
+
+        notifyDataSetChanged();
     }
 }
