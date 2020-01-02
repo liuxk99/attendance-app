@@ -22,8 +22,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
+            android:layout_marginStart="@dimen/margin_start_policy_editor"
             android:hint="@string/hint_policy_title"
-            android:text="---" />
+            android:text="" />
     </LinearLayout>
 
     <!-- CheckIn -->
@@ -44,7 +45,7 @@
             android:id="@+id/tv_check_in_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="@dimen/margin_start_policy_editor"
             android:layout_weight="4"
             android:text="@string/time_placeholder" />
 
@@ -53,6 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:layout_marginStart="@dimen/margin_start_policy_editor"
             android:text="@string/action_modify_time" />
     </LinearLayout>
 
@@ -68,13 +70,13 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:layout_weight="3"
-            android:text="@string/policy_check_in" />
+            android:text="@string/policy_latest_check_in" />
 
         <TextView
             android:id="@+id/tv_latest_check_in_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="@dimen/margin_start_policy_editor"
             android:layout_weight="4"
             android:text="@string/time_placeholder" />
 
@@ -83,6 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:layout_marginStart="@dimen/margin_start_policy_editor"
             android:text="@string/action_modify_time" />
     </LinearLayout>
 
@@ -98,14 +101,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@string/policy_check_in" />
+            android:text="@string/policy_check_out" />
 
         <TextView
             android:id="@+id/tv_check_out_value"
             android:layout_weight="4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="@dimen/margin_start_policy_editor"
             android:text="@string/time_placeholder" />
 
         <Button
@@ -113,6 +116,7 @@
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start_policy_editor"
             android:text="@string/action_modify_time" />
     </LinearLayout>
 </LinearLayout>
