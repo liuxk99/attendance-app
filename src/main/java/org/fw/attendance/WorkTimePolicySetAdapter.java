@@ -10,64 +10,67 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sj.attendance.bl.WorkTimePolicySet;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WorkTimePolicySetAdapter extends RecyclerView.Adapter<WorkTimePolicySetAdapter.MyViewHolder> {
-    private List<WorkTimePolicySet> mDataset;
+public class WorkTimePolicySetAdapter extends RecyclerView.Adapter<WorkTimePolicySetAdapter.PolicySetViewHolder> {
+    private List<WorkTimePolicySet> dataSet = new ArrayList<>();
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    static class MyViewHolder extends RecyclerView.ViewHolder {
+    static class PolicySetViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        private TextView policyTitleTv;
+        private TextView setNameTextView;
         private WorkTimePolicySetView workTimePolicySetView;
 
-        MyViewHolder(ConstraintLayout linearLayout,
-                     TextView policyTitleTv, WorkTimePolicySetView workTimePolicySetView) {
+        PolicySetViewHolder(ConstraintLayout linearLayout,
+                            TextView setNameTextView, WorkTimePolicySetView workTimePolicySetView) {
             super(linearLayout);
-            this.policyTitleTv = policyTitleTv;
+            this.setNameTextView = setNameTextView;
             this.workTimePolicySetView = workTimePolicySetView;
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
+    // Provide a suitable constructor (depends on the kind of dataSet)
     public WorkTimePolicySetAdapter(List<WorkTimePolicySet> workTimePolicyList) {
-        mDataset = workTimePolicyList;
+        dataSet.clear();
+        dataSet.addAll(workTimePolicyList);
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public WorkTimePolicySetAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                    int viewType) {
+    public PolicySetViewHolder onCreateViewHolder(ViewGroup parent,
+                                                  int viewType) {
         // create a new view
         ConstraintLayout policyLayout = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.work_time_policy_set_item, parent, false);
-        TextView titleTextView = policyLayout.findViewById(R.id.tv_policy_set_title_value);
+
+        TextView nameTextView = policyLayout.findViewById(R.id.tv_policy_set_name_value);
         WorkTimePolicySetView workTimePolicySetView = null;
         View view = policyLayout.findViewById(R.id.rv_policy_set_view);
         if (view instanceof  WorkTimePolicySetView) {
             workTimePolicySetView = (WorkTimePolicySetView) view;
         }
-        return new MyViewHolder(policyLayout, titleTextView, workTimePolicySetView);
+        return new PolicySetViewHolder(policyLayout, nameTextView, workTimePolicySetView);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
+    public void onBindViewHolder(PolicySetViewHolder holder, int position) {
+        // - get element from your dataSet at this position
         // - replace the contents of the view with that element
-        WorkTimePolicySet policySet = mDataset.get(position);
+        WorkTimePolicySet policySet = dataSet.get(position);
 
-        holder.policyTitleTv.setText(policySet.getTitle());
+        holder.setNameTextView.setText(policySet.getTitle());
         if (holder.workTimePolicySetView != null) {
             holder.workTimePolicySetView.setPolicySetList(policySet.getWorkTimePolicyList());
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your dataSet (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return dataSet.size();
     }
 }

@@ -17,11 +17,12 @@ import com.sj.attendance.bl.TimeUtils;
 
 public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClickListener {
     private final String TAG = WorkTimePolicyEditDialog.class.getSimpleName();
+
+    private EditText nameEditText;
+    private EditText shortNameEditText;
     private TextView checkInTextView;
     private TextView latestCheckInTextView;
     private TextView checkOutTextView;
-    private EditText nameEditText;
-    private EditText shortNameEditText;
 
     WorkTimePolicyEditDialog(Context context) {
         super(context);

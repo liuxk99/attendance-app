@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyAdapter2.MyViewHolder> {
-    private List<FixWorkTimePolicy> mDataset = new ArrayList<>();
+    private List<FixWorkTimePolicy> dataSet = new ArrayList<>();
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -79,7 +79,7 @@ public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyA
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        FixWorkTimePolicy workTimePolicy = mDataset.get(position);
+        FixWorkTimePolicy workTimePolicy = dataSet.get(position);
 
         holder.nameTextView.setText(workTimePolicy.getName());
         holder.shortNameTextView.setText(workTimePolicy.getShortName());
@@ -104,12 +104,12 @@ public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyA
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return dataSet.size();
     }
 
     void updateData(List<FixWorkTimePolicy> workTimePolicyList) {
-        mDataset.clear();
-        mDataset.addAll(workTimePolicyList);
+        dataSet.clear();
+        dataSet.addAll(workTimePolicyList);
 
         notifyDataSetChanged();
     }

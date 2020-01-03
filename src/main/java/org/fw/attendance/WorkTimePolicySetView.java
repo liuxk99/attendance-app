@@ -59,8 +59,7 @@ public class WorkTimePolicySetView extends ConstraintLayout {
 
     public void setPolicySetList(List<FixWorkTimePolicy> workTimePolicyList) {
         if (adapter != null) {
-            adapter.setData(workTimePolicyList);
-            adapter.notifyDataSetChanged();
+            adapter.updateData(workTimePolicyList);
         }
     }
 }

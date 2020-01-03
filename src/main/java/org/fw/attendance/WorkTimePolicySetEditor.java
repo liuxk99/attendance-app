@@ -13,9 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.FlexWorkTimePolicy;
-import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.WorkTimePolicySet;
 
 public class WorkTimePolicySetEditor extends AppCompatActivity {
@@ -42,7 +40,7 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_work_time_policy_set_editor);
+        setContentView(R.layout.work_time_policy_set_editor);
 
         Intent i = getIntent();
         if (ACTION.ADD.equals(i.getAction())) {
@@ -58,7 +56,7 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
 
     private void initViews() {
         {
-            policySetNameEditText = findViewById(R.id.et_work_time_policy_set_name);
+            policySetNameEditText = findViewById(R.id.et_policy_set_name);
             if (workTimePolicySet != null) {
                 policySetNameEditText.setText(workTimePolicySet.getTitle());
             }

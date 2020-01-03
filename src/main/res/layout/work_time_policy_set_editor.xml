@@ -7,16 +7,16 @@
     tools:context=".WorkTimePolicySetEditor">
 
     <TextView
-        android:id="@+id/tv_policy_short_name"
+        android:id="@+id/tv_policy_set_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/policy_short_name"
-        app:layout_constraintBaseline_toBaselineOf="@id/et_work_time_policy_set_name"
+        app:layout_constraintBaseline_toBaselineOf="@id/et_policy_set_name"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/et_work_time_policy_set_name"
+        android:id="@+id/et_policy_set_name"
         android:layout_width="277dp"
         android:layout_height="43dp"
         android:layout_marginStart="10dp"
@@ -26,7 +26,7 @@
         android:text=""
         app:layout_constraintBottom_toTopOf="@+id/rv_policy_set"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_policy_short_name" />
+        app:layout_constraintStart_toEndOf="@id/tv_policy_set_name" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_policy_set"
@@ -38,7 +38,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_work_time_policy_set_name">
+        app:layout_constraintTop_toBottomOf="@id/et_policy_set_name">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -12,22 +12,22 @@ import com.sj.attendance.bl.FixWorkTimePolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkTimePolicyAdapter1 extends RecyclerView.Adapter<WorkTimePolicyAdapter1.MyViewHolder> {
+public class WorkTimePolicyAdapter1 extends RecyclerView.Adapter<WorkTimePolicyAdapter1.PolicyViewHolder> {
     private List<FixWorkTimePolicy> dataSet = new ArrayList<>();
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    static class MyViewHolder extends RecyclerView.ViewHolder {
+    static class PolicyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         private TextView policyTitleTv;
         private TextView checkInTextView;
         private TextView checkOutTextView;
 
-        MyViewHolder(ConstraintLayout linearLayout,
-                     TextView policyTitleTv,
-                     TextView checkInTextView,
-                     TextView checkOutTextView) {
+        PolicyViewHolder(ConstraintLayout linearLayout,
+                         TextView policyTitleTv,
+                         TextView checkInTextView,
+                         TextView checkOutTextView) {
             super(linearLayout);
             this.policyTitleTv = policyTitleTv;
             this.checkInTextView = checkInTextView;
@@ -36,27 +36,29 @@ public class WorkTimePolicyAdapter1 extends RecyclerView.Adapter<WorkTimePolicyA
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public void setData(List<FixWorkTimePolicy> workTimePolicyList) {
+    void updateData(List<FixWorkTimePolicy> workTimePolicyList) {
         dataSet.clear();
         dataSet.addAll(workTimePolicyList);
+
+        notifyDataSetChanged();
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public WorkTimePolicyAdapter1.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                  int viewType) {
+    public PolicyViewHolder onCreateViewHolder(ViewGroup parent,
+                                               int viewType) {
         // create a new view
         ConstraintLayout policyLayout = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.work_time_policy_item_1, parent, false);
         TextView titleTextView = policyLayout.findViewById(R.id.tv_policy_set_title_value);
         TextView checkInTextView = policyLayout.findViewById(R.id.tv_policy_check_in_value);
         TextView checkOutTextView = policyLayout.findViewById(R.id.tv_policy_check_out_value);
-        return new MyViewHolder(policyLayout, titleTextView, checkInTextView, checkOutTextView);
+        return new PolicyViewHolder(policyLayout, titleTextView, checkInTextView, checkOutTextView);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(PolicyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         FixWorkTimePolicy workTimePolicy = dataSet.get(position);
