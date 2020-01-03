@@ -47,9 +47,9 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
         Intent i = getIntent();
         if (ACTION.ADD.equals(i.getAction())) {
             workTimePolicySet = new WorkTimePolicySet(getString(R.string.no_title));
-            workTimePolicySet.addPolicy(new FixWorkTimePolicy(getString(R.string.dummy_policy_name),
-                    getString(R.string.dummy_policy_short_name),
-                    TimeUtils.AM_09, TimeUtils.PM_05 - TimeUtils.AM_09));
+//            workTimePolicySet.addPolicy(new FixWorkTimePolicy(getString(R.string.dummy_policy_name),
+//                    getString(R.string.dummy_policy_short_name),
+//                    TimeUtils.AM_09, TimeUtils.PM_05 - TimeUtils.AM_09));
         } else {
             initData();
         }
@@ -57,7 +57,6 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
     }
 
     private void initViews() {
-
         {
             policySetNameEditText = findViewById(R.id.et_work_time_policy_set_name);
             if (workTimePolicySet != null) {

@@ -45,8 +45,8 @@
     <string name="no_title">无题</string>
     <string name="hint_policy_name">输入工时制度名称</string>
     <string name="hint_policy_short_name">输入简称</string>
-    <string name="name">工时制度名称</string>
-    <string name="short_name">简称</string>
+    <string name="policy_name">工时制度名称</string>
+    <string name="policy_short_name">简称</string>
     <string name="policy_editor_title">工时制度编辑对话框</string>
     <string name="dummy_policy_name">工时标题-1</string>
     <string name="dummy_policy_short_name">工时简称-1</string>

@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     android:background="@android:color/white"
     tools:context=".WorkTimePolicySetEditor">
 
@@ -16,64 +14,88 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="129dp" />
 
-    <!-- short name -->
+    <!-- name -->
     <TextView
-        android:id="@+id/tv_policy_title_label"
+        android:id="@+id/tv_policy_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/short_name"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="@string/policy_name"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_policy_set_title_value"
+        android:id="@+id/tv_policy_name_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:text=""
-        app:layout_constraintLeft_toRightOf="@id/guideline1"
-        app:layout_constraintRight_toRightOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- short name -->
+    <TextView
+        android:id="@+id/tv_policy_short_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/policy_short_name"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/tv_policy_name_label" />
+
+    <TextView
+        android:id="@+id/tv_policy_short_name_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        android:text=""
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="@id/tv_policy_short_name_label" />
 
     <!-- CheckIn -->
     <TextView
         android:id="@+id/tv_check_in_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
         android:text="@string/policy_check_in"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_policy_title_label" />
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/tv_policy_short_name_label" />
 
     <TextView
         android:id="@+id/tv_check_in_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:text="@string/time_placeholder"
-        app:layout_constraintLeft_toRightOf="@id/guideline1"
-        app:layout_constraintRight_toRightOf="@id/guideline2"
-        app:layout_constraintTop_toBottomOf="@id/tv_policy_title_label" />
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/tv_policy_short_name_label" />
 
     <!--  Latest CheckIn  -->
     <TextView
         android:id="@+id/tv_latest_check_in_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
         android:text="@string/policy_latest_check_in"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/tv_check_in_label" />
 
     <TextView
         android:id="@+id/tv_latest_check_in_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:text="@string/time_placeholder"
-        app:layout_constraintLeft_toRightOf="@id/guideline1"
-        app:layout_constraintRight_toRightOf="@id/guideline2"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/tv_check_in_label" />
 
     <androidx.constraintlayout.widget.Group
@@ -88,19 +110,20 @@
         android:id="@+id/tv_check_out_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
         android:text="@string/policy_check_in"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/tv_latest_check_in_label" />
 
     <TextView
         android:id="@+id/tv_check_out_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:text="@string/time_placeholder"
-        app:layout_constraintLeft_toRightOf="@id/guideline1"
-        app:layout_constraintRight_toRightOf="@id/guideline2"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/tv_latest_check_in_label" />
 
     <androidx.constraintlayout.widget.Guideline

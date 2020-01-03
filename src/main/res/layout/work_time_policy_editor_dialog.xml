@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:gravity="end"
-            android:text="@string/name" />
+            android:text="@string/policy_name" />
 
         <EditText
             android:id="@+id/ed_policy_name"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:gravity="end"
-            android:text="@string/short_name" />
+            android:text="@string/policy_short_name" />
         <EditText
             android:id="@+id/ed_policy_short_name"
             android:layout_width="0dp"

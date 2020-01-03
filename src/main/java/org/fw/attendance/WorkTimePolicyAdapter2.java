@@ -26,19 +26,22 @@ public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyA
         private final Group latestCheckInLayout;
 
         // each data item is just a string in this case
-        private TextView titleTv;
+        private TextView nameTextView;
+        private final TextView shortNameTextView;
+
         private TextView checkInTextView;
         private TextView latestCheckInTextView;
         private TextView checkOutTextView;
 
         MyViewHolder(ConstraintLayout linearLayout,
-                     TextView titleTv,
+                     TextView nameTextView, TextView shortNameTextView,
                      TextView checkInTextView,
                      TextView checkOutTextView,
                      TextView latestCheckInTextView,
                      Group latestCheckInLayout) {
             super(linearLayout);
-            this.titleTv = titleTv;
+            this.nameTextView = nameTextView;
+            this.shortNameTextView = shortNameTextView;
             this.checkInTextView = checkInTextView;
             this.checkOutTextView = checkOutTextView;
             if (latestCheckInTextView != null) {
@@ -60,12 +63,15 @@ public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyA
         // create a new view
         ConstraintLayout policyLayout = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.work_time_policy_item_2, parent, false);
-        TextView titleTextView = policyLayout.findViewById(R.id.tv_policy_set_title_value);
+        TextView nameTextView = policyLayout.findViewById(R.id.tv_policy_name_value);
+        TextView shortNameTextView = policyLayout.findViewById(R.id.tv_policy_short_name_value);
         TextView checkInTextView = policyLayout.findViewById(R.id.tv_check_in_value);
         TextView latestCheckInTextView = policyLayout.findViewById(R.id.tv_latest_check_in_value);
         TextView checkOutTextView = policyLayout.findViewById(R.id.tv_check_out_value);
         Group latestCheckInGroup = policyLayout.findViewById(R.id.group_latest_check_in);
-        return new MyViewHolder(policyLayout, titleTextView, checkInTextView, checkOutTextView, latestCheckInTextView, latestCheckInGroup);
+        return new MyViewHolder(policyLayout, nameTextView, shortNameTextView,
+                checkInTextView, checkOutTextView, latestCheckInTextView,
+                latestCheckInGroup);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -75,7 +81,8 @@ public class WorkTimePolicyAdapter2 extends RecyclerView.Adapter<WorkTimePolicyA
         // - replace the contents of the view with that element
         FixWorkTimePolicy workTimePolicy = mDataset.get(position);
 
-        holder.titleTv.setText(workTimePolicy.getShortName());
+        holder.nameTextView.setText(workTimePolicy.getName());
+        holder.shortNameTextView.setText(workTimePolicy.getShortName());
         if (workTimePolicy instanceof FlexWorkTimePolicy) {
             holder.latestCheckInLayout.setVisibility(View.VISIBLE);
             {
