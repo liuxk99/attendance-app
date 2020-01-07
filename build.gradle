@@ -36,4 +36,5 @@ dependencies {
     implementation 'com.mylhyl:acp:1.1.5'
     implementation project(path: ':alarmclock')
     implementation project(path: ':libCalendar')
+    compile project(path: ':provider')
 }

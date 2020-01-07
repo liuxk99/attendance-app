@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.fw.attendance">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.fw.attendance"
+    >
 
     <permission android:name="com.android.alarm.permission.SET_ALARM" />
     <permission android:name="android.permission.SEND_SMS" />
 
     <application
+        tools:replace="android:icon"
         android:name=".ClockApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
