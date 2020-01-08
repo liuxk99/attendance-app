@@ -90,7 +90,7 @@ public class CheckInOutRecordAdapter extends RecyclerView.Adapter<CheckInOutReco
         // - replace the contents of the view with that element
         CheckInOutInfo checkInOutInfo = mDataset.get(position);
 
-        holder.workTimePolicySetTitle.setText(checkInOutInfo.workTimePolicySet.getTitle());
+        holder.workTimePolicySetTitle.setText(checkInOutInfo.workTimePolicySet.getName());
         holder.workTimePolicyTitle.setText(checkInOutInfo.workTimePolicy.getShortName());
 
         holder.checkInTime.setText(checkInOutInfo.workTimePolicy.toCheckIn());

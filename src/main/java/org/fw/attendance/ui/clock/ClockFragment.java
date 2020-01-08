@@ -42,6 +42,7 @@ import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
 import org.fw.attendance.ResHelper;
 import org.fw.attendance.WorkTimePolicySetConfig;
+import org.fw.attendance.WorkTimePolicySetConfigFactory;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private View root;
     private ClockViewModel clockViewModel;
 
-    WorkTimePolicySetConfig config = WorkTimePolicySetConfig.getInstance();
+    WorkTimePolicySetConfig config = WorkTimePolicySetConfigFactory.getInstance();
     private WorkTimePolicySet workTimePolicySet;
     private List<FixWorkTimePolicy> workTimePolicyList;
 
@@ -142,7 +143,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         });
 
         TextView workTimePolicyTv = root.findViewById(R.id.tv_work_time_policy_value);
-        workTimePolicyTv.setText(workTimePolicySet.getTitle());
+        workTimePolicyTv.setText(workTimePolicySet.getName());
 
         updateWorkTimePolicy(root);
 

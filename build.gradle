@@ -29,12 +29,14 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
+    implementation 'com.mylhyl:acp:1.1.5'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
     implementation project(path: ':business-logic')
-    implementation 'com.mylhyl:acp:1.1.5'
     implementation project(path: ':alarmclock')
     implementation project(path: ':libCalendar')
-    compile project(path: ':provider')
+    implementation project(path: ':provider')
 }

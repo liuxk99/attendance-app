@@ -58,7 +58,7 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
         {
             policySetNameEditText = findViewById(R.id.et_policy_set_name);
             if (workTimePolicySet != null) {
-                policySetNameEditText.setText(workTimePolicySet.getTitle());
+                policySetNameEditText.setText(workTimePolicySet.getName());
             }
         }
 
@@ -107,6 +107,6 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
     }
 
     private void initData() {
-        workTimePolicySet = WorkTimePolicySetConfig.getInstance().getWorkTimePolicySet();
+        workTimePolicySet = WorkTimePolicySetConfigFactory.getInstance().getWorkTimePolicySet();
     }
 }

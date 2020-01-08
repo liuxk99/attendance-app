@@ -5,11 +5,19 @@ import com.sj.attendance.bl.WorkTimePolicyFactory;
 import com.sj.attendance.bl.WorkTimePolicySet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.sj.attendance.bl.WorkTimePolicyFactory.createFixPolicyAM;
+import static com.sj.attendance.bl.WorkTimePolicyFactory.createFixPolicyFD;
+import static com.sj.attendance.bl.WorkTimePolicyFactory.createFixPolicyPM;
 
 public class WorkTimePolicySetConfig {
-    private static WorkTimePolicySetConfig workTimePolicySetConfig;
-    private static List<WorkTimePolicySet> workTimePolicySetList = new ArrayList<>();
+    protected static List<WorkTimePolicySet> workTimePolicySetList = new ArrayList<>();
+
+    protected List<FixWorkTimePolicy> workTimePolicyList = new ArrayList<>();
+    protected Map<String, FixWorkTimePolicy> workTimePolicyMap = new HashMap<>();
 
     public static List<WorkTimePolicySet> getWorkTimePolicySetList() {
         return workTimePolicySetList;
@@ -27,15 +35,41 @@ public class WorkTimePolicySetConfig {
 
     private int workTimePolicySetIndex = 0;
 
-    static public WorkTimePolicySetConfig getInstance() {
-        if (workTimePolicySetConfig == null) {
-            workTimePolicySetConfig = new WorkTimePolicySetConfig();
-        }
-        return workTimePolicySetConfig;
+    protected WorkTimePolicySetConfig() {
     }
 
-    private WorkTimePolicySetConfig() {
-        workTimePolicySetList = WorkTimePolicyFactory.createWorkTimePolicySetList();
+    public void generateDef() {
+        FixWorkTimePolicy fixPolicyFD = createFixPolicyFD();
+        FixWorkTimePolicy fixPolicyAM = createFixPolicyAM();
+        FixWorkTimePolicy fixPolicyPM = createFixPolicyPM();
+
+        FixWorkTimePolicy flexPolicyFD = WorkTimePolicyFactory.createFlexPolicyFD();
+        FixWorkTimePolicy flexPolicyAM = WorkTimePolicyFactory.createFlexPolicyAM();
+
+        workTimePolicyList.add(fixPolicyFD);
+        workTimePolicyList.add(fixPolicyAM);
+        workTimePolicyList.add(fixPolicyPM);
+
+        workTimePolicyList.add(flexPolicyFD);
+        workTimePolicyList.add(flexPolicyAM);
+
+        WorkTimePolicySet fixWorkTimePolicySet = new WorkTimePolicySet("XX集团-固定工时");
+        {
+            fixWorkTimePolicySet.addPolicy(fixPolicyFD);
+            fixWorkTimePolicySet.addPolicy(fixPolicyAM);
+            fixWorkTimePolicySet.addPolicy(fixPolicyPM);
+        }
+
+        WorkTimePolicySet flexWorkTimePolicySet = new WorkTimePolicySet("XX集团-弹性工时");
+        {
+            flexWorkTimePolicySet.addPolicy(flexPolicyFD);
+            flexWorkTimePolicySet.addPolicy(flexPolicyAM);
+            flexWorkTimePolicySet.addPolicy(fixPolicyPM);
+        }
+
+        workTimePolicySetList.add(fixWorkTimePolicySet);
+        workTimePolicySetList.add(flexWorkTimePolicySet);
+
 //        workTimePolicySetIndex = 0;
         workTimePolicySetIndex = workTimePolicySetList.size() - 1;
     }
