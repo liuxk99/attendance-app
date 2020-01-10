@@ -13,16 +13,16 @@ import com.sj.attendance.bl.TimeUtils;
 
 import java.util.List;
 
-public class CheckInOutRecordAdapter extends RecyclerView.Adapter<CheckInOutRecordAdapter.CheckInOutRecordViewHolder> {
-    private List<CheckInOutInfo> mDataset;
+public class CheckRecordAdapter extends RecyclerView.Adapter<CheckRecordAdapter.CheckInOutRecordViewHolder> {
+    private List<CheckRecordInfo> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     static class CheckInOutRecordViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        private TextView workTimePolicySetTitle;
-        private TextView workTimePolicyTitle;
+        private TextView policySetName;
+        private TextView policyName;
         private TextView checkInTime;
         private TextView realCheckInTime;
         private TextView checkInIssue;
@@ -31,8 +31,8 @@ public class CheckInOutRecordAdapter extends RecyclerView.Adapter<CheckInOutReco
         private TextView checkOutIssue;
 
         public CheckInOutRecordViewHolder(@NonNull View itemView,
-                                          TextView workTimePolicySetTitle,
-                                          TextView workTimePolicyTitle,
+                                          TextView policySetName,
+                                          TextView policyName,
                                           TextView checkInTime,
                                           TextView realCheckInTime,
                                           TextView checkInIssue,
@@ -40,8 +40,8 @@ public class CheckInOutRecordAdapter extends RecyclerView.Adapter<CheckInOutReco
                                           TextView realCheckOutTime,
                                           TextView checkOutIssue) {
             super(itemView);
-            this.workTimePolicySetTitle = workTimePolicySetTitle;
-            this.workTimePolicyTitle = workTimePolicyTitle;
+            this.policySetName = policySetName;
+            this.policyName = policyName;
             this.checkInTime = checkInTime;
             this.realCheckInTime = realCheckInTime;
             this.checkInIssue = checkInIssue;
@@ -52,7 +52,7 @@ public class CheckInOutRecordAdapter extends RecyclerView.Adapter<CheckInOutReco
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public CheckInOutRecordAdapter(List<CheckInOutInfo> workTimePolicyList) {
+    public CheckRecordAdapter(List<CheckRecordInfo> workTimePolicyList) {
         mDataset = workTimePolicyList;
     }
 
@@ -88,22 +88,22 @@ public class CheckInOutRecordAdapter extends RecyclerView.Adapter<CheckInOutReco
     public void onBindViewHolder(CheckInOutRecordViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        CheckInOutInfo checkInOutInfo = mDataset.get(position);
+        CheckRecordInfo checkRecordInfo = mDataset.get(position);
 
-        holder.workTimePolicySetTitle.setText(checkInOutInfo.workTimePolicySet.getName());
-        holder.workTimePolicyTitle.setText(checkInOutInfo.workTimePolicy.getShortName());
+        holder.policySetName.setText(checkRecordInfo.policySet.getName());
+        holder.policyName.setText(checkRecordInfo.policy.getShortName());
 
-        holder.checkInTime.setText(checkInOutInfo.workTimePolicy.toCheckIn());
-        if (checkInOutInfo.realCheckInTime != null) {
-            holder.realCheckInTime.setText(TimeUtils.formatTime(checkInOutInfo.realCheckInTime));
+        holder.checkInTime.setText(checkRecordInfo.policy.toCheckIn());
+        if (checkRecordInfo.realCheckInTime != null) {
+            holder.realCheckInTime.setText(TimeUtils.formatTime(checkRecordInfo.realCheckInTime));
         } else {
             holder.realCheckInTime.setText(R.string.time_placeholder);
         }
         holder.checkInIssue.setText(R.string.normal);
 
-        holder.planCheckOutTime.setText(checkInOutInfo.workTimePolicy.toCheckOut());
-        if (checkInOutInfo.realCheckOutTime != null) {
-            holder.realCheckOutTime.setText(TimeUtils.formatTime(checkInOutInfo.realCheckOutTime));
+        holder.planCheckOutTime.setText(checkRecordInfo.policy.toCheckOut());
+        if (checkRecordInfo.realCheckOutTime != null) {
+            holder.realCheckOutTime.setText(TimeUtils.formatTime(checkRecordInfo.realCheckOutTime));
         } else {
             holder.realCheckOutTime.setText(R.string.time_placeholder);
         }
