@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.WorkTimePolicyFactory;
-import com.sj.attendance.provider.WorkTimePolicyAdapter;
+import com.sj.attendance.provider.WorkTimePolicyDataAdapter;
 
 import java.util.LinkedList;
 
@@ -34,7 +34,7 @@ public class ClockApplication extends Application {
     }
 
     private void initProvider() {
-        WorkTimePolicyAdapter adapter = new WorkTimePolicyAdapter(this);
+        WorkTimePolicyDataAdapter adapter = new WorkTimePolicyDataAdapter(this);
 
         adapter.insert(WorkTimePolicyFactory.generateFlexPolicy());
 

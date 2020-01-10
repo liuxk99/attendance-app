@@ -32,7 +32,7 @@ import com.sj.attendance.bl.WorkTimePolicySet;
 import com.sj.lib.calander.CalendarFactory;
 import com.sj.lib.calander.CalendarUtils;
 
-import org.fw.attendance.CheckRecordInfo;
+import com.sj.attendance.bl.CheckRecord;
 import org.fw.attendance.CheckRecordAdapter;
 import com.sj.time.DateDub;
 import com.sj.time.DateObserver;
@@ -54,8 +54,8 @@ import java.util.Locale;
 public class ClockFragment extends Fragment implements View.OnClickListener {
     final String TAG = ClockFragment.class.getSimpleName();
     private SharedPreferences sp;
-    private List<CheckRecordInfo> infoList = new ArrayList<>();
-    private CheckRecordInfo todayInfo;
+    private List<CheckRecord> infoList = new ArrayList<>();
+    private CheckRecord todayInfo;
     private CheckRecordAdapter adapter;
 
     @Override
@@ -105,7 +105,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         LoadDates();
 
-        todayInfo = new CheckRecordInfo(policySet, config.getWorkTimePolicy(),
+        todayInfo = new CheckRecord(policySet.getName(), config.getWorkTimePolicy(),
                 realCheckInDub.getDate(), realCheckOutDub.getDate());
         infoList.add(todayInfo);
 

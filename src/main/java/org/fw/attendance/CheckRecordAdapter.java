@@ -9,12 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.TimeUtils;
 
 import java.util.List;
 
 public class CheckRecordAdapter extends RecyclerView.Adapter<CheckRecordAdapter.CheckInOutRecordViewHolder> {
-    private List<CheckRecordInfo> mDataset;
+    private List<CheckRecord> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -52,7 +53,7 @@ public class CheckRecordAdapter extends RecyclerView.Adapter<CheckRecordAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public CheckRecordAdapter(List<CheckRecordInfo> workTimePolicyList) {
+    public CheckRecordAdapter(List<CheckRecord> workTimePolicyList) {
         mDataset = workTimePolicyList;
     }
 
@@ -88,22 +89,22 @@ public class CheckRecordAdapter extends RecyclerView.Adapter<CheckRecordAdapter.
     public void onBindViewHolder(CheckInOutRecordViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        CheckRecordInfo checkRecordInfo = mDataset.get(position);
+        CheckRecord checkRecord = mDataset.get(position);
 
-        holder.policySetName.setText(checkRecordInfo.policySet.getName());
-        holder.policyName.setText(checkRecordInfo.policy.getShortName());
+        holder.policySetName.setText(checkRecord.policySetName);
+        holder.policyName.setText(checkRecord.policy.getShortName());
 
-        holder.checkInTime.setText(checkRecordInfo.policy.toCheckIn());
-        if (checkRecordInfo.realCheckInTime != null) {
-            holder.realCheckInTime.setText(TimeUtils.formatTime(checkRecordInfo.realCheckInTime));
+        holder.checkInTime.setText(checkRecord.policy.toCheckIn());
+        if (checkRecord.realCheckInTime != null) {
+            holder.realCheckInTime.setText(TimeUtils.formatTime(checkRecord.realCheckInTime));
         } else {
             holder.realCheckInTime.setText(R.string.time_placeholder);
         }
         holder.checkInIssue.setText(R.string.normal);
 
-        holder.planCheckOutTime.setText(checkRecordInfo.policy.toCheckOut());
-        if (checkRecordInfo.realCheckOutTime != null) {
-            holder.realCheckOutTime.setText(TimeUtils.formatTime(checkRecordInfo.realCheckOutTime));
+        holder.planCheckOutTime.setText(checkRecord.policy.toCheckOut());
+        if (checkRecord.realCheckOutTime != null) {
+            holder.realCheckOutTime.setText(TimeUtils.formatTime(checkRecord.realCheckOutTime));
         } else {
             holder.realCheckOutTime.setText(R.string.time_placeholder);
         }
