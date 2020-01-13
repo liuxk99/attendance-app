@@ -14,7 +14,7 @@ import com.sj.attendance.bl.TimeUtils;
 
 import java.util.List;
 
-public class CheckRecordAdapter extends RecyclerView.Adapter<CheckRecordAdapter.CheckInOutRecordViewHolder> {
+public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.CheckInOutRecordViewHolder> {
     private List<CheckRecord> mDataset;
 
     // Provide a reference to the views for each data item
@@ -53,7 +53,7 @@ public class CheckRecordAdapter extends RecyclerView.Adapter<CheckRecordAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public CheckRecordAdapter(List<CheckRecord> workTimePolicyList) {
+    public CheckInOutAdapter(List<CheckRecord> workTimePolicyList) {
         mDataset = workTimePolicyList;
     }
 

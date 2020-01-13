@@ -33,7 +33,7 @@ import com.sj.lib.calander.CalendarFactory;
 import com.sj.lib.calander.CalendarUtils;
 
 import com.sj.attendance.bl.CheckRecord;
-import org.fw.attendance.CheckRecordAdapter;
+import org.fw.attendance.CheckInOutAdapter;
 import com.sj.time.DateDub;
 import com.sj.time.DateObserver;
 import com.sj.time.DateStore;
@@ -56,7 +56,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences sp;
     private List<CheckRecord> infoList = new ArrayList<>();
     private CheckRecord todayInfo;
-    private CheckRecordAdapter adapter;
+    private CheckInOutAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -171,7 +171,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             checkRecordRecyclerView.setLayoutManager(layoutManager);
 
             // specify an adapter (see also next example)
-            adapter = new CheckRecordAdapter(infoList);
+            adapter = new CheckInOutAdapter(infoList);
             checkRecordRecyclerView.setAdapter(adapter);
             checkRecordRecyclerView.addItemDecoration(new MyItemDecoration());
         }

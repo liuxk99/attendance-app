@@ -121,9 +121,11 @@ public class WorkTimePolicySetConfig4A extends WorkTimePolicySetConfig {
 
     private void saveSelectedPolicy() {
         FixWorkTimePolicy policy = getWorkTimePolicy();
-        UUID uuid = policy.getUuid();
-        if (uuid != null) {
-            configSp.edit().putString(SELECTED_POLICY, uuid.toString()).apply();
+        if (policy != null) {
+            UUID uuid = policy.getUuid();
+            if (uuid != null) {
+                configSp.edit().putString(SELECTED_POLICY, uuid.toString()).apply();
+            }
         }
     }
 
