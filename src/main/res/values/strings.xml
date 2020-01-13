@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">9am-5pm</string>
-    <string name="title_clock">打卡</string>
-    <string name="title_history">历史</string>
-    <string name="title_settings">设置</string>
-    <string name="title_ours">我的</string>
+    <string name="title_clock">Check</string>
+    <string name="title_history">History</string>
+    <string name="title_me">Me</string>
+    <string name="title_discover">Discover</string>
     <string name="late">You\'re late!</string>
     <string name="work_time_policy">Work-time policy</string>
     <string name="time_placeholder">--:--</string>

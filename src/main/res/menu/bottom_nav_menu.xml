@@ -12,12 +12,13 @@
         android:title="@string/title_history" />
 
     <item
-        android:id="@+id/navigation_setting"
+        android:id="@+id/navigation_discover"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_settings" />
+        android:title="@string/title_discover" />
+
     <item
-        android:id="@+id/navigation_ours"
+        android:id="@+id/navigation_me"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_ours" />
+        android:title="@string/title_me" />
 
 </menu>

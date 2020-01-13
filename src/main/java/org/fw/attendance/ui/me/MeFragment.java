@@ -1,4 +1,4 @@
-package org.fw.attendance.ui.setting;
+package org.fw.attendance.ui.me;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,9 +19,9 @@ import org.fw.attendance.WorkTimePolicySetAdapter;
 import org.fw.attendance.WorkTimePolicySetConfig;
 import org.fw.attendance.WorkTimePolicySetEditor;
 
-public class SettingFragment extends Fragment {
+public class MeFragment extends Fragment {
 
-    private org.fw.attendance.ui.setting.SettingViewModel settingViewModel;
+    private MeViewModel meViewModel;
     private RecyclerView workTimePolicySetListView;
     private LinearLayoutManager layoutManager;
     private WorkTimePolicySetAdapter mAdapter;
@@ -29,9 +29,9 @@ public class SettingFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        settingViewModel =
-                ViewModelProviders.of(this).get(SettingViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_setting, container, false);
+        meViewModel =
+                ViewModelProviders.of(this).get(MeViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_me, container, false);
 
         initViews(root);
         return root;
@@ -51,7 +51,7 @@ public class SettingFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(WorkTimePolicySetEditor.ACTION.ADD);
-                    intent.setClass(SettingFragment.this.getActivity(), WorkTimePolicySetEditor.class);
+                    intent.setClass(MeFragment.this.getActivity(), WorkTimePolicySetEditor.class);
                     startActivity(intent);
                 }
             });

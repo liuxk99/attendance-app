@@ -18,13 +18,14 @@
         tools:layout="@layout/fragment_history" />
 
     <fragment
-        android:id="@+id/navigation_setting"
-        android:name="org.fw.attendance.ui.setting.SettingFragment"
-        android:label="@string/title_settings"
-        tools:layout="@layout/fragment_setting" />
+        android:id="@+id/navigation_discover"
+        android:name="org.fw.attendance.ui.discover.DiscoverFragment"
+        android:label="@string/title_discover"
+        tools:layout="@layout/fragment_discover" />
+
     <fragment
-        android:id="@+id/navigation_ours"
-        android:name="org.fw.attendance.ui.ours.OursFragment"
-        android:label="@string/title_ours"
-        tools:layout="@layout/fragment_setting" />
+        android:id="@+id/navigation_me"
+        android:name="org.fw.attendance.ui.me.MeFragment"
+        android:label="@string/title_me"
+        tools:layout="@layout/fragment_me" />
 </navigation>

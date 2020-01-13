@@ -1,16 +1,15 @@
-package org.fw.attendance.ui.setting;
+package org.fw.attendance.ui.discover;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SettingViewModel extends ViewModel {
-
+public class DiscoverViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
-    public SettingViewModel() {
+    public DiscoverViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is setting fragment");
+        mText.setValue("This is discover fragment");
     }
 
     public LiveData<String> getText() {

@@ -1,4 +1,4 @@
-package org.fw.attendance.ui.ours;
+package org.fw.attendance.ui.discover;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import org.fw.attendance.R;
 
-public class OursFragment extends Fragment {
+public class DiscoverFragment extends Fragment {
 
-    private OursViewModel oursViewModel;
+    private DiscoverViewModel discoverViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        oursViewModel =
-                ViewModelProviders.of(this).get(OursViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_ours, container, false);
+        discoverViewModel =
+                ViewModelProviders.of(this).get(DiscoverViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_discover, container, false);
         final TextView textView = root.findViewById(R.id.text_ours);
-        oursViewModel.getText().observe(this, new Observer<String>() {
+        discoverViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

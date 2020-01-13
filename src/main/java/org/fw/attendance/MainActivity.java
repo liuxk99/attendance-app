@@ -10,8 +10,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.fw.attendance.R;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -22,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_clock, R.id.navigation_history, R.id.navigation_setting,R.id.navigation_ours)
+                R.id.navigation_clock, R.id.navigation_history, R.id.navigation_me,R.id.navigation_discover)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

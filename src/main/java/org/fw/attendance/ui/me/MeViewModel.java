@@ -1,15 +1,16 @@
-package org.fw.attendance.ui.ours;
+package org.fw.attendance.ui.me;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class OursViewModel extends ViewModel {
+public class MeViewModel extends ViewModel {
+
     private MutableLiveData<String> mText;
 
-    public OursViewModel() {
+    public MeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is ours fragment");
+        mText.setValue("This is setting fragment");
     }
 
     public LiveData<String> getText() {
