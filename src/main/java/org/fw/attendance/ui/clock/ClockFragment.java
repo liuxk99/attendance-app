@@ -108,6 +108,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         todayInfo = new CheckRecord(policySet.getName(), config.getWorkTimePolicy(),
                 realCheckInDub.getDate(), realCheckOutDub.getDate());
         infoList.add(todayInfo);
+        adapter.updateData(infoList);
 
         return root;
     }
@@ -164,7 +165,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             RecyclerView checkRecordRecyclerView = root.findViewById(R.id.rv_check_in_out_records);
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
-            checkRecordRecyclerView.setHasFixedSize(true);
+//            checkRecordRecyclerView.setHasFixedSize(true);
 
             // use a linear layout manager
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

@@ -4,6 +4,7 @@
     <string name="late">迟到</string>
     <string name="plan_checkout">计划下班时间</string>
     <string name="real_check_in">实际上班时间</string>
+    <string name="date_placeholder">----/--/--</string>
     <string name="time_placeholder">--:--</string>
     <string name="title_clock">打卡</string>
     <string name="title_history">历史</string>

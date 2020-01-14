@@ -12,10 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.CheckInOutRecordViewHolder> {
-    private List<CheckRecord> mDataset;
+    private List<CheckRecord> dataSet = new ArrayList<>();
+
+    public void updateData(List<CheckRecord> checkRecordList) {
+        dataSet.clear();
+        dataSet.addAll(checkRecordList);
+
+        notifyDataSetChanged();
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -24,6 +32,7 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
         // each data item is just a string in this case
         private TextView policySetName;
         private TextView policyName;
+        private TextView date;
         private TextView checkInTime;
         private TextView realCheckInTime;
         private TextView checkInIssue;
@@ -34,6 +43,7 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
         public CheckInOutRecordViewHolder(@NonNull View itemView,
                                           TextView policySetName,
                                           TextView policyName,
+                                          TextView date,
                                           TextView checkInTime,
                                           TextView realCheckInTime,
                                           TextView checkInIssue,
@@ -43,6 +53,7 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
             super(itemView);
             this.policySetName = policySetName;
             this.policyName = policyName;
+            this.date = date;
             this.checkInTime = checkInTime;
             this.realCheckInTime = realCheckInTime;
             this.checkInIssue = checkInIssue;
@@ -54,7 +65,7 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public CheckInOutAdapter(List<CheckRecord> workTimePolicyList) {
-        mDataset = workTimePolicyList;
+        updateData(workTimePolicyList);
     }
 
     // Create new views (invoked by the layout manager)
@@ -67,6 +78,7 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
 
         TextView workTimePolicySetTitle = layout.findViewById(R.id.holder_tv_work_time_policy_set_title);
         TextView workTimePolicyTitle = layout.findViewById(R.id.holder_tv_work_time_policy_title);
+        TextView date = layout.findViewById(R.id.holder_tv_date);
         TextView checkInTime = layout.findViewById(R.id.holder_tv_check_in_time);
         TextView realCheckInTime = layout.findViewById(R.id.holder_tv_real_check_in_time);
         TextView checkInIssue = layout.findViewById(R.id.holder_tv_check_in_issue);
@@ -76,6 +88,7 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
         return new CheckInOutRecordViewHolder(layout,
                 workTimePolicySetTitle,
                 workTimePolicyTitle,
+                date,
                 checkInTime,
                 realCheckInTime,
                 checkInIssue,
@@ -89,18 +102,21 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
     public void onBindViewHolder(CheckInOutRecordViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        CheckRecord checkRecord = mDataset.get(position);
+        CheckRecord checkRecord = dataSet.get(position);
 
         holder.policySetName.setText(checkRecord.policySetName);
         holder.policyName.setText(checkRecord.policy.getShortName());
 
+        holder.date.setText(TimeUtils.formatDate(checkRecord.realCheckInTime));
         holder.checkInTime.setText(checkRecord.policy.toCheckIn());
         if (checkRecord.realCheckInTime != null) {
             holder.realCheckInTime.setText(TimeUtils.formatTime(checkRecord.realCheckInTime));
         } else {
             holder.realCheckInTime.setText(R.string.time_placeholder);
         }
-        holder.checkInIssue.setText(R.string.normal);
+
+        int resId = checkRecord.isLate() ? R.string.late : R.string.normal;
+        holder.checkInIssue.setText(resId);
 
         holder.planCheckOutTime.setText(checkRecord.policy.toCheckOut());
         if (checkRecord.realCheckOutTime != null) {
@@ -108,12 +124,13 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
         } else {
             holder.realCheckOutTime.setText(R.string.time_placeholder);
         }
-        holder.checkOutIssue.setText(R.string.normal);
+        resId = checkRecord.isEarlyLeave() ? R.string.early_leave : R.string.normal;
+        holder.checkOutIssue.setText(resId);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return dataSet.size();
     }
 }
