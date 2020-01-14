@@ -2,6 +2,7 @@ package org.fw.attendance;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.fasterxml.uuid.Generators;
 import com.sj.attendance.bl.FixWorkTimePolicy;
@@ -14,6 +15,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public class WorkTimePolicySetConfig4A extends WorkTimePolicySetConfig {
+    final String TAG = getClass().getSimpleName();
+
     public static final String SELECTED_POLICY = "selected";
     private Context context;
 
@@ -41,9 +44,16 @@ public class WorkTimePolicySetConfig4A extends WorkTimePolicySetConfig {
     }
 
     private void loadSelectedPolicy() {
+        FixWorkTimePolicy policy = null;
+
         String uuid = configSp.getString(SELECTED_POLICY, "");
         if (!uuid.isEmpty()) {
-            setWorkTimePolicy(workTimePolicyMap.get(uuid));
+            policy = workTimePolicyMap.get(uuid);
+            setWorkTimePolicy(policy);
+        }
+
+        if (policy == null) {
+            Log.w(TAG, "policy is null!");
         }
     }
 
@@ -124,7 +134,7 @@ public class WorkTimePolicySetConfig4A extends WorkTimePolicySetConfig {
         if (policy != null) {
             UUID uuid = policy.getUuid();
             if (uuid != null) {
-                configSp.edit().putString(SELECTED_POLICY, uuid.toString()).apply();
+                configSp.edit().putString(SELECTED_POLICY, uuid.toString()).commit();
             }
         }
     }

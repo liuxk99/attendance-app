@@ -72,6 +72,7 @@ public class WorkTimePolicySetConfig {
 
 //        workTimePolicySetIndex = 0;
         workTimePolicySetIndex = workTimePolicySetList.size() - 1;
+        setWorkTimePolicy(flexPolicyFD);
     }
 
     public FixWorkTimePolicy getWorkTimePolicy() {

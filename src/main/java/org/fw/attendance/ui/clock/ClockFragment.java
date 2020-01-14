@@ -26,17 +26,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
+import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.WorkTimePolicySet;
+import com.sj.attendance.provider.CheckRecordAdapter;
 import com.sj.lib.calander.CalendarFactory;
 import com.sj.lib.calander.CalendarUtils;
-
-import com.sj.attendance.bl.CheckRecord;
-import org.fw.attendance.CheckInOutAdapter;
 import com.sj.time.DateDub;
 import com.sj.time.DateObserver;
 import com.sj.time.DateStore;
+
+import org.fw.attendance.CheckInOutAdapter;
 import org.fw.attendance.DateStore4A;
 import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
@@ -55,7 +56,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     final String TAG = ClockFragment.class.getSimpleName();
     private SharedPreferences sp;
     private List<CheckRecord> infoList = new ArrayList<>();
-    private CheckRecord todayInfo;
+    private CheckRecord todayRecord;
     private CheckInOutAdapter adapter;
 
     @Override
@@ -105,9 +106,9 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         LoadDates();
 
-        todayInfo = new CheckRecord(policySet.getName(), config.getWorkTimePolicy(),
+        todayRecord = new CheckRecord(policySet.getName(), config.getWorkTimePolicy(),
                 realCheckInDub.getDate(), realCheckOutDub.getDate());
-        infoList.add(todayInfo);
+        infoList.add(todayRecord);
         adapter.updateData(infoList);
 
         return root;
@@ -396,8 +397,8 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             if (checkInDate != null) {
 
                 realCheckInTimeTv.setText(TimeUtils.formatTime(checkInDate));
-                if (todayInfo != null) {
-                    todayInfo.realCheckInTime = checkInDate;
+                if (todayRecord != null) {
+                    todayRecord.realCheckInTime = checkInDate;
                     adapter.notifyDataSetChanged();
                 }
 
@@ -427,8 +428,16 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             Log.i(TAG, "RealCheckOutDateObserver.onDateChanged(" + date + ")");
 
             if (date != null) {
-                if (todayInfo != null) {
-                    todayInfo.realCheckOutTime = date;
+                if (todayRecord != null) {
+                    todayRecord.realCheckOutTime = date;
+
+                    CheckRecordAdapter checkRecordAdapter = new CheckRecordAdapter(getContext());
+                    if (todayRecord.getId() < 0) {
+                        long id = checkRecordAdapter.insert(todayRecord);
+                        todayRecord.setId(id);
+                    } else {
+                        checkRecordAdapter.update(todayRecord);
+                    }
                     adapter.notifyDataSetChanged();
                 }
 
