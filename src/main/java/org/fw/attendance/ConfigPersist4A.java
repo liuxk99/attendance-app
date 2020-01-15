@@ -27,7 +27,12 @@ public class ConfigPersist4A implements ConfigPersist {
         return instance;
     }
     private static ConfigPersist4A instance;
-    public static WorkTimePolicySetConfig workTimePolicySetConfig;
+
+    public WorkTimePolicySetConfig getWorkTimePolicySetConfig() {
+        return workTimePolicySetConfig;
+    }
+
+    private WorkTimePolicySetConfig workTimePolicySetConfig;
 
     private final String CONF_JSON = "conf.json";
 
@@ -59,6 +64,8 @@ public class ConfigPersist4A implements ConfigPersist {
 
     @Override
     public boolean save(WorkTimePolicySetConfig config) {
+        workTimePolicySetConfig = config;
+
         // 1. Java object to JSON file
         FileWriter writer = null;
         try {

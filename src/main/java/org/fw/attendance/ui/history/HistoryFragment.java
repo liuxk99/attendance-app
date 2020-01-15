@@ -52,7 +52,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void initData() {
-        checkRecordList = Attendance.init(getContext());
+        checkRecordList = Attendance.getInstance().getCheckRecordList();
         if (!checkRecordList.isEmpty()) {
             historyTextView.setVisibility(View.GONE);
         }

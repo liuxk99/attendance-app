@@ -30,7 +30,8 @@ import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.WorkTimePolicySet;
-import com.sj.attendance.provider.CheckRecordAdapter;
+import com.sj.attendance.bl.WorkTimePolicySetConfig;
+import com.sj.attendance.provider.Attendance;
 import com.sj.lib.calander.CalendarFactory;
 import com.sj.lib.calander.CalendarUtils;
 import com.sj.time.DateDub;
@@ -43,7 +44,6 @@ import org.fw.attendance.DateStore4A;
 import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
 import org.fw.attendance.ResHelper;
-import com.sj.attendance.bl.WorkTimePolicySetConfig;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -74,8 +74,6 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private View root;
     private ClockViewModel clockViewModel;
 
-    WorkTimePolicySetConfig config;
-
     private TextView realCheckInTimeTv;
     private TextView realCheckOutTimeTv;
     private TextView planCheckOutTimeTv;
@@ -102,8 +100,9 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         root = inflater.inflate(R.layout.fragment_clock, container, false);
         initView(root);
 
-        LoadDates();
+        LoadDates(root);
 
+        WorkTimePolicySetConfig config = ConfigPersist4A.getInstance().getWorkTimePolicySetConfig();
         todayRecord = new CheckRecord(config.getPolicySet().getName(), config.getPolicy(),
                 realCheckInDub.getDate(), realCheckOutDub.getDate());
         infoList.add(todayRecord);
@@ -118,7 +117,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         RadioGroup radioGroup = root.findViewById(R.id.rg_work_time_policy_set);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
 
-        WorkTimePolicySet policySet = config.getPolicySet();
+        WorkTimePolicySet policySet = ConfigPersist4A.getInstance().getWorkTimePolicySetConfig().getPolicySet();
         if (!policySet.getPolicyList().isEmpty()) {
             for (FixWorkTimePolicy policy : policySet.getPolicyList()) {
                 RadioButton radioButton = new RadioButton(root.getContext());
@@ -179,44 +178,58 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void LoadDates() {
+    private void LoadDates(View root) {
         sp = getContext().getSharedPreferences("check in-out", Context.MODE_PRIVATE);
 
-        // check in
-        DateStore4A realCheckInStore = new DateStore4A(sp, "realCheckIn");
-        realCheckInDub = new DateDub();
-        realCheckInDub.addObserver(new RealCheckInDateObserver());
+        loadCheckInDate(root);
+        loadCheckOutDate(root);
+    }
 
-        checkInSnapshotStore = new DateStore4A(sp, "checkInSnapshot");
-        try {
-            checkInSnapshot = checkInSnapshotStore.load();
-            if (checkInSnapshot != null) {
-                onClickCheckIn(getView());
-                realCheckInDub.setDate(checkInSnapshot);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        realCheckInDub.setStore(realCheckInStore);
-        realCheckInDub.notifyObserver();
-
-        // check out
+    private void loadCheckOutDate(View root) {
         DateStore4A realCheckOutStore = new DateStore4A(sp, "realCheckOut");
         realCheckOutDub = new DateDub();
+        realCheckOutDub.setStore(realCheckOutStore);
         realCheckOutDub.addObserver(new RealCheckOutDateObserver());
 
         checkOutSnapshotStore = new DateStore4A(sp, "checkOutSnapshot");
         try {
             checkOutSnapshot = checkOutSnapshotStore.load();
-            if (checkOutSnapshot != null) {
-                onClickCheckIn(getView());
-                realCheckOutDub.setDate(checkOutSnapshot);
-            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        realCheckInDub.setStore(realCheckOutStore);
-        realCheckInDub.notifyObserver();
+
+        if (checkOutSnapshot != null) {
+            onClickCheckOut(root);
+        }
+
+        Date realCheckOut = checkOutSnapshot;
+        if (realCheckOutDub.getDate() != null) {
+            realCheckOut = realCheckOutDub.getDate();
+        }
+        realCheckOutDub.setDate(realCheckOut);
+    }
+
+    private void loadCheckInDate(View root) {
+        realCheckInDub = new DateDub();
+        realCheckInDub.setStore(new DateStore4A(sp, "realCheckIn"));
+        realCheckInDub.addObserver(new RealCheckInDateObserver());
+
+        checkInSnapshotStore = new DateStore4A(sp, "checkInSnapshot");
+        try {
+            checkInSnapshot = checkInSnapshotStore.load();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (checkInSnapshot != null) {
+            onClickCheckIn(root);
+        }
+
+        Date realCheckIn = checkInSnapshot;
+        if (realCheckInDub.getDate() != null) {
+            realCheckIn = realCheckInDub.getDate();
+        }
+        realCheckInDub.setDate(realCheckIn);
     }
 
     private void initDayInfo(View root) {
@@ -250,7 +263,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateWorkTimePolicy(View root) {
-        FixWorkTimePolicy workTimePolicy = config.getPolicy();
+        FixWorkTimePolicy workTimePolicy = ConfigPersist4A.getInstance().getWorkTimePolicySetConfig().getPolicy();
 
         TextView checkInTv = root.findViewById(R.id.tv_policy_check_in_value);
         checkInTv.setText(workTimePolicy.toCheckIn());
@@ -260,7 +273,6 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
-        config = ConfigPersist4A.workTimePolicySetConfig;
     }
 
     public void createAlarm(String message, int hour, int minutes) {
@@ -370,7 +382,6 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
     private void onClickCheckIn(View root) {
         if (root != null) {
-            // 打开修改时间对话框。
             Button checkInButton = root.findViewById(R.id.btn_check_in_snapshot);
             Button modifyCheckInButton = root.findViewById(R.id.btn_real_check_in);
             modifyCheckInButton.setOnClickListener(this);
@@ -395,7 +406,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                     adapter.notifyDataSetChanged();
                 }
 
-                FixWorkTimePolicy policy = config.getPolicy();
+                FixWorkTimePolicy policy = ConfigPersist4A.getInstance().getWorkTimePolicySetConfig().getPolicy();
                 boolean late = policy.isLate(checkInDate);
                 if (late) {
                     Toast.makeText(ClockFragment.this.getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
@@ -424,18 +435,12 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 if (todayRecord != null) {
                     todayRecord.realCheckOutTime = date;
 
-                    CheckRecordAdapter checkRecordAdapter = new CheckRecordAdapter(getContext());
-                    if (todayRecord.getId() < 0) {
-                        long id = checkRecordAdapter.insert(todayRecord);
-                        todayRecord.setId(id);
-                    } else {
-                        checkRecordAdapter.update(todayRecord);
-                    }
+                    Attendance.getInstance().save(todayRecord);
                     adapter.notifyDataSetChanged();
                 }
 
                 realCheckOutTimeTv.setText(TimeUtils.formatTime(date));
-                FixWorkTimePolicy workTimePolicy = config.getPolicy();
+                FixWorkTimePolicy workTimePolicy = ConfigPersist4A.getInstance().getWorkTimePolicySetConfig().getPolicy();
                 boolean earlyLeave = workTimePolicy.isEarlyLeave(date);
                 if (earlyLeave) {
                     Toast.makeText(getActivity(), R.string.early_leave, Toast.LENGTH_SHORT).show();

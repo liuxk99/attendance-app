@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sj.attendance.bl.WorkTimePolicySetConfig;
+import com.sj.attendance.provider.Attendance;
 import com.sj4a.utils.SjLog;
 import com.sj4a.utils.SjLogGen;
 
@@ -20,12 +21,16 @@ public class ClockApplication extends Application {
         {
             super.onCreate();
             initConfig(this);
+
+            Attendance attendance = Attendance.getInstance();
+            attendance.init(this);
+            attendance.reload();
         }
         sjLog.out();
     }
 
     private void initConfig(Context context) {
-        ConfigPersist4A configPersist = new ConfigPersist4A();
+        ConfigPersist4A configPersist = ConfigPersist4A.getInstance();
         configPersist.initialize(context);
         WorkTimePolicySetConfig config = configPersist.load();
         if (config == null) {
