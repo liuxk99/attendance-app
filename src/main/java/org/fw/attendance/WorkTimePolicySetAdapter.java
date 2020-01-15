@@ -64,7 +64,7 @@ public class WorkTimePolicySetAdapter extends RecyclerView.Adapter<WorkTimePolic
 
         holder.setNameTextView.setText(policySet.getName());
         if (holder.workTimePolicySetView != null) {
-            holder.workTimePolicySetView.setPolicySetList(policySet.getWorkTimePolicyList());
+            holder.workTimePolicySetView.setPolicySetList(policySet.getPolicyList());
         }
     }
 

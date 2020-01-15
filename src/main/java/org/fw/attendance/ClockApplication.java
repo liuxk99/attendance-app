@@ -1,7 +1,10 @@
 package org.fw.attendance;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
+import com.sj.attendance.bl.WorkTimePolicySetConfig;
 import com.sj4a.utils.SjLog;
 import com.sj4a.utils.SjLogGen;
 
@@ -16,20 +19,20 @@ public class ClockApplication extends Application {
         sjLog.in();
         {
             super.onCreate();
-            WorkTimePolicySetConfig config = WorkTimePolicySetConfigFactory.getInstance();
-            if (config != null) {
-                if (config instanceof WorkTimePolicySetConfig4A) {
-                    WorkTimePolicySetConfig4A config4A = (WorkTimePolicySetConfig4A) config;
-                    config4A.initialize(this);
-                    config4A.load();
-
-                    if (WorkTimePolicySetConfig4A.getWorkTimePolicySetList().size() == 0) {
-                        config4A.generateDef();
-                        config4A.save();
-                    }
-                }
-            }
+            initConfig(this);
         }
         sjLog.out();
+    }
+
+    private void initConfig(Context context) {
+        ConfigPersist4A configPersist = new ConfigPersist4A();
+        configPersist.initialize(context);
+        WorkTimePolicySetConfig config = configPersist.load();
+        if (config == null) {
+            config = new WorkTimePolicySetConfig();
+            config.generateDef();
+            boolean res = configPersist.save(config);
+            Log.i(TAG, "res = " + res);
+        }
     }
 }

@@ -74,7 +74,7 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
 
             // specify an adapter (see also next example)
-            adapter = new WorkTimePolicyAdapter2(policySet.getWorkTimePolicyList());
+            adapter = new WorkTimePolicyAdapter2(policySet.getPolicyList());
             recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new MyItemDecoration());
         }
@@ -96,7 +96,7 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
                             if (!TextUtils.isEmpty(policy.getName())
                                     && !TextUtils.isEmpty(policy.getShortName())){
                                 policySet.addPolicy(policy);
-                                adapter.updateData(policySet.getWorkTimePolicyList());
+                                adapter.updateData(policySet.getPolicyList());
                             }
                         }
                     });
@@ -107,6 +107,6 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
     }
 
     private void initData() {
-        policySet = WorkTimePolicySetConfigFactory.getInstance().getWorkTimePolicySet();
+//        policySet = WorkTimePolicySetConfigFactory.getInstance().getWorkTimePolicySet();
     }
 }

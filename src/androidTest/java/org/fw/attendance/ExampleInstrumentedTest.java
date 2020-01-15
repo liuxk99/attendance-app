@@ -10,12 +10,14 @@ import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.WorkTimePolicySet;
+import com.sj.attendance.bl.WorkTimePolicySetConfig;
 import com.sj.attendance.provider.CheckRecordAdapter;
 import com.sj.attendance.provider.WorkTimePolicyDataAdapter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -34,32 +36,27 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
         assertEquals("org.fw.attendance", appContext.getPackageName());
 
-        WorkTimePolicySetConfig config = WorkTimePolicySetConfigFactory.getInstance();
-        if (config != null) {
-            if (config instanceof WorkTimePolicySetConfig4A) {
-                WorkTimePolicySetConfig4A config4A = (WorkTimePolicySetConfig4A) config;
-                config4A.initialize(appContext);
-                config4A.load();
+        ConfigPersist4A config4A = new ConfigPersist4A();
+        config4A.initialize(appContext);
 
-                if (WorkTimePolicySetConfig4A.getWorkTimePolicySetList().size() == 0) {
-                    config4A.generateDef();
-                    config4A.save();
-                }
-            }
+        WorkTimePolicySetConfig config = config4A.load();
+        if (config == null) {
+            config = new WorkTimePolicySetConfig();
+            config.generateDef();
         }
 
-        List<WorkTimePolicySet> policySetList = WorkTimePolicySetConfig4A.getWorkTimePolicySetList();
+
+        List<WorkTimePolicySet> policySetList = config.getPolicySetList();
         int r = (int) (Math.random() * policySetList.size());
         int idx = r % policySetList.size();
 
         WorkTimePolicySet policySet = policySetList.get(idx);
-        r = (int) (Math.random() * policySet.getWorkTimePolicyList().size());
-        idx = r % policySet.getWorkTimePolicyList().size();
+        r = (int) (Math.random() * policySet.getPolicyList().size());
+        idx = r % policySet.getPolicyList().size();
 
-        FixWorkTimePolicy policy = policySet.getWorkTimePolicyList().get(idx);
+        FixWorkTimePolicy policy = policySet.getPolicyList().get(idx);
         Log.i(TAG, "policy: " + policy);
 
         Date now = new Date();
@@ -99,4 +96,33 @@ public class ExampleInstrumentedTest {
 //        assertEquals(policy, policy1);
 //        assertEquals(checkRecord, checkRecord1);
     }
+
+    @Test
+    public void testcase_001() {
+        // Context of the app under test.
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        assertEquals("org.fw.attendance", appContext.getPackageName());
+
+        File filesDir = appContext.getFilesDir();
+        Log.i(TAG, "filesDir: " + filesDir);
+
+        initConfig(appContext);
+
+        Log.i(TAG, "---");
+        Log.i(TAG, "config: " + ConfigPersist4A.workTimePolicySetConfig);
+        Log.i(TAG, "---");
+    }
+
+    private void initConfig(Context context) {
+        ConfigPersist4A configPersist = new ConfigPersist4A();
+        configPersist.initialize(context);
+        WorkTimePolicySetConfig config = configPersist.load();
+        if (config == null) {
+            config = new WorkTimePolicySetConfig();
+            config.generateDef();
+            boolean res = configPersist.save(config);
+            Log.i(TAG, "res = " + res);
+        }
+    }
+
 }

@@ -13,10 +13,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sj.attendance.bl.ConfigPersist;
+
+import org.fw.attendance.ConfigPersist4A;
 import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
 import org.fw.attendance.WorkTimePolicySetAdapter;
-import org.fw.attendance.WorkTimePolicySetConfig;
+
 import org.fw.attendance.WorkTimePolicySetEditor;
 
 public class MeFragment extends Fragment {
@@ -73,7 +76,7 @@ public class MeFragment extends Fragment {
         workTimePolicySetListView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new WorkTimePolicySetAdapter(WorkTimePolicySetConfig.getWorkTimePolicySetList());
+        mAdapter = new WorkTimePolicySetAdapter(ConfigPersist4A.getInstance().workTimePolicySetConfig.getPolicySetList());
         workTimePolicySetListView.setAdapter(mAdapter);
         workTimePolicySetListView.addItemDecoration(new MyItemDecoration());
     }

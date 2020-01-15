@@ -38,12 +38,12 @@ import com.sj.time.DateObserver;
 import com.sj.time.DateStore;
 
 import org.fw.attendance.CheckInOutAdapter;
+import org.fw.attendance.ConfigPersist4A;
 import org.fw.attendance.DateStore4A;
 import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
 import org.fw.attendance.ResHelper;
-import org.fw.attendance.WorkTimePolicySetConfig;
-import org.fw.attendance.WorkTimePolicySetConfigFactory;
+import com.sj.attendance.bl.WorkTimePolicySetConfig;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -74,9 +74,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     private View root;
     private ClockViewModel clockViewModel;
 
-    WorkTimePolicySetConfig config = WorkTimePolicySetConfigFactory.getInstance();
-    private WorkTimePolicySet policySet;
-    private List<FixWorkTimePolicy> policyList;
+    WorkTimePolicySetConfig config;
 
     private TextView realCheckInTimeTv;
     private TextView realCheckOutTimeTv;
@@ -106,7 +104,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         LoadDates();
 
-        todayRecord = new CheckRecord(policySet.getName(), config.getWorkTimePolicy(),
+        todayRecord = new CheckRecord(config.getPolicySet().getName(), config.getPolicy(),
                 realCheckInDub.getDate(), realCheckOutDub.getDate());
         infoList.add(todayRecord);
         adapter.updateData(infoList);
@@ -119,13 +117,15 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         RadioGroup radioGroup = root.findViewById(R.id.rg_work_time_policy_set);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
-        if (!policyList.isEmpty()) {
-            for (FixWorkTimePolicy policy : policyList) {
+
+        WorkTimePolicySet policySet = config.getPolicySet();
+        if (!policySet.getPolicyList().isEmpty()) {
+            for (FixWorkTimePolicy policy : policySet.getPolicyList()) {
                 RadioButton radioButton = new RadioButton(root.getContext());
                 radioButton.setTag(policy);
                 radioButton.setText(policy.getShortName());
                 radioGroup.addView(radioButton);
-                if (policy == config.getWorkTimePolicy()) {
+                if (policy == policySet.getPolicy()) {
                     radioGroup.check(radioButton.getId());
                 }
             }
@@ -137,7 +137,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 Log.d(TAG, "onCheckedChanged(" + group + ", " + checkedId + ")");
                 int radioButtonId = group.getCheckedRadioButtonId();
                 FixWorkTimePolicy workTimePolicy = (FixWorkTimePolicy) group.findViewById(radioButtonId).getTag();
-                config.setWorkTimePolicy(workTimePolicy);
+//                config.setPolicy(workTimePolicy);
                 updateWorkTimePolicy(root);
             }
         });
@@ -250,7 +250,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateWorkTimePolicy(View root) {
-        FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+        FixWorkTimePolicy workTimePolicy = config.getPolicy();
 
         TextView checkInTv = root.findViewById(R.id.tv_policy_check_in_value);
         checkInTv.setText(workTimePolicy.toCheckIn());
@@ -260,14 +260,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
-        policySet = config.getWorkTimePolicySet();
-        policyList = policySet.getWorkTimePolicyList();
-
-        FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
-        if (workTimePolicy == null)
-            if (!policyList.isEmpty()) {
-                config.setWorkTimePolicy(policyList.get(0));
-            }
+        config = ConfigPersist4A.workTimePolicySetConfig;
     }
 
     public void createAlarm(String message, int hour, int minutes) {
@@ -402,7 +395,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                     adapter.notifyDataSetChanged();
                 }
 
-                FixWorkTimePolicy policy = config.getWorkTimePolicy();
+                FixWorkTimePolicy policy = config.getPolicy();
                 boolean late = policy.isLate(checkInDate);
                 if (late) {
                     Toast.makeText(ClockFragment.this.getActivity(), R.string.late, Toast.LENGTH_SHORT).show();
@@ -442,7 +435,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                 }
 
                 realCheckOutTimeTv.setText(TimeUtils.formatTime(date));
-                FixWorkTimePolicy workTimePolicy = config.getWorkTimePolicy();
+                FixWorkTimePolicy workTimePolicy = config.getPolicy();
                 boolean earlyLeave = workTimePolicy.isEarlyLeave(date);
                 if (earlyLeave) {
                     Toast.makeText(getActivity(), R.string.early_leave, Toast.LENGTH_SHORT).show();
