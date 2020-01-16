@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sj.attendance.bl.WorkTimePolicySetConfig;
-import com.sj.attendance.provider.Attendance;
 import com.sj4a.utils.SjLog;
 import com.sj4a.utils.SjLogGen;
 

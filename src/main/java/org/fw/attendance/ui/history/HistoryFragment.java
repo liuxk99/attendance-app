@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sj.attendance.bl.CheckRecord;
-import com.sj.attendance.provider.Attendance;
+import org.fw.attendance.Attendance;
 
 import org.fw.attendance.CheckInOutAdapter;
 import org.fw.attendance.MyItemDecoration;

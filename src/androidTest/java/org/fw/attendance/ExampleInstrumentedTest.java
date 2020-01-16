@@ -8,8 +8,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.FixWorkTimePolicy;
-import com.sj.attendance.bl.TimeUtils;
-import com.sj.attendance.bl.WorkTimePolicySet;
 import com.sj.attendance.bl.WorkTimePolicySetConfig;
 import com.sj.attendance.provider.CheckRecordAdapter;
 import com.sj.attendance.provider.WorkTimePolicyDataAdapter;
@@ -18,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -47,36 +44,13 @@ public class ExampleInstrumentedTest {
             config.generateDef();
         }
 
-
-        List<WorkTimePolicySet> policySetList = config.getPolicySetList();
-        int r = (int) (Math.random() * policySetList.size());
-        int idx = r % policySetList.size();
-
-        WorkTimePolicySet policySet = policySetList.get(idx);
-        r = (int) (Math.random() * policySet.getPolicyList().size());
-        idx = r % policySet.getPolicyList().size();
-
-        FixWorkTimePolicy policy = policySet.getPolicyList().get(idx);
+        FixWorkTimePolicy policy = config.generateRandomPolicy();
         Log.i(TAG, "policy: " + policy);
-
-        Date now = new Date();
-        long checkInOffset = (long) ((Math.random() - 0.5) * TimeUtils.HOUR);
-        long realCheckInTime = TimeUtils.getDayDate(now) + policy.getCheckInTime() + checkInOffset;
-
-        long checkOutOffset = (long) ((Math.random() - 0.5) * TimeUtils.HOUR);
-        long realCheckOutTime = TimeUtils.getDayDate(now) + policy.getCheckOutTime() + checkOutOffset;
 
         WorkTimePolicyDataAdapter policyAdapter = new WorkTimePolicyDataAdapter(appContext);
         long policyId = policyAdapter.insert(policy);
 
-        Date realCheckInDate = new Date();
-        realCheckInDate.setTime(realCheckInTime);
-
-        Date realCheckOutDate = new Date();
-        realCheckOutDate.setTime(realCheckOutTime);
-
-        CheckRecord checkRecord = new CheckRecord(policySet.getName(), policy,
-                realCheckInDate, realCheckOutDate);
+        CheckRecord checkRecord = CheckRecord.randomInstance("xxx", policy);
         Log.i(TAG, "record: " + checkRecord);
 
         CheckRecordAdapter checkRecordAdapter = new CheckRecordAdapter(appContext);
@@ -109,7 +83,7 @@ public class ExampleInstrumentedTest {
         initConfig(appContext);
 
         Log.i(TAG, "---");
-        Log.i(TAG, "config: " + ConfigPersist4A.workTimePolicySetConfig);
+        Log.i(TAG, "config: " + ConfigPersist4A.getInstance().getWorkTimePolicySetConfig());
         Log.i(TAG, "---");
     }
 

@@ -31,13 +31,13 @@ import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.WorkTimePolicySet;
 import com.sj.attendance.bl.WorkTimePolicySetConfig;
-import com.sj.attendance.provider.Attendance;
 import com.sj.lib.calander.CalendarFactory;
 import com.sj.lib.calander.CalendarUtils;
 import com.sj.time.DateDub;
 import com.sj.time.DateObserver;
 import com.sj.time.DateStore;
 
+import org.fw.attendance.Attendance;
 import org.fw.attendance.CheckInOutAdapter;
 import org.fw.attendance.ConfigPersist4A;
 import org.fw.attendance.DateStore4A;
@@ -103,8 +103,12 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
         LoadDates(root);
 
         WorkTimePolicySetConfig config = ConfigPersist4A.getInstance().getWorkTimePolicySetConfig();
-        todayRecord = new CheckRecord(config.getPolicySet().getName(), config.getPolicy(),
-                realCheckInDub.getDate(), realCheckOutDub.getDate());
+        CheckRecord checkRecord = Attendance.getInstance().findCheckRecord(config.getPolicy(), new Date());
+        if (checkRecord != null) {
+            todayRecord = checkRecord;
+        } else {
+            todayRecord = new CheckRecord(config.getPolicySet().getName(), realCheckInDub.getDate(), realCheckOutDub.getDate(), config.getPolicy());
+        }
         infoList.add(todayRecord);
         adapter.updateData(infoList);
 

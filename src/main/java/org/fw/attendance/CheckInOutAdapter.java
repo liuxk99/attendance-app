@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sj.attendance.bl.CheckRecord;
+import com.sj.attendance.bl.FixWorkTimePolicy;
 import com.sj.attendance.bl.TimeUtils;
 
 import java.util.ArrayList;
@@ -105,10 +106,15 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
         CheckRecord checkRecord = dataSet.get(position);
 
         holder.policySetName.setText(checkRecord.policySetName);
-        holder.policyName.setText(checkRecord.policy.getShortName());
+
+        FixWorkTimePolicy policy = checkRecord.policy;
+        if (policy != null) {
+            holder.policyName.setText(policy.getShortName());
+            holder.checkInTime.setText(policy.toCheckIn());
+            holder.planCheckOutTime.setText(policy.toCheckOut());
+        }
 
         holder.date.setText(TimeUtils.formatDate(checkRecord.realCheckInTime));
-        holder.checkInTime.setText(checkRecord.policy.toCheckIn());
         if (checkRecord.realCheckInTime != null) {
             holder.realCheckInTime.setText(TimeUtils.formatTime(checkRecord.realCheckInTime));
         } else {
@@ -118,7 +124,6 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
         int resId = checkRecord.isLate() ? R.string.late : R.string.normal;
         holder.checkInIssue.setText(resId);
 
-        holder.planCheckOutTime.setText(checkRecord.policy.toCheckOut());
         if (checkRecord.realCheckOutTime != null) {
             holder.realCheckOutTime.setText(TimeUtils.formatTime(checkRecord.realCheckOutTime));
         } else {
