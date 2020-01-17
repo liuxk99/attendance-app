@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 
 import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.FixWorkTimePolicy;
-import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.provider.CheckRecordAdapter;
 import com.sj.attendance.provider.WorkTimePolicyDataAdapter;
+import com.sj.time.DateTimeUtils;
 import com.sj4a.utils.SjLog;
 import com.sj4a.utils.SjLogGen;
 
@@ -111,8 +111,8 @@ public class Attendance {
 
     public CheckRecord findCheckRecord(FixWorkTimePolicy policy, Date date) {
         for (CheckRecord checkRecord : checkRecordList) {
-            long recordDate = TimeUtils.getDayDate(checkRecord.realCheckInTime);
-            long dayDate = TimeUtils.getDayDate(date);
+            long recordDate = DateTimeUtils.getDayDate(checkRecord.realCheckInTime);
+            long dayDate = DateTimeUtils.getDayDate(date);
             if (recordDate == dayDate && checkRecord.policy.equals(policy)) {
                 return checkRecord;
             }

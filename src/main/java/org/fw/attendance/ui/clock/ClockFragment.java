@@ -28,14 +28,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.loonggg.lib.alarmmanager.clock.AlarmManagerUtil;
 import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.FixWorkTimePolicy;
-import com.sj.attendance.bl.TimeUtils;
 import com.sj.attendance.bl.WorkTimePolicySet;
 import com.sj.attendance.bl.WorkTimePolicySetConfig;
-import com.sj.lib.calander.CalendarFactory;
-import com.sj.lib.calander.CalendarUtils;
+import com.sj.days.CalendarFactory;
+import com.sj.time.CalendarUtils;
 import com.sj.time.DateDub;
 import com.sj.time.DateObserver;
 import com.sj.time.DateStore;
+import com.sj.time.DateTimeUtils;
 
 import org.fw.attendance.Attendance;
 import org.fw.attendance.CheckInOutAdapter;
@@ -254,7 +254,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
         TextView dateCategory = root.findViewById(R.id.tv_date_category);
         if (dateCategory != null) {
-            Calendar cal = CalendarUtils.genDate(calendar);
+            Calendar cal = CalendarUtils.getDate(calendar);
             boolean isWorkDay = CalendarFactory.getInstance().calendarMap.get(cal);
             if (isWorkDay) {
                 dateCategory.setText(R.string.text_workday);
@@ -369,7 +369,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
     private void saveDate(String dateStr, Date date) {
         Log.i(TAG, "saveDate(" + dateStr + ", " + date + ")");
-        sp.edit().putString(dateStr, TimeUtils.toISO8601(date)).apply();
+        sp.edit().putString(dateStr, DateTimeUtils.toISO8601(date)).apply();
     }
 
     private void onClickCheckOut(View root) {
@@ -404,7 +404,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
             Log.i(TAG, "RealCheckInDateObserver.onDateChanged(" + checkInDate + ")");
             if (checkInDate != null) {
 
-                realCheckInTimeTv.setText(TimeUtils.formatTime(checkInDate));
+                realCheckInTimeTv.setText(DateTimeUtils.formatTime(checkInDate));
                 if (todayRecord != null) {
                     todayRecord.realCheckInTime = checkInDate;
                     adapter.notifyDataSetChanged();
@@ -424,7 +424,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
                 // 预计下班时间
                 long planCheckOutTime = policy.getPlanCheckOutTime(checkInDate);
-                planCheckOutTimeTv.setText(TimeUtils.formatTime(planCheckOutTime));
+                planCheckOutTimeTv.setText(DateTimeUtils.formatTime(planCheckOutTime));
                 AlarmManagerUtil.setAlarm(ClockFragment.this.getContext(), 0, planCheckOutTime, 0, 0, getString(R.string.checkout_time_up), 1);
             }
         }
@@ -443,7 +443,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
                     adapter.notifyDataSetChanged();
                 }
 
-                realCheckOutTimeTv.setText(TimeUtils.formatTime(date));
+                realCheckOutTimeTv.setText(DateTimeUtils.formatTime(date));
                 FixWorkTimePolicy workTimePolicy = ConfigPersist4A.getInstance().getWorkTimePolicySetConfig().getPolicy();
                 boolean earlyLeave = workTimePolicy.isEarlyLeave(date);
                 if (earlyLeave) {

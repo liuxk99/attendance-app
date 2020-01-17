@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sj.attendance.bl.CheckRecord;
 import com.sj.attendance.bl.FixWorkTimePolicy;
-import com.sj.attendance.bl.TimeUtils;
+import com.sj.time.DateTimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,9 +114,9 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
             holder.planCheckOutTime.setText(policy.toCheckOut());
         }
 
-        holder.date.setText(TimeUtils.formatDate(checkRecord.realCheckInTime));
+        holder.date.setText(DateTimeUtils.formatDate(checkRecord.realCheckInTime));
         if (checkRecord.realCheckInTime != null) {
-            holder.realCheckInTime.setText(TimeUtils.formatTime(checkRecord.realCheckInTime));
+            holder.realCheckInTime.setText(DateTimeUtils.formatTime(checkRecord.realCheckInTime));
         } else {
             holder.realCheckInTime.setText(R.string.time_placeholder);
         }
@@ -125,7 +125,7 @@ public class CheckInOutAdapter extends RecyclerView.Adapter<CheckInOutAdapter.Ch
         holder.checkInIssue.setText(resId);
 
         if (checkRecord.realCheckOutTime != null) {
-            holder.realCheckOutTime.setText(TimeUtils.formatTime(checkRecord.realCheckOutTime));
+            holder.realCheckOutTime.setText(DateTimeUtils.formatTime(checkRecord.realCheckOutTime));
         } else {
             holder.realCheckOutTime.setText(R.string.time_placeholder);
         }

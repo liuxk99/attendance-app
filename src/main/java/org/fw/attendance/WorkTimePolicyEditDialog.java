@@ -13,7 +13,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.sj.attendance.bl.FlexWorkTimePolicy;
-import com.sj.attendance.bl.TimeUtils;
+import com.sj.attendance.bl.StockWorkTime;
+import com.sj.time.DateTimeUtils;
 
 public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClickListener {
     private final String TAG = WorkTimePolicyEditDialog.class.getSimpleName();
@@ -57,9 +58,9 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
     }
 
     private void updateView() {
-        checkInTextView.setText(TimeUtils.formatRefTime(checkInTime));
-        latestCheckInTextView.setText(TimeUtils.formatRefTime(latestCheckInTime));
-        checkOutTextView.setText(TimeUtils.formatRefTime(checkOutTime));
+        checkInTextView.setText(DateTimeUtils.formatRefTime(checkInTime));
+        latestCheckInTextView.setText(DateTimeUtils.formatRefTime(latestCheckInTime));
+        checkOutTextView.setText(DateTimeUtils.formatRefTime(checkOutTime));
     }
 
     protected WorkTimePolicyEditDialog(Context context, int themeResId) {
@@ -90,10 +91,10 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
         public void onTimeSet(TimePicker view, int hour, int minute) {
             Log.i(TAG, "CheckOutTimePickerListener#onTimeSet(" + hour + ", " + minute + ")");
 
-            long time = TimeUtils.compoundTime(hour, minute);
+            long time = DateTimeUtils.compoundTime(hour, minute);
             if (time != checkOutTime) {
                 checkOutTime = time;
-                checkOutTextView.setText(TimeUtils.formatRefTime(checkOutTime));
+                checkOutTextView.setText(DateTimeUtils.formatRefTime(checkOutTime));
             }
         }
     }
@@ -102,10 +103,10 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
         public void onTimeSet(TimePicker view, int hour, int minute) {
             Log.i(TAG, "LatestCheckInTimePickerListener#onTimeSet(" + hour + ", " + minute + ")");
 
-            long time = TimeUtils.compoundTime(hour, minute);
+            long time = DateTimeUtils.compoundTime(hour, minute);
             if (time != latestCheckInTime) {
                 latestCheckInTime = time;
-                latestCheckInTextView.setText(TimeUtils.formatRefTime(latestCheckInTime));
+                latestCheckInTextView.setText(DateTimeUtils.formatRefTime(latestCheckInTime));
             }
         }
     }
@@ -114,23 +115,23 @@ public class WorkTimePolicyEditDialog extends AlertDialog implements View.OnClic
         public void onTimeSet(TimePicker view, int hour, int minute) {
             Log.i(TAG, "CheckInTimePickerListener#onTimeSet(" + hour + ", " + minute + ")");
 
-            long time = TimeUtils.compoundTime(hour, minute);
+            long time = DateTimeUtils.compoundTime(hour, minute);
             if (time != checkInTime) {
                 checkInTime = time;
-                checkInTextView.setText(TimeUtils.formatRefTime(checkInTime));
+                checkInTextView.setText(DateTimeUtils.formatRefTime(checkInTime));
             }
         }
     }
 
-    private long checkInTime = TimeUtils.compoundTime(TimeUtils.DEF_CHECK_IN_HOUR, TimeUtils.DEF_CHECK_OUT_MIN);
-    private long latestCheckInTime = TimeUtils.compoundTime(TimeUtils.DEF_LATEST_CHECK_IN_HOUR, TimeUtils.DEF_CHECK_OUT_MIN);
-    private long checkOutTime = TimeUtils.compoundTime(TimeUtils.DEF_CHECK_OUT_HOUR, TimeUtils.DEF_CHECK_OUT_MIN);
+    private long checkInTime = DateTimeUtils.compoundTime(StockWorkTime.DEF_CHECK_IN_HOUR, StockWorkTime.DEF_CHECK_OUT_MIN);
+    private long latestCheckInTime = DateTimeUtils.compoundTime(StockWorkTime.DEF_LATEST_CHECK_IN_HOUR, StockWorkTime.DEF_CHECK_OUT_MIN);
+    private long checkOutTime = DateTimeUtils.compoundTime(StockWorkTime.DEF_CHECK_OUT_HOUR, StockWorkTime.DEF_CHECK_OUT_MIN);
 
     private void onClickTime(TimePickerDialog.OnTimeSetListener listener, long refTime) {
         LatestCheckInTimePickerListener checkInTimePickerListener = new LatestCheckInTimePickerListener();
 
-        int hour = TimeUtils.getHour(refTime);
-        int min = TimeUtils.getMinute(refTime);
+        int hour = DateTimeUtils.getHour(refTime);
+        int min = DateTimeUtils.getMinute(refTime);
         TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
                 listener, hour,
                 min,

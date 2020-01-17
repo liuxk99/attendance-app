@@ -47,7 +47,7 @@ public class WorkTimePolicySetEditor extends AppCompatActivity {
             policySet = new WorkTimePolicySet(getString(R.string.no_title));
 //            policySet.addPolicy(new FixWorkTimePolicy(getString(R.string.dummy_policy_name),
 //                    getString(R.string.dummy_policy_short_name),
-//                    TimeUtils.AM_09, TimeUtils.PM_05 - TimeUtils.AM_09));
+//                    DateTimeUtils.AM_09, DateTimeUtils.PM_05 - DateTimeUtils.AM_09));
         } else {
             initData();
         }
