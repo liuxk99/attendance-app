@@ -1,6 +1,7 @@
 package org.fw.attendance;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -69,7 +70,7 @@ public class Attendance {
         checkRecordList.addAll(checkRecordAdapter.getAll());
 
         for (CheckRecord checkRecord : checkRecordList) {
-            if (checkRecord.policy == null && checkRecord.getPolicyUuid() != null) {
+            if (checkRecord.getPolicyUuid() != null) {
                 checkRecord.policy = findPolicyByUuid(checkRecord.getPolicyUuid());
             }
         }
@@ -102,7 +103,8 @@ public class Attendance {
                 long id = checkRecordAdapter.insert(checkRecord);
                 checkRecord.setId(id);
             } else {
-                checkRecordAdapter.update(checkRecord);
+                boolean res = checkRecordAdapter.update(checkRecord);
+                Log.i(TAG, "res: " + res);
             }
             reload();
         }
