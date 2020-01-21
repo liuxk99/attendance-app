@@ -121,4 +121,8 @@ public class Attendance {
         }
         return null;
     }
+
+    public void exportRecords() {
+
+    }
 }

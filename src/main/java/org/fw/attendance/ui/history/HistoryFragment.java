@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sj.attendance.bl.CheckRecord;
-import org.fw.attendance.Attendance;
 
+import org.fw.attendance.Attendance;
 import org.fw.attendance.CheckInOutAdapter;
 import org.fw.attendance.MyItemDecoration;
 import org.fw.attendance.R;
@@ -31,6 +32,8 @@ public class HistoryFragment extends Fragment {
 
     private HistoryViewModel historyViewModel;
     private TextView historyTextView;
+    private Button exportButton;
+    private RecyclerView checkRecordRecyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,12 +58,18 @@ public class HistoryFragment extends Fragment {
         checkRecordList = Attendance.getInstance().getCheckRecordList();
         if (!checkRecordList.isEmpty()) {
             historyTextView.setVisibility(View.GONE);
+            exportButton.setVisibility(View.VISIBLE);
+            checkRecordRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            historyTextView.setVisibility(View.VISIBLE);
+            exportButton.setVisibility(View.GONE);
+            checkRecordRecyclerView.setVisibility(View.GONE);
         }
         adapter.updateData(checkRecordList);
     }
 
     private void initViews(View root) {
-        RecyclerView checkRecordRecyclerView = root.findViewById(R.id.rv_check_records);
+        checkRecordRecyclerView = root.findViewById(R.id.rv_check_records);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         checkRecordRecyclerView.setHasFixedSize(true);
@@ -73,6 +82,13 @@ public class HistoryFragment extends Fragment {
         adapter = new CheckInOutAdapter(checkRecordList);
         checkRecordRecyclerView.setAdapter(adapter);
         checkRecordRecyclerView.addItemDecoration(new MyItemDecoration());
-    }
 
+        exportButton = root.findViewById(R.id.btn_action_export_records);
+        exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Attendance.getInstance().exportRecords();
+            }
+        });
+    }
 }
