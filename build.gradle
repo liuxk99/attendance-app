@@ -11,10 +11,38 @@ android {
         versionName "0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    signingConfigs {
         release {
-            minifyEnabled false
+            // refs: http://wiki.letv.cn/display/LETVINNO/build+release+apk
+            try {
+                storeFile file("liuxk99.keystore")
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "liuxk99"
+                keyPassword KEY_PASSWORD
+            }
+            catch (ex) {
+                ex.printStackTrace()
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            manifestPlaceholders = [debugEnable: true]
+
+            debuggable true
+            signingConfig signingConfigs.release
+        }
+        release {
+            manifestPlaceholders = [debugEnable: false]
+
+            zipAlignEnabled true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
