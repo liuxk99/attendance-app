@@ -7,8 +7,8 @@ android {
         applicationId "org.fw.attendance"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 2
-        versionName "0.1.1"
+        versionCode 3
+        versionName "0.1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -36,11 +36,11 @@ android {
             signingConfig signingConfigs.release
         }
         release {
-            manifestPlaceholders = [debugEnable: true]
+            manifestPlaceholders = [debugEnable: false]
 
             zipAlignEnabled true
-            minifyEnabled true
             shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }

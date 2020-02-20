@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.sj.time.DateStore;
-import com.sj.time.DateTimeUtils;
+import com.sj.time.DateUtil;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -25,8 +25,8 @@ public class DateStore4A implements DateStore {
     public Date load() throws ParseException {
         String dateStr = sharedPreferences.getString(key, "");
         if (!TextUtils.isEmpty(dateStr)) {
-            Date date = DateTimeUtils.fromISO8601(dateStr);
-            if (DateTimeUtils.isSameDay(date, new Date())) {
+            Date date = DateUtil.fromISO8601(dateStr);
+            if (DateUtil.isSameDay(date, new Date())) {
                 return date;
             }
         }
@@ -38,7 +38,7 @@ public class DateStore4A implements DateStore {
     public void save(Date date) {
         Log.i(TAG, "saveDate(" + date + ")");
         if (sharedPreferences != null) {
-            sharedPreferences.edit().putString(key, DateTimeUtils.toISO8601(date)).commit();
+            sharedPreferences.edit().putString(key, DateUtil.toISO8601(date)).commit();
         }
     }
 }

@@ -36,6 +36,7 @@ import com.sj.time.DateDub;
 import com.sj.time.DateObserver;
 import com.sj.time.DateStore;
 import com.sj.time.DateTimeUtils;
+import com.sj.time.DateUtil;
 
 import org.fw.attendance.Attendance;
 import org.fw.attendance.CheckInOutAdapter;
@@ -369,7 +370,7 @@ public class ClockFragment extends Fragment implements View.OnClickListener {
 
     private void saveDate(String dateStr, Date date) {
         Log.i(TAG, "saveDate(" + dateStr + ", " + date + ")");
-        sp.edit().putString(dateStr, DateTimeUtils.toISO8601(date)).apply();
+        sp.edit().putString(dateStr, DateUtil.toISO8601(date)).apply();
     }
 
     private void onClickCheckOut(View root) {
